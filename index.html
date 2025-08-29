@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prayer Times API - Documentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .code-block {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        padding: 1.5rem;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        overflow-x: auto;
+        border: 1px solid #334155;
+        position: relative;
+      }
+
+      .code-block::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        border-radius: 12px 12px 0 0;
+      }
+
+      .method-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .get {
+        background: #dcfdf4;
+        color: #065f46;
+      }
+      .post {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .put {
+        background: #ddd6fe;
+        color: #5b21b6;
+      }
+      .delete {
+        background: #fecaca;
+        color: #991b1b;
+      }
+
+      .nav-link {
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(4px);
+      }
+
+      .floating-nav {
+        position: fixed;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+        z-index: 50;
+      }
+
+      .section {
+        scroll-margin-top: 2rem;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .interactive-demo {
+        background: linear-gradient(
+          135deg,
+          #f093fb 0%,
+          #f5576c 50%,
+          #4facfe 100%
+        );
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .response-highlight {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #1f2937;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #10b981;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white"
+  >
+    <!-- Fixed Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-40 glass border-b border-white/10">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div
+              class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center"
+            >
+              <span class="text-white font-bold">🕌</span>
+            </div>
+            <h1
+              class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            >
+              Prayer Times API
+            </h1>
+          </div>
+          <div class="hidden md:flex space-x-6">
+            <a href="#overview" class="nav-link text-gray-300 hover:text-white"
+              >Overview</a
+            >
+            <a
+              href="#authentication"
+              class="nav-link text-gray-300 hover:text-white"
+              >Auth</a
+            >
+            <a href="#endpoints" class="nav-link text-gray-300 hover:text-white"
+              >Endpoints</a
+            >
+            <a href="#examples" class="nav-link text-gray-300 hover:text-white"
+              >Examples</a
+            >
+            <a
+              href="#playground"
+              class="nav-link text-gray-300 hover:text-white"
+              >Playground</a
+            >
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 glass hidden">
+      <div
+        class="flex flex-col items-center justify-center h-full space-y-8 text-xl"
+      >
+        <a href="#overview" class="nav-link text-gray-300 hover:text-white"
+          >Overview</a
+        >
+        <a
+          href="#authentication"
+          class="nav-link text-gray-300 hover:text-white"
+          >Authentication</a
+        >
+        <a href="#endpoints" class="nav-link text-gray-300 hover:text-white"
+          >Endpoints</a
+        >
+        <a href="#examples" class="nav-link text-gray-300 hover:text-white"
+          >Examples</a
+        >
+        <a href="#playground" class="nav-link text-gray-300 hover:text-white"
+          >Playground</a
+        >
+        <button
+          id="close-mobile-menu"
+          class="text-gray-400 hover:text-white mt-8"
+        >
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Floating Navigation -->
+    <div class="floating-nav hidden xl:block">
+      <div class="glass rounded-full p-4 space-y-3">
+        <a
+          href="#overview"
+          class="block w-3 h-3 rounded-full bg-blue-400 hover:scale-125 transition-all"
+          title="Overview"
+        ></a>
+        <a
+          href="#authentication"
+          class="block w-3 h-3 rounded-full bg-green-400 hover:scale-125 transition-all"
+          title="Authentication"
+        ></a>
+        <a
+          href="#endpoints"
+          class="block w-3 h-3 rounded-full bg-purple-400 hover:scale-125 transition-all"
+          title="Endpoints"
+        ></a>
+        <a
+          href="#examples"
+          class="block w-3 h-3 rounded-full bg-yellow-400 hover:scale-125 transition-all"
+          title="Examples"
+        ></a>
+        <a
+          href="#playground"
+          class="block w-3 h-3 rounded-full bg-pink-400 hover:scale-125 transition-all"
+          title="Playground"
+        ></a>
+      </div>
+    </div>
+
+    <main class="pt-20">
+      <!-- Hero Section -->
+      <section class="hero-gradient py-20 px-4">
+        <div class="container mx-auto max-w-4xl text-center">
+          <div class="float-animation inline-block mb-6">
+            <div
+              class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+            >
+              <span class="text-4xl">🕌</span>
+            </div>
+          </div>
+          <h1
+            class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent"
+          >
+            Prayer Times API
+          </h1>
+          <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            A comprehensive REST API for accessing accurate Islamic prayer times
+            data for locations in Kerala, India.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#playground"
+              class="bg-white text-purple-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all transform hover:scale-105"
+            >
+              Try It Now
+            </a>
+            <a
+              href="#endpoints"
+              class="border border-white/30 px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all"
+            >
+              View Documentation
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <div class="container mx-auto px-4 py-12 max-w-6xl">
+        <!-- Overview -->
+        <section id="overview" class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2
+              class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+            >
+              📖 API Overview
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 class="text-xl font-semibold mb-4 text-blue-300">
+                  🎯 Features
+                </h3>
+                <ul class="space-y-3 text-gray-300">
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">✓</span>
+                    <span>Accurate prayer times for locations in Kerala</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">✓</span>
+                    <span>Daily, monthly, and yearly data formats</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">✓</span>
+                    <span>RESTful JSON API with consistent responses</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">✓</span>
+                    <span>No authentication required</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold mb-4 text-purple-300">
+                  ⚡ Quick Start
+                </h3>
+                <div class="code-block">
+                  <div class="text-green-300 mb-2">
+                    # Get today's prayer times for Kuttiady Assembly
+                    Constituency
+                  </div>
+                  <div class="text-blue-300">curl -X GET \</div>
+                  <div class="text-white ml-4">
+                    /v1/timesheets/Kuttiady_Assembly_Constituency/today.json
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Base URL -->
+        <section class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-blue-300">🔗 Base URL</h2>
+            <div class="code-block">
+              <div class="text-yellow-300 text-lg font-mono">
+                /v1/timesheets/
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Authentication -->
+        <section id="authentication" class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-green-300">
+              🔐 Authentication
+            </h2>
+            <div class="response-highlight">
+              <p class="font-semibold mb-2">✅ No Authentication Required</p>
+              <p>
+                This API is completely open and does not require any API keys,
+                tokens, or authentication headers. Simply make requests to the
+                endpoints directly.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Endpoints -->
+        <section id="endpoints" class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-8 text-purple-300">
+              📍 API Endpoints
+            </h2>
+
+            <div class="space-y-8">
+              <!-- Get Locations -->
+              <div class="border border-white/10 rounded-2xl p-6">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                >
+                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
+                    Get Available Locations
+                  </h3>
+                  <span class="method-badge get">GET</span>
+                </div>
+                <div class="code-block mb-4">
+                  <div class="text-blue-300">GET</div>
+                  <div class="text-white text-lg">
+                    /v1/timesheets/index.json
+                  </div>
+                </div>
+                <p class="text-gray-300 mb-4">
+                  Returns an array of all available location identifiers.
+                </p>
+                <details class="bg-white/5 rounded-lg p-4">
+                  <summary
+                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                  >
+                    Response Example
+                  </summary>
+                  <div class="code-block mt-4">
+                    [ "Kozhikode_North_Assembly_Constituency",
+                    "Chandrika_Calicut_2011", "Arookutty_Vaduthala",
+                    "Kalpetta_Assembly_Constituency", ]
+                  </div>
+                </details>
+              </div>
+
+              <!-- Today's Prayer Times -->
+              <div class="border border-white/10 rounded-2xl p-6">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                >
+                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
+                    Get Today's Prayer Times
+                  </h3>
+                  <span class="method-badge get">GET</span>
+                </div>
+                <div class="code-block mb-4">
+                  <div class="text-blue-300">GET</div>
+                  <div class="text-white text-lg">
+                    /v1/timesheets/<span class="text-yellow-300"
+                      >{location}</span
+                    >/today.json
+                  </div>
+                </div>
+                <div class="bg-blue-900/30 rounded-lg p-4 mb-4">
+                  <h4 class="font-semibold text-blue-300 mb-2">Parameters</h4>
+                  <div class="text-gray-300">
+                    <code class="bg-white/10 px-2 py-1 rounded"
+                      >{location}</code
+                    >
+                    - Location identifier with underscores instead of spaces
+                  </div>
+                </div>
+                <details class="bg-white/5 rounded-lg p-4">
+                  <summary
+                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                  >
+                    Response Example
+                  </summary>
+                  <div class="code-block mt-4">
+                    <code>
+                      { "date": "29-08-2025", "subh": "4:57 AM", "duhr": "12:31
+                      PM", "asar": "3:38 PM", "maghrib": "6:43 PM", "isha":
+                      "7:53 PM", "sunrise": "6:17 AM" }</code
+                    >
+                  </div>
+                </details>
+              </div>
+
+              <!-- Month's Prayer Times -->
+              <div class="border border-white/10 rounded-2xl p-6">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                >
+                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
+                    Get Month's Prayer Times
+                  </h3>
+                  <span class="method-badge get">GET</span>
+                </div>
+                <div class="code-block mb-4">
+                  <div class="text-blue-300">GET</div>
+                  <div class="text-white text-lg">
+                    /v1/timesheets/<span class="text-yellow-300"
+                      >{location}</span
+                    >/month.json
+                  </div>
+                </div>
+                <p class="text-gray-300 mb-4">
+                  Returns prayer times for the current month.
+                </p>
+                <details class="bg-white/5 rounded-lg p-4">
+                  <summary
+                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                  >
+                    Response Example
+                  </summary>
+                  <div class="code-block mt-4">
+                    [ { "date": "01-08-2025", "subh": "4:52 AM", "duhr": "12:37
+                    PM", "asar": "3:53 PM", "maghrib": "6:56 PM", "isha": "8:09
+                    PM", "sunrise": "6:15 AM" }, { "date": "02-08-2025", "subh":
+                    "4:52 AM", "duhr": "12:37 PM", "asar": "3:53 PM", "maghrib":
+                    "6:55 PM", "isha": "8:09 PM", "sunrise": "6:15 AM" }, {
+                    "date": "03-08-2025", "subh": "4:52 AM", "duhr": "12:37 PM",
+                    "asar": "3:52 PM", "maghrib": "6:55 PM", "isha": "8:08 PM",
+                    "sunrise": "6:15 AM" }, { "date": "04-08-2025", "subh":
+                    "4:52 AM", "duhr": "12:36 PM", "asar": "3:51 PM", "maghrib":
+                    "6:55 PM", "isha": "8:08 PM", "sunrise": "6:15 AM" }, ... ]
+                  </div>
+                </details>
+              </div>
+
+              <!-- Year's Prayer Times -->
+              <div class="border border-white/10 rounded-2xl p-6">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                >
+                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
+                    Get Year's Prayer Times
+                  </h3>
+                  <span class="method-badge get">GET</span>
+                </div>
+                <div class="code-block mb-4">
+                  <div class="text-blue-300">GET</div>
+                  <div class="text-white text-lg">
+                    /v1/timesheets/<span class="text-yellow-300"
+                      >{location}</span
+                    >/year.json
+                  </div>
+                </div>
+                <p class="text-gray-300 mb-4">
+                  Returns prayer times for the entire current year.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Response Format -->
+        <section class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-yellow-300">
+              📋 Response Format
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-blue-300">
+                  Data Formats
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li>
+                    <code class="bg-white/10 px-2 py-1 rounded">Time:</code>
+                    12-hour format (hh:mm AM/PM)
+                  </li>
+                  <li>
+                    <code class="bg-white/10 px-2 py-1 rounded">Date:</code>
+                    DD-MM-YYYY format
+                  </li>
+                  <li>
+                    <code class="bg-white/10 px-2 py-1 rounded">Location:</code>
+                    Underscore separated
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-red-300">
+                  Error Responses
+                </h3>
+                <div class="code-block">
+                  <div class="text-red-300">404 Not Found</div>
+                  <div class="text-gray-300">
+                    When location or file doesn't exist
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Code Examples -->
+        <section id="examples" class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-8 text-green-300">
+              💻 Code Examples
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <!-- JavaScript -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-yellow-300">
+                  JavaScript (Fetch)
+                </h3>
+                <div class="code-block">
+                  // Fetch today's prayer times async function
+                  getPrayerTimes(location) { try { const response = await fetch(
+                  `/v1/timesheets/${location}/today.json` ); const data = await
+                  response.json(); console.log(data); } catch (error) {
+                  console.error('Error:', error); } }
+                  getPrayerTimes('Kuttiady_Assembly_Constituency');
+                </div>
+              </div>
+
+              <!-- cURL -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-green-300">cURL</h3>
+                <div class="code-block">
+                  # Get locations curl -X GET /v1/timesheets/index.json # Get
+                  today's times curl -X GET
+                  /v1/timesheets/Kuttiady_Assembly_Constituency/today.json # Get
+                  month's times curl -X GET /v1/timesheets/Mumbai/month.json
+                </div>
+              </div>
+
+              <!-- Python -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-blue-300">
+                  Python (Requests)
+                </h3>
+                <div class="code-block">
+                  import requests def get_prayer_times(location,
+                  period='today'): url =
+                  f"/v1/timesheets/{location}/{period}.json" try: response =
+                  requests.get(url) response.raise_for_status() return
+                  response.json() except requests.exceptions.RequestException as
+                  e: print(f"Error: {e}") return None # Usage data =
+                  get_prayer_times('Istanbul', 'today') print(data)
+                </div>
+              </div>
+
+              <!-- Node.js -->
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-purple-300">
+                  Node.js (Axios)
+                </h3>
+                <div class="code-block">
+                  const axios = require('axios'); async function
+                  fetchPrayerTimes(location) { try { const response = await
+                  axios.get( `/v1/timesheets/${location}/today.json` ); return
+                  response.data; } catch (error) { console.error('Request
+                  failed:', error); } } // Usage
+                  fetchPrayerTimes('London').then(data => { console.log(data);
+                  });
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive Playground -->
+        <section id="playground" class="section mb-16">
+          <div class="interactive-demo rounded-3xl p-1">
+            <div class="glass rounded-3xl p-8">
+              <h2 class="text-2xl font-bold mb-8 text-center text-white">
+                🧪 Interactive API Playground
+              </h2>
+
+              <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Controls -->
+                <div class="space-y-6">
+                  <div>
+                    <label
+                      class="block text-sm font-semibold text-gray-200 mb-2"
+                      >Location</label
+                    >
+                    <select
+                      id="location"
+                      class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                    >
+                      <option value="">Select a location...</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      class="block text-sm font-semibold text-gray-200 mb-2"
+                      >Time Period</label
+                    >
+                    <select
+                      id="period"
+                      class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                    >
+                      <option value="today">Today</option>
+                      <option value="month">This Month</option>
+                      <option value="year">This Year</option>
+                    </select>
+                  </div>
+
+                  <button
+                    onclick="testAPI()"
+                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  >
+                    🚀 Fetch Prayer Times
+                  </button>
+
+                  <!-- Request Info -->
+                  <div class="bg-white/5 rounded-xl p-4">
+                    <h4 class="font-semibold text-blue-300 mb-2">
+                      📡 Request Details
+                    </h4>
+                    <div id="request-info" class="code-block">
+                      <div class="text-gray-400">
+                        Select location and period, then click fetch to see
+                        request details
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Response -->
+                <div>
+                  <h4 class="font-semibold text-green-300 mb-4">
+                    📄 API Response
+                  </h4>
+                  <div id="result" class="code-block h-96 overflow-auto">
+                    <div class="text-gray-400 text-center mt-20">
+                      👆 Select options and click "Fetch Prayer Times" to see
+                      the API response
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Rate Limits & Best Practices -->
+        <section class="section mb-16">
+          <div class="glass rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-orange-300">
+              ⚡ Best Practices
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-blue-300">
+                  📊 Usage Guidelines
+                </h3>
+                <ul class="space-y-2 text-gray-300">
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">•</span>
+                    <span>Cache responses to reduce API calls</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">•</span>
+                    <span>Use appropriate time period endpoints</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">•</span>
+                    <span>Handle 404 errors gracefully</span>
+                  </li>
+                  <li class="flex items-start space-x-3">
+                    <span class="text-green-400 mt-1">•</span>
+                    <span>Validate location names before requests</span>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-lg font-semibold mb-4 text-purple-300">
+                  🔄 Error Handling
+                </h3>
+                <div class="code-block">
+                  if (response.status === 404) { console.log('Location not
+                  found'); } else if (!response.ok) { console.log('API error:',
+                  response.status); }
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/20 py-12">
+      <div class="container mx-auto px-4 text-center">
+        <div class="glass rounded-2xl p-8 max-w-2xl mx-auto">
+          <h3 class="text-xl font-semibold mb-4 text-white">📚 Need Help?</h3>
+          <p class="text-gray-300 mb-6">
+            This API provides accurate Islamic prayer times for locations in
+            Kerala. For support, questions, or feedback, please contact us at
+            <a
+              href="mailto:azan-api@yemzikk.in"
+              class="text-blue-400 hover:underline"
+              >azan-api@yemzikk.in</a
+            >
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#playground"
+              class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all"
+            >
+              Try API
+            </a>
+            <a
+              href="#examples"
+              class="border border-white/30 text-white px-6 py-2 rounded-full hover:bg-white/10 transition-all"
+            >
+              View Examples
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile menu toggle
+      document
+        .getElementById("mobile-menu-btn")
+        .addEventListener("click", () => {
+          document.getElementById("mobile-menu").classList.remove("hidden");
+        });
+
+      document
+        .getElementById("close-mobile-menu")
+        .addEventListener("click", () => {
+          document.getElementById("mobile-menu").classList.add("hidden");
+        });
+
+      // Close mobile menu when clicking on links
+      document.querySelectorAll("#mobile-menu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          document.getElementById("mobile-menu").classList.add("hidden");
+        });
+      });
+
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Load locations
+      async function loadLocations() {
+        const locationSelect = document.getElementById("location");
+        try {
+          const res = await fetch("/v1/timesheets/index.json");
+          if (!res.ok) throw new Error("index.json not found");
+          let locations = await res.json();
+
+          // Normalize and sort
+          locations.sort();
+          locationSelect.innerHTML =
+            '<option value="">Select a location...</option>';
+          locations.forEach((loc) => {
+            const option = document.createElement("option");
+            option.textContent = loc.replace(/_/g, " ");
+            option.value = loc; // already with underscores
+            locationSelect.appendChild(option);
+          });
+        } catch (err) {
+          console.error("⚠️ Could not load locations:", err);
+          locationSelect.innerHTML = `<option disabled>Error loading locations</option>`;
+        }
+      }
+
+      // Test API function
+      async function testAPI() {
+        const loc = document.getElementById("location").value;
+        const period = document.getElementById("period").value;
+        const resultBox = document.getElementById("result");
+        const requestInfo = document.getElementById("request-info");
+
+        if (!loc) {
+          resultBox.innerHTML = `
+            <div class="text-yellow-300 text-center mt-20">
+              ⚠️ Please select a location first
+            </div>
+          `;
+          return;
+        }
+
+        const url = `/v1/timesheets/${loc}/${period}.json`;
+
+        // Show request info
+        requestInfo.innerHTML = `
+          <div class="text-green-300">Method:</div>
+          <div class="text-white ml-4">GET</div>
+          <div class="text-green-300 mt-2">URL:</div>
+          <div class="text-blue-300 ml-4">${url}</div>
+          <div class="text-green-300 mt-2">Headers:</div>
+          <div class="text-white ml-4">Accept: application/json</div>
+        `;
+
+        resultBox.innerHTML = `
+          <div class="text-blue-300 text-center mt-20">
+            <div class="animate-spin w-8 h-8 border-2 border-blue-300 border-t-transparent rounded-full mx-auto mb-4"></div>
+            Fetching ${url}...
+          </div>
+        `;
+
+        try {
+          const res = await fetch(url);
+          if (!res.ok) {
+            resultBox.innerHTML = `
+              <div class="text-red-300">
+                <div class="font-semibold mb-2">❌ Error ${res.status}</div>
+                <div>${res.statusText}</div>
+                <div class="mt-4 text-gray-400 text-sm">
+                  The requested resource was not found. Please check:
+                  <ul class="list-disc ml-6 mt-2">
+                    <li>Location name is correct</li>
+                    <li>Data file exists for this location</li>
+                    <li>API endpoint is accessible</li>
+                  </ul>
+                </div>
+              </div>
+            `;
+            return;
+          }
+          const data = await res.json();
+
+          // Pretty print JSON with syntax highlighting
+          const jsonString = JSON.stringify(data, null, 2);
+          const highlighted = jsonString
+            .replace(/(".*?")/g, '<span class="text-green-300">$1</span>')
+            .replace(/: (".*?")/g, ': <span class="text-yellow-300">$1</span>')
+            .replace(/: (\d+)/g, ': <span class="text-blue-300">$1</span>')
+            .replace(
+              /: (true|false)/g,
+              ': <span class="text-purple-300">$1</span>'
+            );
+
+          resultBox.innerHTML = `
+            <div class="text-green-400 mb-2">✅ Success (${res.status})</div>
+            <div class="border-t border-gray-600 pt-4">
+              <pre class="whitespace-pre-wrap">${highlighted}</pre>
+            </div>
+          `;
+        } catch (err) {
+          resultBox.innerHTML = `
+            <div class="text-red-300">
+              <div class="font-semibold mb-2">⚠️ Request Failed</div>
+              <div>${err.message}</div>
+              <div class="mt-4 text-gray-400 text-sm">
+                This could be due to:
+                <ul class="list-disc ml-6 mt-2">
+                  <li>Network connectivity issues</li>
+                  <li>CORS policy restrictions</li>
+                  <li>Server unavailability</li>
+                </ul>
+              </div>
+            </div>
+          `;
+        }
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadLocations();
+
+        // Add keyboard shortcut for API testing
+        document.addEventListener("keydown", (e) => {
+          if (e.ctrlKey && e.key === "Enter") {
+            testAPI();
+          }
+        });
+      });
+
+      // Add some interactive effects
+      document.querySelectorAll(".glass").forEach((element) => {
+        element.addEventListener("mouseenter", () => {
+          element.style.transform = "translateY(-2px)";
+          element.style.transition = "transform 0.3s ease";
+        });
+
+        element.addEventListener("mouseleave", () => {
+          element.style.transform = "translateY(0)";
+        });
+      });
+
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      document.querySelectorAll(".section").forEach((section) => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(20px)";
+        section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.observe(section);
+      });
+    </script>
+  </body>
+</html>
