@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://azan-api.yemzikk.in/sitemap.xml
+
+# API endpoints
+Allow: /v1/
+Allow: /dashboard/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin or private areas if any
+# Disallow: /admin/
+# Disallow: /private/

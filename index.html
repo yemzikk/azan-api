@@ -1,9 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prayer Times API - Documentation</title>
+    <title>
+      Prayer Times API - Free Islamic Prayer Times REST API |
+      azan-api.yemzikk.in
+    </title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Free Islamic Prayer Times REST API for Kerala, India. Get accurate daily, monthly, and yearly prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha) via JSON API. No authentication required."
+    />
+    <meta
+      name="keywords"
+      content="prayer times API, Islamic prayer times, salah times, REST API, Kerala prayer times, mosque times, fajr, dhuhr, asr, maghrib, isha, JSON API, free API, Islamic calendar, azan times"
+    />
+    <meta name="author" content="azan-api.yemzikk.in" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://azan-api.yemzikk.in/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://azan-api.yemzikk.in/" />
+    <meta
+      property="og:title"
+      content="Prayer Times API - Free Islamic Prayer Times REST API"
+    />
+    <meta
+      property="og:description"
+      content="Free Islamic Prayer Times REST API for Kerala, India. Get accurate daily, monthly, and yearly prayer times via JSON API. No authentication required."
+    />
+    <meta
+      property="og:image"
+      content="https://azan-api.yemzikk.in/prayer-time.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Prayer Times API - Islamic prayer schedule interface"
+    />
+    <meta property="og:site_name" content="azan-api.yemzikk.in" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://azan-api.yemzikk.in/" />
+    <meta
+      name="twitter:title"
+      content="Prayer Times API - Free Islamic Prayer Times REST API"
+    />
+    <meta
+      name="twitter:description"
+      content="Free Islamic Prayer Times REST API for Kerala, India. Get accurate daily, monthly, and yearly prayer times via JSON API. No authentication required."
+    />
+    <meta
+      name="twitter:image"
+      content="https://azan-api.yemzikk.in/prayer-time.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="Prayer Times API - Islamic prayer schedule interface"
+    />
+    <meta name="twitter:creator" content="@azanapp" />
+    <meta name="twitter:site" content="@azanapp" />
+
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#667eea" />
+    <meta name="msapplication-TileColor" content="#667eea" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com" />
+
+    <!-- Sitemap reference -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebAPI",
+        "name": "Prayer Times API",
+        "url": "https://azan-api.yemzikk.in/",
+        "description": "Free Islamic Prayer Times REST API for Kerala, India. Get accurate daily, monthly, and yearly prayer times via JSON API.",
+        "provider": {
+          "@type": "Organization",
+          "name": "azan-api.yemzikk.in",
+          "url": "https://azan-api.yemzikk.in/"
+        },
+        "documentation": "https://azan-api.yemzikk.in/",
+        "termsOfService": "https://azan-api.yemzikk.in/terms",
+        "version": "1.0",
+        "programmingLanguage": "JSON",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        "potentialAction": {
+          "@type": "ConsumeAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://azan-api.yemzikk.in/v1/timesheets/{location}/{period}.json",
+            "description": "Get prayer times for a specific location and time period"
+          }
+        }
+      }
+    </script>
+
+    <!-- Additional Structured Data for Islamic Content -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "azan-api.yemzikk.in",
+        "url": "https://azan-api.yemzikk.in/",
+        "description": "Islamic Prayer Times API and Dashboard",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://azan-api.yemzikk.in/dashboard/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        },
+        "sameAs": ["https://github.com/yemzikk/azan-api"]
+      }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .glass {
@@ -135,8 +273,10 @@
           <div class="flex items-center space-x-3">
             <div
               class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center"
+              role="img"
+              aria-label="Mosque icon"
             >
-              <span class="text-white font-bold">🕌</span>
+              <span class="text-white font-bold" aria-hidden="true">🕌</span>
             </div>
             <h1
               class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
@@ -265,8 +405,10 @@
           <div class="float-animation inline-block mb-6">
             <div
               class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              role="img"
+              aria-label="Mosque icon - Prayer Times API"
             >
-              <span class="text-4xl">🕌</span>
+              <span class="text-4xl" aria-hidden="true">🕌</span>
             </div>
           </div>
           <h1
@@ -276,7 +418,7 @@
           </h1>
           <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-2xl mx-auto">
             A comprehensive REST API for accessing accurate Islamic prayer times
-            data for locations in Kerala, India.
+            data for locations in Kerala, India. Free, fast, and reliable.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -299,11 +441,13 @@
         <!-- Overview -->
         <section id="overview" class="section mb-16">
           <div class="glass rounded-3xl p-8">
-            <h2
-              class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
-            >
-              📖 API Overview
-            </h2>
+            <header>
+              <h2
+                class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+              >
+                📖 API Overview
+              </h2>
+            </header>
             <div class="grid md:grid-cols-2 gap-8">
               <div>
                 <h3 class="text-xl font-semibold mb-4 text-blue-300">
@@ -777,6 +921,36 @@
               >azan-api@yemzikk.in</a
             >
           </p>
+          <!-- Additional footer links for SEO -->
+          <nav class="mb-6">
+            <div class="flex flex-wrap justify-center gap-4 text-sm">
+              <a
+                href="#overview"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+                >API Overview</a
+              >
+              <a
+                href="#endpoints"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+                >Endpoints</a
+              >
+              <a
+                href="#examples"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+                >Code Examples</a
+              >
+              <a
+                href="#playground"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+                >API Playground</a
+              >
+              <a
+                href="/dashboard/"
+                class="text-gray-400 hover:text-blue-400 transition-colors"
+                >Prayer Dashboard</a
+              >
+            </div>
+          </nav>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#playground"
