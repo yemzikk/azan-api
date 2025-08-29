@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prayer Times Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .prayer-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .prayer-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .period-btn {
+        transition: all 0.2s ease;
+      }
+
+      .period-btn:hover {
+        transform: scale(1.02);
+      }
+
+      .period-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.4);
+      }
+
+      .prayer-time-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        gap: 0.5rem;
+      }
+
+      @media (min-width: 640px) {
+        .prayer-time-grid {
+          grid-template-columns: repeat(6, 1fr);
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100"
+  >
+    <div class="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
+      <!-- Header -->
+      <div class="text-center mb-6 sm:mb-8">
+        <h1
+          class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2"
+        >
+          Prayer Times Dashboard
+        </h1>
+        <p class="text-sm sm:text-base text-gray-600">
+          Track prayer schedules across locations and time periods
+        </p>
+      </div>
+
+      <!-- Controls -->
+      <div class="glass-effect rounded-2xl shadow-xl p-4 sm:p-6 mb-6 sm:mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <!-- Location Selector -->
+          <div>
+            <label
+              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3 flex items-center gap-2"
+            >
+              <i
+                class="lucide lucide-map-pin text-indigo-500 w-3 h-3 sm:w-4 sm:h-4"
+              ></i>
+              Select Location
+            </label>
+            <div class="relative">
+              <select
+                id="location"
+                class="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/90 text-sm sm:text-base appearance-none cursor-pointer"
+              ></select>
+              <i
+                class="lucide lucide-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Period Selector -->
+          <div>
+            <label
+              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3"
+            >
+              Select Time Period
+            </label>
+            <div class="flex gap-2" id="period-buttons"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loader -->
+      <div
+        id="loading"
+        class="hidden glass-effect rounded-2xl shadow-xl p-6 sm:p-8"
+      >
+        <div class="flex items-center justify-center">
+          <div
+            class="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-indigo-500"
+          ></div>
+          <span class="ml-3 text-gray-600 text-sm sm:text-base"
+            >Loading prayer data...</span
+          >
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div
+        id="error"
+        class="hidden bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6"
+      >
+        <p class="text-red-600 font-medium text-sm sm:text-base"></p>
+      </div>
+
+      <!-- Prayer Data -->
+      <div id="prayer-data" class="hidden"></div>
+    </div>
+
+    <script>
+      const periods = [
+        { value: "today", label: "Today" },
+        { value: "month", label: "This Month" },
+        { value: "year", label: "This Year" },
+      ];
+
+      let locations = [];
+      let selectedLocation = null;
+      let selectedPeriod = "today";
+
+      const locationSelect = document.getElementById("location");
+      const periodButtonsDiv = document.getElementById("period-buttons");
+      const loadingDiv = document.getElementById("loading");
+      const errorDiv = document.getElementById("error");
+      const prayerDataDiv = document.getElementById("prayer-data");
+
+      async function loadLocations() {
+        try {
+          const res = await fetch("/output/index.json");
+          if (!res.ok) throw new Error("index.json not found");
+          locations = await res.json();
+
+          locations.sort();
+          locations = locations.map((loc) => loc.replace(/_/g, " "));
+
+          locationSelect.innerHTML = "";
+          locations.forEach((loc) => {
+            const option = document.createElement("option");
+            option.textContent = loc;
+            option.value = loc.replace(/ /g, "_");
+            locationSelect.appendChild(option);
+          });
+
+          selectedLocation = locations[0];
+          loadPrayerData();
+        } catch (err) {
+          console.error("⚠️ Could not load locations:", err);
+          showError("Could not load locations. Please generate index.json.");
+        }
+      }
+
+      periods.forEach((period, index) => {
+        const btn = document.createElement("button");
+        btn.className = `period-btn px-3 py-2 sm:px-4 sm:py-3 rounded-xl font-medium flex-1 flex items-center justify-center gap-1 sm:gap-2 bg-white/80 text-gray-700 hover:bg-indigo-50 text-xs sm:text-sm border border-gray-200`;
+        btn.dataset.value = period.value;
+        btn.innerHTML = `<span>${period.label}</span>`;
+        btn.addEventListener("click", () => {
+          selectedPeriod = period.value;
+          document
+            .querySelectorAll("#period-buttons button")
+            .forEach((b) => b.classList.remove("active", "text-white"));
+          btn.classList.add("active", "text-white");
+          loadPrayerData();
+        });
+        periodButtonsDiv.appendChild(btn);
+
+        if (index === 0) {
+          btn.classList.add("active", "text-white");
+        }
+      });
+
+      locationSelect.addEventListener("change", (e) => {
+        selectedLocation = e.target.value;
+        loadPrayerData();
+      });
+
+      async function loadPrayerData() {
+        if (!selectedLocation) return;
+        selectedLocation = selectedLocation.replace(/ /g, "_");
+        showLoading();
+        hideError();
+        try {
+          const res = await fetch(
+            `/output/${selectedLocation}/${selectedPeriod}.json`
+          );
+          let data;
+          if (res.ok) {
+            data = await res.json();
+          } else {
+            throw new Error("File not found, using demo data");
+          }
+          renderPrayerData({
+            location: selectedLocation,
+            period: selectedPeriod,
+            data,
+          });
+        } catch (err) {
+          console.error("⚠️ Could not load prayer data:", err);
+          showError(
+            "Could not load prayer data for the selected location and period."
+          );
+          prayerDataDiv.classList.add("hidden");
+        }
+        hideLoading();
+      }
+
+      function renderPrayerData({ location, period, data }) {
+        prayerDataDiv.classList.remove("hidden");
+        location = location.replace(/_/g, " ");
+
+        let prayers = [];
+
+        if (period === "today" && !Array.isArray(data)) {
+          const { date, subh, sunrise, duhr, asar, maghrib, isha } = data;
+          prayers = [
+            { name: "Subh", time: subh },
+            { name: "Sunrise", time: sunrise },
+            { name: "Dhuhr", time: duhr },
+            { name: "Asar", time: asar },
+            { name: "Maghrib", time: maghrib },
+            { name: "Isha", time: isha },
+          ];
+
+          // Convert string times into Date objects for today
+          const now = new Date();
+          const todayPrayers = prayers.map((p) => {
+            const [h, m] = p.time.split(":").map(Number);
+            const d = new Date(now);
+            d.setHours(h, m, 0, 0);
+            return { ...p, dateObj: d };
+          });
+
+          // Find next prayer
+          let nextPrayer = getNextPrayer(prayers);
+
+          // Format times to 12-hour
+          const formattedTimes = todayPrayers.map((p) => ({
+            ...p,
+            time: formatTime(p.time),
+          }));
+
+          const hijriDate = "1447 Rabi' al-awwal 6"; // placeholder
+          const gregDate = formatDate(date);
+
+          let html = `
+            <div class="glass-effect rounded-2xl shadow-xl p-4 sm:p-6">
+              <div class="mb-4 sm:mb-6 text-center">
+                <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-indigo-700">${gregDate}</h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1">${location}</p>
+              </div>
+              <div class="prayer-time-grid">
+          `;
+
+          formattedTimes.forEach((p) => {
+            const isNext = p.name === nextPrayer.name;
+            const highlight = isNext ? "text-indigo-600" : "text-gray-900";
+            const labelColor = isNext
+              ? "text-indigo-700 font-semibold"
+              : "text-gray-500";
+            const bgColor = isNext
+              ? "bg-indigo-50 border-indigo-200"
+              : "bg-white/60 border-gray-200";
+
+            html += `
+              <div class="prayer-card ${bgColor} border rounded-xl p-3 sm:p-4 text-center">
+                <p class="text-xs uppercase ${labelColor} mb-1">${p.name}</p>
+                <p class="text-sm sm:text-lg font-bold ${highlight}">${p.time}</p>
+              </div>
+            `;
+          });
+
+          html += `</div></div>`;
+          prayerDataDiv.innerHTML = html;
+        } else if (Array.isArray(data)) {
+          let days = data.map((row) => ({
+            date: row.date,
+            times: {
+              Fajr: formatTime(row.subh),
+              Dhuhr: formatTime(row.duhr),
+              Asr: formatTime(row.asar),
+              Maghrib: formatTime(row.maghrib),
+              Isha: formatTime(row.isha),
+              Sunrise: formatTime(row.sun_rise),
+            },
+          }));
+
+          let html = `
+            <div class="mb-4 sm:mb-6 text-center">
+              <h2 class="text-xl sm:text-2xl font-bold text-gray-800">${location}</h2>
+              <p class="text-sm sm:text-base text-gray-600 capitalize">${
+                period === "month" ? "This Month" : "This Year"
+              }</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+          `;
+
+          days.forEach((day) => {
+            const today = new Date();
+            const dayDate = new Date(day.date.split("-").reverse().join("-"));
+            const isToday = dayDate.toDateString() === today.toDateString();
+
+            html += `
+              <div class="prayer-card glass-effect rounded-xl p-4 sm:p-5 ${
+                isToday ? "ring-2 ring-indigo-300 bg-indigo-50/80" : ""
+              }">
+                <h3 class="font-bold text-sm sm:text-base lg:text-lg text-gray-800 mb-3 ${
+                  isToday ? "text-indigo-700" : ""
+                } text-center">
+                  ${formatDateShort(day.date)}
+                  ${
+                    isToday
+                      ? '<span class="text-xs font-normal text-indigo-600 block">Today</span>'
+                      : ""
+                  }
+                </h3>
+                <div class="space-y-2">
+                  ${Object.entries(day.times)
+                    .map(
+                      ([name, time]) => `
+                      <div class="flex justify-between items-center text-xs sm:text-sm">
+                        <span class="font-medium text-gray-600">${name}:</span>
+                        <span class="font-bold text-gray-800">${time}</span>
+                      </div>
+                    `
+                    )
+                    .join("")}
+                </div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+          prayerDataDiv.innerHTML = html;
+        }
+      }
+
+      function showLoading() {
+        loadingDiv.classList.remove("hidden");
+      }
+      function hideLoading() {
+        loadingDiv.classList.add("hidden");
+      }
+      function hideError() {
+        errorDiv.classList.add("hidden");
+      }
+      function showError(msg) {
+        errorDiv.classList.remove("hidden");
+        errorDiv.querySelector("p").textContent = msg;
+      }
+
+      function formatTime(time) {
+        if (!time) return "";
+
+        // Today's date + given time (safe parsing of AM/PM)
+        const today = new Date();
+        const dateString = `${today.toDateString()} ${time}`;
+
+        const date = new Date(dateString);
+
+        // Ensure valid Date
+        if (isNaN(date.getTime())) {
+          return time; // fallback to raw if parsing fails
+        }
+
+        return date.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        });
+      }
+
+      function getNextPrayer(prayers) {
+        const now = new Date();
+
+        // Convert prayer times into Date objects for today
+        const today = now.toDateString();
+        const times = prayers.map((p) => {
+          const date = new Date(`${today} ${p.time}`);
+          return { ...p, date };
+        });
+
+        // Find the first prayer after now
+        const next = times.find((p) => p.date > now);
+
+        return next || times[0]; // default to last prayer if past Isha
+      }
+
+      function formatDate(dateStr) {
+        const [day, month, year] = dateStr.split("-");
+        const date = new Date(year, month - 1, day);
+        return date.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      function formatDateShort(dateStr) {
+        const [day, month, year] = dateStr.split("-");
+        const date = new Date(year, month - 1, day);
+        return date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          weekday: "short",
+        });
+      }
+
+      loadLocations();
+    </script>
+  </body>
+</html>
