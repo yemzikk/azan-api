@@ -120,6 +120,10 @@
         border-left: 4px solid #10b981;
       }
     </style>
+    <script>
+      const baseCurrentLocation =
+        window.location.origin + window.location.pathname;
+    </script>
   </head>
   <body
     class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white"
@@ -349,7 +353,9 @@
             <h2 class="text-2xl font-bold mb-6 text-blue-300">🔗 Base URL</h2>
             <div class="code-block">
               <div class="text-yellow-300 text-lg font-mono">
-                /v1/timesheets/
+                <script>
+                  document.write(baseCurrentLocation.replace(/\/+$/, ""));
+                </script>
               </div>
             </div>
           </div>
