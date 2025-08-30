@@ -279,15 +279,6 @@
     "sunrise": "6:50 AM"
   },
   {
-    "date": "32-01-2025",
-    "subh": "5:29 AM",
-    "duhr": "12:43 PM",
-    "asar": "4:02 PM",
-    "maghrib": "6:32 PM",
-    "isha": "7:44 PM",
-    "sunrise": "6:50 AM"
-  },
-  {
     "date": "01-02-2025",
     "subh": "5:29 AM",
     "duhr": "12:43 PM",
@@ -538,42 +529,6 @@
     "maghrib": "6:39 PM",
     "isha": "7:48 PM",
     "sunrise": "6:42 AM"
-  },
-  {
-    "date": "29-02-2025",
-    "subh": "5:23 AM",
-    "duhr": "12:42 PM",
-    "asar": "4:01 PM",
-    "maghrib": "6:39 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:41 AM"
-  },
-  {
-    "date": "30-02-2025",
-    "subh": "5:23 AM",
-    "duhr": "12:42 PM",
-    "asar": "4:01 PM",
-    "maghrib": "6:39 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:41 AM"
-  },
-  {
-    "date": "31-02-2025",
-    "subh": "5:23 AM",
-    "duhr": "12:42 PM",
-    "asar": "4:01 PM",
-    "maghrib": "6:39 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:41 AM"
-  },
-  {
-    "date": "32-02-2025",
-    "subh": "5:23 AM",
-    "duhr": "12:42 PM",
-    "asar": "4:01 PM",
-    "maghrib": "6:39 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:41 AM"
   },
   {
     "date": "01-03-2025",
@@ -855,15 +810,6 @@
     "sunrise": "6:24 AM"
   },
   {
-    "date": "32-03-2025",
-    "subh": "5:05 AM",
-    "duhr": "12:34 PM",
-    "asar": "3:46 PM",
-    "maghrib": "6:40 PM",
-    "isha": "7:49 PM",
-    "sunrise": "6:24 AM"
-  },
-  {
     "date": "01-04-2025",
     "subh": "5:05 AM",
     "duhr": "12:33 PM",
@@ -1126,24 +1072,6 @@
   },
   {
     "date": "30-04-2025",
-    "subh": "4:47 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:38 PM",
-    "maghrib": "6:42 PM",
-    "isha": "7:54 PM",
-    "sunrise": "6:08 AM"
-  },
-  {
-    "date": "31-04-2025",
-    "subh": "4:47 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:38 PM",
-    "maghrib": "6:42 PM",
-    "isha": "7:54 PM",
-    "sunrise": "6:08 AM"
-  },
-  {
-    "date": "32-04-2025",
     "subh": "4:47 AM",
     "duhr": "12:27 PM",
     "asar": "3:38 PM",
@@ -1431,15 +1359,6 @@
     "sunrise": "6:02 AM"
   },
   {
-    "date": "32-05-2025",
-    "subh": "4:37 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:51 PM",
-    "maghrib": "6:49 PM",
-    "isha": "8:05 PM",
-    "sunrise": "6:02 AM"
-  },
-  {
     "date": "01-06-2025",
     "subh": "4:37 AM",
     "duhr": "12:27 PM",
@@ -1702,24 +1621,6 @@
   },
   {
     "date": "30-06-2025",
-    "subh": "4:41 AM",
-    "duhr": "12:33 PM",
-    "asar": "3:59 PM",
-    "maghrib": "6:56 PM",
-    "isha": "8:12 PM",
-    "sunrise": "6:07 AM"
-  },
-  {
-    "date": "31-06-2025",
-    "subh": "4:41 AM",
-    "duhr": "12:33 PM",
-    "asar": "3:59 PM",
-    "maghrib": "6:56 PM",
-    "isha": "8:12 PM",
-    "sunrise": "6:07 AM"
-  },
-  {
-    "date": "32-06-2025",
     "subh": "4:41 AM",
     "duhr": "12:33 PM",
     "asar": "3:59 PM",
@@ -2007,15 +1908,6 @@
     "sunrise": "6:15 AM"
   },
   {
-    "date": "32-07-2025",
-    "subh": "4:51 AM",
-    "duhr": "12:36 PM",
-    "asar": "3:53 PM",
-    "maghrib": "6:54 PM",
-    "isha": "8:08 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
     "date": "01-08-2025",
     "subh": "4:52 AM",
     "duhr": "12:36 PM",
@@ -2286,16 +2178,7 @@
     "sunrise": "6:17 AM"
   },
   {
-    "date": "30-08-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:30 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:40 PM",
-    "isha": "7:50 PM",
-    "sunrise": "6:17 AM"
-  },
-  {
-    "date": "32-08-2025",
+    "date": "31-08-2025",
     "subh": "4:57 AM",
     "duhr": "12:30 PM",
     "asar": "3:36 PM",
@@ -2566,24 +2449,6 @@
   },
   {
     "date": "30-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:19 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:21 PM",
-    "isha": "7:30 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "31-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:19 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:21 PM",
-    "isha": "7:30 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "32-09-2025",
     "subh": "4:57 AM",
     "duhr": "12:19 PM",
     "asar": "3:37 PM",
@@ -2871,15 +2736,6 @@
     "sunrise": "6:18 AM"
   },
   {
-    "date": "32-10-2025",
-    "subh": "4:58 AM",
-    "duhr": "12:13 PM",
-    "asar": "3:33 PM",
-    "maghrib": "6:05 PM",
-    "isha": "7:16 PM",
-    "sunrise": "6:18 AM"
-  },
-  {
     "date": "01-11-2025",
     "subh": "4:58 AM",
     "duhr": "12:13 PM",
@@ -3142,24 +2998,6 @@
   },
   {
     "date": "30-11-2025",
-    "subh": "5:06 AM",
-    "duhr": "12:18 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:04 PM",
-    "isha": "7:17 PM",
-    "sunrise": "6:29 AM"
-  },
-  {
-    "date": "31-11-2025",
-    "subh": "5:06 AM",
-    "duhr": "12:18 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:04 PM",
-    "isha": "7:17 PM",
-    "sunrise": "6:29 AM"
-  },
-  {
-    "date": "32-11-2025",
     "subh": "5:06 AM",
     "duhr": "12:18 PM",
     "asar": "3:36 PM",
@@ -3439,15 +3277,6 @@
   },
   {
     "date": "31-12-2025",
-    "subh": "5:21 AM",
-    "duhr": "12:32 PM",
-    "asar": "3:49 PM",
-    "maghrib": "6:17 PM",
-    "isha": "7:31 PM",
-    "sunrise": "6:45 AM"
-  },
-  {
-    "date": "32-12-2025",
     "subh": "5:21 AM",
     "duhr": "12:32 PM",
     "asar": "3:49 PM",
