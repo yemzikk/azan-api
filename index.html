@@ -70,8 +70,8 @@
     <meta name="twitter:site" content="@azanapp" />
 
     <!-- Additional SEO -->
-    <meta name="theme-color" content="#667eea" />
-    <meta name="msapplication-TileColor" content="#667eea" />
+    <meta name="theme-color" content="#0f4c3a" />
+    <meta name="msapplication-TileColor" content="#0f4c3a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
@@ -143,22 +143,148 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(255, 255, 255, 0.04) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 60% 20%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 10% 70%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 40%
+          );
+        pointer-events: none;
+        animation: backgroundShift 20s ease-in-out infinite;
+      }
+
+      @keyframes backgroundShift {
+        0%,
+        100% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .islamic-pattern {
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        background-image: 
+          /* Islamic Star Pattern */ radial-gradient(
+            circle at 25px 25px,
+            rgba(212, 175, 55, 0.08) 2px,
+            transparent 2px
+          ),
+          radial-gradient(
+            circle at 75px 75px,
+            rgba(212, 175, 55, 0.06) 2px,
+            transparent 2px
+          ),
+          /* Geometric Grid */ repeating-linear-gradient(transparent 12px),
+          repeating-linear-gradient(
+            -45deg,
+            rgba(212, 175, 55, 0.02) 0px,
+            rgba(212, 175, 55, 0.02) 1px,
+            transparent 1px,
+            transparent 12px
+          ),
+          /* Hexagonal Pattern */ linear-gradient(rgba(212, 175, 55, 0.01)),
+          linear-gradient(
+            -60deg,
+            rgba(212, 175, 55, 0.01) 25%,
+            transparent 25.5%,
+            transparent 75%,
+            rgba(212, 175, 55, 0.01) 75.5%,
+            rgba(212, 175, 55, 0.01)
+          );
+        background-size: 50px 50px, 100px 100px, 24px 24px, 24px 24px, 60px 36px,
+          60px 36px;
+        background-position: 0 0, 25px 25px, 0 0, 12px 12px, 0 0, 30px 18px;
+      }
+
       .glass {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(15, 76, 58, 0.2);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        box-shadow: 0 20px 40px rgba(15, 76, 58, 0.15);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .glass-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(15, 76, 58, 0.2);
+        background: rgba(255, 255, 255, 1);
+        border-color: rgba(212, 175, 55, 0.4);
       }
 
       .code-block {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        background: linear-gradient(135deg, #1a5f4a 0%, #0f4c3a 100%);
         color: #e2e8f0;
         padding: 1.5rem;
         border-radius: 12px;
         font-size: 0.9rem;
         overflow-x: auto;
-        border: 1px solid #334155;
+        border: 1px solid rgba(212, 175, 55, 0.3);
         position: relative;
       }
 
@@ -168,8 +294,8 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+        height: 3px;
+        background: linear-gradient(90deg, #d4af37, #f4d03f);
         border-radius: 12px 12px 0 0;
       }
 
@@ -181,34 +307,43 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
+        border: 1px solid rgba(212, 175, 55, 0.5);
       }
 
       .get {
-        background: #dcfdf4;
-        color: #065f46;
+        background: #d4af37;
+        color: #0f4c3a;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
       }
       .post {
-        background: #fef3c7;
-        color: #92400e;
+        background: #1a5f4a;
+        color: white;
+        box-shadow: 0 4px 15px rgba(26, 95, 74, 0.3);
       }
       .put {
-        background: #ddd6fe;
-        color: #5b21b6;
+        background: #2d8659;
+        color: white;
+        box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
       }
       .delete {
-        background: #fecaca;
-        color: #991b1b;
+        background: #8b5a3c;
+        color: white;
+        box-shadow: 0 4px 15px rgba(139, 90, 60, 0.3);
       }
 
       .nav-link {
         transition: all 0.3s ease;
         border-radius: 8px;
         padding: 0.5rem 1rem;
+        color: rgba(255, 255, 255, 0.95);
+        font-weight: 500;
       }
 
       .nav-link:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(212, 175, 55, 0.2);
         transform: translateX(4px);
+        color: white;
+        border-color: rgba(212, 175, 55, 0.4);
       }
 
       .floating-nav {
@@ -220,29 +355,47 @@
       }
 
       .section {
-        scroll-margin-top: 2rem;
+        scroll-margin-top: 6rem;
       }
 
       .hero-gradient {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(
+          135deg,
+          rgba(15, 76, 58, 0.95) 0%,
+          rgba(26, 95, 74, 0.95) 50%,
+          rgba(45, 134, 89, 0.95) 100%
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
       }
 
       .interactive-demo {
         background: linear-gradient(
           135deg,
-          #f093fb 0%,
-          #f5576c 50%,
-          #4facfe 100%
+          rgba(212, 175, 55, 0.2) 0%,
+          rgba(26, 95, 74, 0.3) 50%,
+          rgba(45, 134, 89, 0.2) 100%
         );
+        border: 1px solid rgba(212, 175, 55, 0.3);
       }
 
       @keyframes float {
         0%,
         100% {
-          transform: translateY(0px);
+          transform: translateY(0px) translateX(0px) rotate(0deg);
+          opacity: 0.8;
+        }
+        25% {
+          transform: translateY(-10px) translateX(3px) rotate(45deg);
+          opacity: 1;
         }
         50% {
-          transform: translateY(-10px);
+          transform: translateY(-15px) translateX(-3px) rotate(90deg);
+          opacity: 0.6;
+        }
+        75% {
+          transform: translateY(-8px) translateX(5px) rotate(135deg);
+          opacity: 0.9;
         }
       }
 
@@ -251,11 +404,71 @@
       }
 
       .response-highlight {
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        background: rgba(212, 175, 55, 0.1);
         color: #1f2937;
         padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #10b981;
+        border-radius: 12px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        box-shadow: 0 8px 25px rgba(15, 76, 58, 0.2);
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .slide-in {
+        animation: slideIn 0.6s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* Mobile optimizations */
+      @media (max-width: 640px) {
+        .glass-card {
+          padding: 1rem;
+        }
+
+        .float-animation {
+          animation-duration: 4s;
+        }
+      }
+
+      /* Enhanced hover effects */
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.98);
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      /* Focus states for accessibility */
+      button:focus,
+      select:focus {
+        outline: 2px solid rgba(212, 175, 55, 0.6);
+        outline-offset: 2px;
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
       }
     </style>
     <script>
@@ -263,62 +476,61 @@
         window.location.origin + window.location.pathname;
     </script>
   </head>
-  <body
-    class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen text-white"
-  >
+  <body class="min-h-screen islamic-pattern">
     <!-- Fixed Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-40 glass border-b border-white/10">
+    <nav
+      class="fixed top-0 left-0 right-0 z-40 glass border-b border-yellow-400/20"
+    >
       <div class="container mx-auto px-4 py-3">
         <div class="flex items-center justify-between">
           <div class="flex items-center space-x-3">
             <div
-              class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center"
+              class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-green-600 rounded-lg flex items-center justify-center"
               role="img"
               aria-label="Mosque icon"
             >
-              <span class="text-white font-bold" aria-hidden="true">🕌</span>
+              <i class="fas fa-mosque text-white text-sm"></i>
             </div>
             <h1
-              class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+              class="text-xl font-bold bg-green-700 to-white bg-clip-text text-transparent"
             >
               Prayer Times API
             </h1>
           </div>
           <div class="hidden md:flex space-x-6">
-            <a href="#overview" class="nav-link text-gray-300 hover:text-white"
+            <a
+              href="#overview"
+              class="nav-link text-green-700 hover:text-black"
               >Overview</a
             >
             <a
               href="#authentication"
-              class="nav-link text-gray-300 hover:text-white"
+              class="nav-link text-green-700 hover:text-black"
               >Auth</a
             >
-            <a href="#endpoints" class="nav-link text-gray-300 hover:text-white"
+            <a
+              href="#endpoints"
+              class="nav-link text-green-700 hover:text-black"
               >Endpoints</a
             >
-            <a href="#examples" class="nav-link text-gray-300 hover:text-white"
+            <a
+              href="#examples"
+              class="nav-link text-green-700 hover:text-black"
               >Examples</a
             >
             <a
               href="#playground"
-              class="nav-link text-gray-300 hover:text-white"
+              class="nav-link text-green-700 hover:text-black"
               >Playground</a
             >
-          </div>
-          <button id="mobile-menu-btn" class="md:hidden">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <a
+              href="/dashboard/"
+              class="nav-link bg-yellow-400 text-green-900 px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 hover:scale-105 transition-all"
+              >Dashboard</a
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-            </svg>
+          </div>
+          <button id="mobile-menu-btn" class="md:hidden text-white">
+            <i class="fas fa-bars text-xl"></i>
           </button>
         </div>
       </div>
@@ -329,40 +541,28 @@
       <div
         class="flex flex-col items-center justify-center h-full space-y-8 text-xl"
       >
-        <a href="#overview" class="nav-link text-gray-300 hover:text-white"
+        <a href="#overview" class="nav-link text-white hover:text-yellow-200"
           >Overview</a
         >
         <a
           href="#authentication"
-          class="nav-link text-gray-300 hover:text-white"
+          class="nav-link text-white hover:text-yellow-200"
           >Authentication</a
         >
-        <a href="#endpoints" class="nav-link text-gray-300 hover:text-white"
+        <a href="#endpoints" class="nav-link text-white hover:text-yellow-200"
           >Endpoints</a
         >
-        <a href="#examples" class="nav-link text-gray-300 hover:text-white"
+        <a href="#examples" class="nav-link text-white hover:text-yellow-200"
           >Examples</a
         >
-        <a href="#playground" class="nav-link text-gray-300 hover:text-white"
+        <a href="#playground" class="nav-link text-white hover:text-yellow-200"
           >Playground</a
         >
         <button
           id="close-mobile-menu"
           class="text-gray-400 hover:text-white mt-8"
         >
-          <svg
-            class="w-8 h-8"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
+          <i class="fas fa-times text-2xl"></i>
         </button>
       </div>
     </div>
@@ -372,7 +572,7 @@
       <div class="glass rounded-full p-4 space-y-3">
         <a
           href="#overview"
-          class="block w-3 h-3 rounded-full bg-blue-400 hover:scale-125 transition-all"
+          class="block w-3 h-3 rounded-full bg-yellow-400 hover:scale-125 transition-all"
           title="Overview"
         ></a>
         <a
@@ -382,7 +582,7 @@
         ></a>
         <a
           href="#endpoints"
-          class="block w-3 h-3 rounded-full bg-purple-400 hover:scale-125 transition-all"
+          class="block w-3 h-3 rounded-full bg-green-500 hover:scale-125 transition-all"
           title="Endpoints"
         ></a>
         <a
@@ -398,40 +598,42 @@
       </div>
     </div>
 
-    <main class="pt-20">
+    <main class="pt-20 relative z-10">
       <!-- Hero Section -->
-      <section class="hero-gradient py-20 px-4">
+      <section class="hero-gradient py-20 px-4 fade-in">
         <div class="container mx-auto max-w-4xl text-center">
           <div class="float-animation inline-block mb-6">
             <div
-              class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-yellow-400/30"
               role="img"
               aria-label="Mosque icon - Prayer Times API"
             >
-              <span class="text-4xl" aria-hidden="true">🕌</span>
+              <i class="fas fa-mosque text-4xl text-yellow-400"></i>
             </div>
           </div>
           <h1
-            class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent"
+            class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent"
           >
             Prayer Times API
           </h1>
-          <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p
+            class="text-xl md:text-2xl text-white text-opacity-90 mb-8 max-w-2xl mx-auto"
+          >
             A comprehensive REST API for accessing accurate Islamic prayer times
             data for locations in Kerala, India. Free, fast, and reliable.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#playground"
-              class="bg-white text-purple-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all transform hover:scale-105"
+              class="bg-yellow-400 text-green-900 px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 hover:scale-105 transition-all transform shadow-lg"
             >
-              Try It Now
+              <i class="fas fa-play mr-2"></i>Try It Now
             </a>
             <a
               href="#endpoints"
-              class="border border-white/30 px-8 py-3 rounded-full font-semibold hover:bg-white/10 transition-all"
+              class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-green-800 transition-all text-white"
             >
-              View Documentation
+              <i class="fas fa-book mr-2"></i>View Documentation
             </a>
           </div>
         </div>
@@ -439,42 +641,50 @@
 
       <div class="container mx-auto px-4 py-12 max-w-6xl">
         <!-- Overview -->
-        <section id="overview" class="section mb-16">
-          <div class="glass rounded-3xl p-8">
+        <section id="overview" class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
             <header>
               <h2
-                class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+                class="text-3xl font-bold mb-6 text-center bg-green-700 to-green-400 bg-clip-text text-transparent"
               >
-                📖 API Overview
+                <i class="fas fa-book-open mr-3"></i>API Overview
               </h2>
             </header>
             <div class="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 class="text-xl font-semibold mb-4 text-blue-300">
-                  🎯 Features
+                <h3 class="text-xl font-semibold mb-4 text-green-700">
+                  <i class="fas fa-bullseye mr-2"></i>Features
                 </h3>
-                <ul class="space-y-3 text-gray-300">
+                <ul class="space-y-3 text-gray-700">
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">✓</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-check"></i
+                    ></span>
                     <span>Accurate prayer times for locations in Kerala</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">✓</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-check"></i
+                    ></span>
                     <span>Daily, monthly, and yearly data formats</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">✓</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-check"></i
+                    ></span>
                     <span>RESTful JSON API with consistent responses</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">✓</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-check"></i
+                    ></span>
                     <span>No authentication required</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h3 class="text-xl font-semibold mb-4 text-purple-300">
-                  ⚡ Quick Start
+                <h3 class="text-xl font-semibold mb-4 text-green-700">
+                  <i class="fas fa-bolt mr-2"></i>Quick Start
                 </h3>
                 <div class="code-block">
                   <div class="text-green-300 mb-2">
@@ -492,9 +702,11 @@
         </section>
 
         <!-- Base URL -->
-        <section class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-blue-300">🔗 Base URL</h2>
+        <section class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-green-700">
+              <i class="fas fa-link mr-2"></i>Base URL
+            </h2>
             <div class="code-block">
               <div class="text-yellow-300 text-lg font-mono">
                 <script>
@@ -506,13 +718,16 @@
         </section>
 
         <!-- Authentication -->
-        <section id="authentication" class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-green-300">
-              🔐 Authentication
+        <section id="authentication" class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-green-700">
+              <i class="fas fa-lock-open mr-2"></i>Authentication
             </h2>
             <div class="response-highlight">
-              <p class="font-semibold mb-2">✅ No Authentication Required</p>
+              <p class="font-semibold mb-2">
+                <i class="fas fa-check-circle mr-2 text-green-400"></i>No
+                Authentication Required
+              </p>
               <p>
                 This API is completely open and does not require any API keys,
                 tokens, or authentication headers. Simply make requests to the
@@ -523,20 +738,22 @@
         </section>
 
         <!-- Endpoints -->
-        <section id="endpoints" class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-8 text-purple-300">
-              📍 API Endpoints
+        <section id="endpoints" class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-8 text-green-700">
+              <i class="fas fa-map-marker-alt mr-2"></i>API Endpoints
             </h2>
 
             <div class="space-y-8">
               <!-- Get Locations -->
-              <div class="border border-white/10 rounded-2xl p-6">
+              <div
+                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+              >
                 <div
                   class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
                 >
-                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
-                    Get Available Locations
+                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
+                    <i class="fas fa-list mr-2"></i>Get Available Locations
                   </h3>
                   <span class="method-badge get">GET</span>
                 </div>
@@ -546,14 +763,16 @@
                     /v1/timesheets/index.json
                   </div>
                 </div>
-                <p class="text-gray-300 mb-4">
+                <p class="text-gray-700 mb-4">
                   Returns an array of all available location identifiers.
                 </p>
-                <details class="bg-white/5 rounded-lg p-4">
+                <details
+                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
+                >
                   <summary
-                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
                   >
-                    Response Example
+                    <i class="fas fa-eye mr-2"></i>Response Example
                   </summary>
                   <div class="code-block mt-4">
                     [ "Kozhikode_North_Assembly_Constituency",
@@ -564,12 +783,15 @@
               </div>
 
               <!-- Today's Prayer Times -->
-              <div class="border border-white/10 rounded-2xl p-6">
+              <div
+                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+              >
                 <div
                   class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
                 >
-                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
-                    Get Today's Prayer Times
+                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
+                    <i class="fas fa-calendar-day mr-2"></i>Get Today's Prayer
+                    Times
                   </h3>
                   <span class="method-badge get">GET</span>
                 </div>
@@ -581,20 +803,26 @@
                     >/today.json
                   </div>
                 </div>
-                <div class="bg-blue-900/30 rounded-lg p-4 mb-4">
-                  <h4 class="font-semibold text-blue-300 mb-2">Parameters</h4>
-                  <div class="text-gray-300">
-                    <code class="bg-white/10 px-2 py-1 rounded"
+                <div
+                  class="bg-green-100 rounded-lg p-4 mb-4 border border-green-200"
+                >
+                  <h4 class="font-semibold text-green-700 mb-2">
+                    <i class="fas fa-cog mr-2"></i>Parameters
+                  </h4>
+                  <div class="text-gray-700">
+                    <code class="bg-white/50 px-2 py-1 rounded border"
                       >{location}</code
                     >
                     - Location identifier with underscores instead of spaces
                   </div>
                 </div>
-                <details class="bg-white/5 rounded-lg p-4">
+                <details
+                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
+                >
                   <summary
-                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
                   >
-                    Response Example
+                    <i class="fas fa-eye mr-2"></i>Response Example
                   </summary>
                   <div class="code-block mt-4">
                     <code>
@@ -607,12 +835,15 @@
               </div>
 
               <!-- Month's Prayer Times -->
-              <div class="border border-white/10 rounded-2xl p-6">
+              <div
+                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+              >
                 <div
                   class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
                 >
-                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
-                    Get Month's Prayer Times
+                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
+                    <i class="fas fa-calendar-alt mr-2"></i>Get Month's Prayer
+                    Times
                   </h3>
                   <span class="method-badge get">GET</span>
                 </div>
@@ -624,14 +855,16 @@
                     >/month.json
                   </div>
                 </div>
-                <p class="text-gray-300 mb-4">
+                <p class="text-gray-700 mb-4">
                   Returns prayer times for the current month.
                 </p>
-                <details class="bg-white/5 rounded-lg p-4">
+                <details
+                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
+                >
                   <summary
-                    class="cursor-pointer font-semibold text-blue-300 hover:text-blue-200"
+                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
                   >
-                    Response Example
+                    <i class="fas fa-eye mr-2"></i>Response Example
                   </summary>
                   <div class="code-block mt-4">
                     [ { "date": "01-08-2025", "subh": "4:52 AM", "duhr": "12:37
@@ -649,12 +882,14 @@
               </div>
 
               <!-- Year's Prayer Times -->
-              <div class="border border-white/10 rounded-2xl p-6">
+              <div
+                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+              >
                 <div
                   class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
                 >
-                  <h3 class="text-xl font-semibold text-white mb-2 sm:mb-0">
-                    Get Year's Prayer Times
+                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
+                    <i class="fas fa-calendar mr-2"></i>Get Year's Prayer Times
                   </h3>
                   <span class="method-badge get">GET</span>
                 </div>
@@ -666,7 +901,7 @@
                     >/year.json
                   </div>
                 </div>
-                <p class="text-gray-300 mb-4">
+                <p class="text-gray-700 mb-4">
                   Returns prayer times for the entire current year.
                 </p>
               </div>
@@ -675,34 +910,41 @@
         </section>
 
         <!-- Response Format -->
-        <section class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-yellow-300">
-              📋 Response Format
+        <section class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-green-700">
+              <i class="fas fa-clipboard-list mr-2"></i>Response Format
             </h2>
             <div class="grid md:grid-cols-2 gap-6">
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-blue-300">
-                  Data Formats
+                <h3 class="text-lg font-semibold mb-4 text-green-600">
+                  <i class="fas fa-database mr-2"></i>Data Formats
                 </h3>
-                <ul class="space-y-2 text-gray-300">
+                <ul class="space-y-2 text-gray-700">
                   <li>
-                    <code class="bg-white/10 px-2 py-1 rounded">Time:</code>
+                    <code class="bg-green-100 px-2 py-1 rounded border"
+                      >Time:</code
+                    >
                     12-hour format (hh:mm AM/PM)
                   </li>
                   <li>
-                    <code class="bg-white/10 px-2 py-1 rounded">Date:</code>
+                    <code class="bg-green-100 px-2 py-1 rounded border"
+                      >Date:</code
+                    >
                     DD-MM-YYYY format
                   </li>
                   <li>
-                    <code class="bg-white/10 px-2 py-1 rounded">Location:</code>
+                    <code class="bg-green-100 px-2 py-1 rounded border"
+                      >Location:</code
+                    >
                     Underscore separated
                   </li>
                 </ul>
               </div>
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-red-300">
-                  Error Responses
+                <h3 class="text-lg font-semibold mb-4 text-red-600">
+                  <i class="fas fa-exclamation-triangle mr-2"></i>Error
+                  Responses
                 </h3>
                 <div class="code-block">
                   <div class="text-red-300">404 Not Found</div>
@@ -716,17 +958,17 @@
         </section>
 
         <!-- Code Examples -->
-        <section id="examples" class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-8 text-green-300">
-              💻 Code Examples
+        <section id="examples" class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-8 text-green-700">
+              <i class="fas fa-code mr-2"></i>Code Examples
             </h2>
 
             <div class="grid lg:grid-cols-2 gap-8">
               <!-- JavaScript -->
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-yellow-300">
-                  JavaScript (Fetch)
+                <h3 class="text-lg font-semibold mb-4 text-yellow-600">
+                  <i class="fab fa-js-square mr-2"></i>JavaScript (Fetch)
                 </h3>
                 <div class="code-block">
                   // Fetch today's prayer times async function
@@ -740,7 +982,9 @@
 
               <!-- cURL -->
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-green-300">cURL</h3>
+                <h3 class="text-lg font-semibold mb-4 text-green-600">
+                  <i class="fas fa-terminal mr-2"></i>cURL
+                </h3>
                 <div class="code-block">
                   # Get locations curl -X GET /v1/timesheets/index.json # Get
                   today's times curl -X GET
@@ -751,8 +995,8 @@
 
               <!-- Python -->
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-blue-300">
-                  Python (Requests)
+                <h3 class="text-lg font-semibold mb-4 text-blue-600">
+                  <i class="fab fa-python mr-2"></i>Python (Requests)
                 </h3>
                 <div class="code-block">
                   import requests def get_prayer_times(location,
@@ -767,8 +1011,8 @@
 
               <!-- Node.js -->
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-purple-300">
-                  Node.js (Axios)
+                <h3 class="text-lg font-semibold mb-4 text-purple-600">
+                  <i class="fab fa-node-js mr-2"></i>Node.js (Axios)
                 </h3>
                 <div class="code-block">
                   const axios = require('axios'); async function
@@ -785,11 +1029,11 @@
         </section>
 
         <!-- Interactive Playground -->
-        <section id="playground" class="section mb-16">
+        <section id="playground" class="section mb-16 slide-in">
           <div class="interactive-demo rounded-3xl p-1">
-            <div class="glass rounded-3xl p-8">
-              <h2 class="text-2xl font-bold mb-8 text-center text-white">
-                🧪 Interactive API Playground
+            <div class="glass-card rounded-3xl p-8">
+              <h2 class="text-2xl font-bold mb-8 text-center text-green-700">
+                <i class="fas fa-flask mr-2"></i>Interactive API Playground
               </h2>
 
               <div class="grid lg:grid-cols-2 gap-8">
@@ -797,12 +1041,12 @@
                 <div class="space-y-6">
                   <div>
                     <label
-                      class="block text-sm font-semibold text-gray-200 mb-2"
-                      >Location</label
+                      class="block text-sm font-semibold text-gray-700 mb-2"
+                      ><i class="fas fa-map-marker-alt mr-1"></i>Location</label
                     >
                     <select
                       id="location"
-                      class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                      class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
                     >
                       <option value="">Select a location...</option>
                     </select>
@@ -810,12 +1054,12 @@
 
                   <div>
                     <label
-                      class="block text-sm font-semibold text-gray-200 mb-2"
-                      >Time Period</label
+                      class="block text-sm font-semibold text-gray-700 mb-2"
+                      ><i class="fas fa-clock mr-1"></i>Time Period</label
                     >
                     <select
                       id="period"
-                      class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all"
+                      class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
                     >
                       <option value="today">Today</option>
                       <option value="month">This Month</option>
@@ -825,15 +1069,17 @@
 
                   <button
                     onclick="testAPI()"
-                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    class="w-full bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-lg"
                   >
-                    🚀 Fetch Prayer Times
+                    <i class="fas fa-rocket mr-2"></i>Fetch Prayer Times
                   </button>
 
                   <!-- Request Info -->
-                  <div class="bg-white/5 rounded-xl p-4">
-                    <h4 class="font-semibold text-blue-300 mb-2">
-                      📡 Request Details
+                  <div
+                    class="bg-green-50 rounded-xl p-4 border border-green-200"
+                  >
+                    <h4 class="font-semibold text-green-700 mb-2">
+                      <i class="fas fa-satellite-dish mr-2"></i>Request Details
                     </h4>
                     <div id="request-info" class="code-block">
                       <div class="text-gray-400">
@@ -846,13 +1092,14 @@
 
                 <!-- Response -->
                 <div>
-                  <h4 class="font-semibold text-green-300 mb-4">
-                    📄 API Response
+                  <h4 class="font-semibold text-green-700 mb-4">
+                    <i class="fas fa-file-code mr-2"></i>API Response
                   </h4>
                   <div id="result" class="code-block h-96 overflow-auto">
                     <div class="text-gray-400 text-center mt-20">
-                      👆 Select options and click "Fetch Prayer Times" to see
-                      the API response
+                      <i class="fas fa-hand-pointer text-2xl mb-4 block"></i>
+                      Select options and click "Fetch Prayer Times" to see the
+                      API response
                     </div>
                   </div>
                 </div>
@@ -862,38 +1109,46 @@
         </section>
 
         <!-- Rate Limits & Best Practices -->
-        <section class="section mb-16">
-          <div class="glass rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-orange-300">
-              ⚡ Best Practices
+        <section class="section mb-16 slide-in">
+          <div class="glass-card rounded-3xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-green-700">
+              <i class="fas fa-tachometer-alt mr-2"></i>Best Practices
             </h2>
             <div class="grid md:grid-cols-2 gap-8">
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-blue-300">
-                  📊 Usage Guidelines
+                <h3 class="text-lg font-semibold mb-4 text-green-600">
+                  <i class="fas fa-chart-line mr-2"></i>Usage Guidelines
                 </h3>
-                <ul class="space-y-2 text-gray-300">
+                <ul class="space-y-2 text-gray-700">
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">•</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-dot-circle"></i
+                    ></span>
                     <span>Cache responses to reduce API calls</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">•</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-dot-circle"></i
+                    ></span>
                     <span>Use appropriate time period endpoints</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">•</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-dot-circle"></i
+                    ></span>
                     <span>Handle 404 errors gracefully</span>
                   </li>
                   <li class="flex items-start space-x-3">
-                    <span class="text-green-400 mt-1">•</span>
+                    <span class="text-green-500 mt-1"
+                      ><i class="fas fa-dot-circle"></i
+                    ></span>
                     <span>Validate location names before requests</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-purple-300">
-                  🔄 Error Handling
+                <h3 class="text-lg font-semibold mb-4 text-red-600">
+                  <i class="fas fa-sync-alt mr-2"></i>Error Handling
                 </h3>
                 <div class="code-block">
                   if (response.status === 404) { console.log('Location not
@@ -908,16 +1163,18 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-black/20 py-12">
+    <footer class="bg-white py-12 backdrop-blur-sm">
       <div class="container mx-auto px-4 text-center">
-        <div class="glass rounded-2xl p-8 max-w-2xl mx-auto">
-          <h3 class="text-xl font-semibold mb-4 text-white">📚 Need Help?</h3>
-          <p class="text-gray-300 mb-6">
+        <div class="glass-card rounded-2xl p-8 max-w-2xl mx-auto">
+          <h3 class="text-xl font-semibold mb-4 text-green-700">
+            <i class="fas fa-question-circle mr-2"></i>Need Help?
+          </h3>
+          <p class="text-gray-700 mb-6">
             This API provides accurate Islamic prayer times for locations in
             Kerala. For support, questions, or feedback, please contact us at
             <a
               href="mailto:azan-api@yemzikk.in"
-              class="text-blue-400 hover:underline"
+              class="text-green-600 hover:underline font-semibold"
               >azan-api@yemzikk.in</a
             >
           </p>
@@ -926,27 +1183,27 @@
             <div class="flex flex-wrap justify-center gap-4 text-sm">
               <a
                 href="#overview"
-                class="text-gray-400 hover:text-blue-400 transition-colors"
+                class="text-gray-600 hover:text-green-600 transition-colors"
                 >API Overview</a
               >
               <a
                 href="#endpoints"
-                class="text-gray-400 hover:text-blue-400 transition-colors"
+                class="text-gray-600 hover:text-green-600 transition-colors"
                 >Endpoints</a
               >
               <a
                 href="#examples"
-                class="text-gray-400 hover:text-blue-400 transition-colors"
+                class="text-gray-600 hover:text-green-600 transition-colors"
                 >Code Examples</a
               >
               <a
                 href="#playground"
-                class="text-gray-400 hover:text-blue-400 transition-colors"
+                class="text-gray-600 hover:text-green-600 transition-colors"
                 >API Playground</a
               >
               <a
                 href="/dashboard/"
-                class="text-gray-400 hover:text-blue-400 transition-colors"
+                class="text-gray-600 hover:text-green-600 transition-colors font-semibold"
                 >Prayer Dashboard</a
               >
             </div>
@@ -954,15 +1211,15 @@
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#playground"
-              class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all"
+              class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition-all transform hover:scale-105 shadow-lg"
             >
-              Try API
+              <i class="fas fa-play mr-2"></i>Try API
             </a>
             <a
               href="#examples"
-              class="border border-white/30 text-white px-6 py-2 rounded-full hover:bg-white/10 transition-all"
+              class="border-2 border-green-600 text-green-600 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all"
             >
-              View Examples
+              <i class="fas fa-code mr-2"></i>View Examples
             </a>
           </div>
         </div>
@@ -1132,7 +1389,7 @@
       });
 
       // Add some interactive effects
-      document.querySelectorAll(".glass").forEach((element) => {
+      document.querySelectorAll(".glass-card, .glass").forEach((element) => {
         element.addEventListener("mouseenter", () => {
           element.style.transform = "translateY(-2px)";
           element.style.transition = "transform 0.3s ease";
