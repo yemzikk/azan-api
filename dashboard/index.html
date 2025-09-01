@@ -7,11 +7,11 @@
     <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="Accurate daily, monthly, and yearly prayer times for locations in kerala. Track Islamic prayer schedules with a beautiful dashboard."
+      content="Free Prayer Times API for Kerala locations. Get accurate daily, monthly, and yearly Islamic prayer schedules via REST API. Developer-friendly with JSON responses."
     />
     <meta
       name="keywords"
-      content="prayer times, salah, salat, islamic, muslim, dashboard, daily, monthly, yearly, location, masjid, mosque, azan, adhan, schedule, calendar, kerala prayer times, kerala subh prayer, kerala fajr prayer, kerala isha prayer, kerala duhr prayer, kerala asr prayer, kerala maghrib prayer, kerala isha prayer, kerala duhr prayer time, prayer times API, prayer time today, prayer time today in kerala"
+      content="prayer times api, azan api, islamic api, salah times api, kerala prayer api, muslim developer tools, prayer schedule api, rest api, json prayer times, free islamic api, azan data, prayer times json, salat api, masjid api, mosque times api"
     />
     <meta name="author" content="https://azan-api.yemzikk.in/dashboard/" />
     <meta name="robots" content="index, follow" />
@@ -20,10 +20,13 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://azan-api.yemzikk.in/dashboard/" />
-    <meta property="og:title" content="Prayer Times Dashboard" />
+    <meta
+      property="og:title"
+      content="Prayer Times API - Free Islamic Prayer Schedule API"
+    />
     <meta
       property="og:description"
-      content="Accurate daily, monthly, and yearly prayer times for locations worldwide. Track Islamic prayer schedules with a beautiful dashboard."
+      content="Free REST API for accurate prayer times in Kerala. Get JSON data for daily, monthly, and yearly Islamic prayer schedules. Perfect for developers building Islamic apps."
     />
     <meta
       property="og:image"
@@ -33,10 +36,13 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://azan-api.yemzikk.in/dashboard/" />
-    <meta name="twitter:title" content="Prayer Times Dashboard" />
+    <meta
+      name="twitter:title"
+      content="Prayer Times API - Free Islamic Prayer Schedule API"
+    />
     <meta
       name="twitter:description"
-      content="Accurate daily, monthly, and yearly prayer times for locations worldwide. Track Islamic prayer schedules with a beautiful dashboard."
+      content="Free REST API for accurate prayer times in Kerala. Get JSON data for daily, monthly, and yearly Islamic prayer schedules. Perfect for developers building Islamic apps."
     />
     <meta
       name="twitter:image"
@@ -48,10 +54,10 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Prayer Times Dashboard",
-        "url": "https://azan-api.yemzikk.in/dashboard/",
-        "description": "Accurate daily, monthly, and yearly prayer times for locations worldwide. Track Islamic prayer schedules with a beautiful dashboard.",
-        "applicationCategory": "Religion",
+        "name": "Prayer Times API",
+        "url": "https://azan-api.yemzikk.in/",
+        "description": "Free REST API for accurate prayer times in Kerala. Get JSON data for daily, monthly, and yearly Islamic prayer schedules. Perfect for developers building Islamic apps.",
+        "applicationCategory": "DeveloperApplication",
         "operatingSystem": "All",
         "image": "https://azan-api.yemzikk.in/prayer-time.png",
         "author": {
@@ -67,349 +73,1346 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
     <style>
-      .glass-effect {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+      * {
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 255, 255, 0.08) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(255, 255, 255, 0.04) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 60% 20%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 40%
+          ),
+          radial-gradient(
+            circle at 10% 70%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 40%
+          );
+        pointer-events: none;
+        animation: backgroundShift 20s ease-in-out infinite;
+      }
+
+      @keyframes backgroundShift {
+        0%,
+        100% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(15, 76, 58, 0.2);
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(25px);
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        box-shadow: 0 20px 40px rgba(15, 76, 58, 0.15);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .glass-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 30px 60px rgba(15, 76, 58, 0.2);
+        background: rgba(255, 255, 255, 1);
+        border-color: rgba(212, 175, 55, 0.4);
       }
 
       .prayer-card {
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.92),
+          rgba(255, 255, 255, 0.75)
+        );
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .prayer-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #d4af37, #f4d03f);
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .prayer-card:hover::before {
+        transform: scaleX(1);
       }
 
       .prayer-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        transform: translateY(-4px);
+        box-shadow: 0 25px 50px rgba(15, 76, 58, 0.15);
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 1),
+          rgba(255, 255, 255, 0.95)
+        );
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      .prayer-card.active {
+        background: linear-gradient(145deg, #1a5f4a, #2d8659);
+        color: white;
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(26, 95, 74, 0.4);
+        border-color: rgba(212, 175, 55, 0.6);
+      }
+
+      .prayer-card.active::before {
+        background: rgba(212, 175, 55, 0.8);
+        transform: scaleX(1);
       }
 
       .period-btn {
-        transition: all 0.2s ease;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(212, 175, 55, 0.25);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 600;
+      }
+
+      .period-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(212, 175, 55, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .period-btn:hover::before {
+        left: 100%;
       }
 
       .period-btn:hover {
-        transform: scale(1.02);
+        transform: translateY(-2px);
+        background: rgba(212, 175, 55, 0.2);
+        box-shadow: 0 10px 25px rgba(15, 76, 58, 0.2);
+        color: white;
+        border-color: rgba(212, 175, 55, 0.5);
       }
 
       .period-btn.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px -5px rgba(102, 126, 234, 0.4);
+        background: rgba(212, 175, 55, 0.9);
+        color: #0f4c3a;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        border-color: rgba(212, 175, 55, 0.8);
+        font-weight: 700;
+      }
+
+      .floating-element {
+        animation: float 8s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) translateX(0px) rotate(0deg);
+          opacity: 0.6;
+        }
+        25% {
+          transform: translateY(-15px) translateX(5px) rotate(90deg);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateY(-25px) translateX(-5px) rotate(180deg);
+          opacity: 0.4;
+        }
+        75% {
+          transform: translateY(-10px) translateX(8px) rotate(270deg);
+          opacity: 0.7;
+        }
+      }
+
+      .fade-in {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .slide-in {
+        animation: slideIn 0.6s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .prayer-glow {
+        animation: prayerPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes prayerPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 30px rgba(212, 175, 55, 0.4),
+            0 0 40px rgba(26, 95, 74, 0.2);
+        }
       }
 
       .prayer-time-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        gap: 0.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
       }
 
       @media (min-width: 640px) {
         .prayer-time-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .prayer-time-grid {
           grid-template-columns: repeat(6, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      .select-wrapper {
+        position: relative;
+      }
+
+      .select-wrapper::after {
+        content: "\f107";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #1a5f4a;
+        transition: transform 0.3s ease;
+      }
+
+      .select-wrapper:hover::after {
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      select {
+        appearance: none;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      select:focus {
+        background: rgba(255, 255, 255, 1);
+        border-color: #1a5f4a;
+        box-shadow: 0 0 0 3px rgba(26, 95, 74, 0.15);
+        outline: none;
+      }
+
+      /* Select option styling */
+      select option[value="auto-detect"] {
+        background: linear-gradient(135deg, #d4af37, #f4d03f);
+        color: #0f4c3a;
+        font-weight: bold;
+      }
+
+      select option:disabled {
+        color: rgba(128, 128, 128, 0.6);
+        font-style: italic;
+      }
+
+      .time-highlight {
+        background: linear-gradient(135deg, #1a5f4a, #124a39);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+      }
+
+      .pulse-ring {
+        animation: pulse-ring 2s infinite;
+      }
+
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(0.33);
+        }
+        40%,
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: scale(1.2);
+        }
+      }
+
+      .loading-dots {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+
+      .loading-dots div {
+        position: absolute;
+        top: 33px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #d4af37;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+
+      .loading-dots div:nth-child(1) {
+        left: 8px;
+        animation: loading1 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(2) {
+        left: 8px;
+        animation: loading2 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(3) {
+        left: 32px;
+        animation: loading2 0.6s infinite;
+      }
+
+      .loading-dots div:nth-child(4) {
+        left: 56px;
+        animation: loading3 0.6s infinite;
+      }
+
+      @keyframes loading1 {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes loading3 {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(0);
+        }
+      }
+
+      @keyframes loading2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(24px, 0);
+        }
+      }
+
+      .moroccan-pattern {
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        background-image: 
+          /* Islamic Star Pattern */ radial-gradient(
+            circle at 25px 25px,
+            rgba(212, 175, 55, 0.08) 2px,
+            transparent 2px
+          ),
+          radial-gradient(
+            circle at 75px 75px,
+            rgba(212, 175, 55, 0.06) 2px,
+            transparent 2px
+          ),
+          /* Geometric Grid */
+            repeating-linear-gradient(
+              45deg,
+              rgba(212, 175, 55, 0.02) 0px,
+              rgba(212, 175, 55, 0.02) 1px,
+              transparent 1px,
+              transparent 12px
+            ),
+          repeating-linear-gradient(
+            -45deg,
+            rgba(212, 175, 55, 0.02) 0px,
+            rgba(212, 175, 55, 0.02) 1px,
+            transparent 1px,
+            transparent 12px
+          ),
+          /* Hexagonal Pattern */
+            linear-gradient(
+              60deg,
+              rgba(212, 175, 55, 0.01) 25%,
+              transparent 25.5%,
+              transparent 75%,
+              rgba(212, 175, 55, 0.01) 75.5%,
+              rgba(212, 175, 55, 0.01)
+            ),
+          linear-gradient(
+            -60deg,
+            rgba(212, 175, 55, 0.01) 25%,
+            transparent 25.5%,
+            transparent 75%,
+            rgba(212, 175, 55, 0.01) 75.5%,
+            rgba(212, 175, 55, 0.01)
+          );
+        background-size: 50px 50px, 100px 100px, 24px 24px, 24px 24px, 60px 36px,
+          60px 36px;
+        background-position: 0 0, 25px 25px, 0 0, 12px 12px, 0 0, 30px 18px;
+      }
+
+      /* Mobile optimizations */
+      @media (max-width: 640px) {
+        .prayer-time-grid {
+          grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
         }
+
+        .glass-card {
+          padding: 1rem;
+        }
+
+        .floating-element {
+          display: none;
+        }
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Focus states for accessibility */
+      button:focus,
+      select:focus {
+        outline: 2px solid rgba(212, 175, 55, 0.6);
+        outline-offset: 2px;
+      }
+
+      /* Loading animation enhancement */
+      .pulse-ring {
+        position: relative;
+      }
+
+      .pulse-ring::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(212, 175, 55, 0.4);
+        transform: translate(-50%, -50%);
+        animation: pulse-ring 2s infinite;
+      }
+
+      /* Enhanced hover effects */
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.98);
+        border-color: rgba(212, 175, 55, 0.5);
+      }
+
+      .prayer-card.active:hover {
+        background: linear-gradient(145deg, #1a5f4a, #2d8659);
       }
     </style>
   </head>
-  <body
-    class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100"
-  >
-    <div class="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8">
-      <!-- Header -->
-      <div class="text-center mb-6 sm:mb-8">
-        <h1
-          class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-2"
-        >
-          Prayer Times Dashboard
-        </h1>
-        <p class="text-sm sm:text-base text-gray-600">
-          Track prayer schedules across locations and time periods
-        </p>
-      </div>
+  <body class="min-h-screen moroccan-pattern">
+    <!-- Dark Horizon Glow Background -->
+    <div class="min-h-screen w-full relative">
+      <div
+        class="absolute inset-0 z-0"
+        style="
+          background: radial-gradient(
+            125% 125% at 50% 90%,
+            #0a2e1f 40%,
+            #1a5f4a 100%
+          );
+        "
+      ></div>
 
-      <!-- Controls -->
-      <div class="glass-effect rounded-2xl shadow-xl p-4 sm:p-6 mb-6 sm:mb-8">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          <!-- Location Selector -->
-          <div>
-            <label
-              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3 flex items-center gap-2"
+      <div
+        class="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12"
+      >
+        <!-- Header -->
+        <div class="text-center mb-8 sm:mb-12 fade-in">
+          <div class="mb-6">
+            <div
+              class="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 glass-morphism rounded-full mb-6"
             >
-              <i
-                class="lucide lucide-map-pin text-indigo-500 w-3 h-3 sm:w-4 sm:h-4"
-              ></i>
-              Select Location
-            </label>
-            <div class="relative">
-              <select
-                id="location"
-                class="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-white/90 text-sm sm:text-base appearance-none cursor-pointer"
-              ></select>
-              <i
-                class="lucide lucide-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none"
-              ></i>
+              <i class="fas fa-mosque text-3xl sm:text-4xl text-white"></i>
             </div>
           </div>
-
-          <!-- Period Selector -->
-          <div>
-            <label
-              class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3"
+          <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
+          >
+            Prayer Times
+            <span
+              class="block text-2xl sm:text-3xl lg:text-4xl font-light text-white text-opacity-90 mt-2"
+              >Dashboard</span
             >
-              Select Time Period
-            </label>
-            <div class="flex gap-2" id="period-buttons"></div>
+          </h1>
+          <p
+            class="text-lg sm:text-xl text-white text-opacity-80 max-w-2xl mx-auto leading-relaxed"
+          >
+            Track Islamic prayer schedules with precision and beauty across
+            locations and time periods
+          </p>
+        </div>
+
+        <!-- Controls -->
+        <div
+          class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 mb-8 sm:mb-12 slide-in"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            <!-- Location Selector -->
+            <div class="space-y-3">
+              <label
+                class="flex items-center gap-3 text-white font-semibold text-sm sm:text-base"
+              >
+                <div
+                  class="flex items-center justify-center w-8 h-8 bg-white bg-opacity-20 rounded-lg"
+                >
+                  <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                </div>
+                Select Location
+              </label>
+              <div class="select-wrapper">
+                <select
+                  id="location"
+                  class="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-2xl text-gray-800 font-medium text-sm sm:text-base cursor-pointer focus:ring-4 focus:ring-white focus:ring-opacity-20"
+                ></select>
+              </div>
+            </div>
+
+            <!-- Period Selector -->
+            <div class="space-y-3">
+              <label
+                class="flex items-center gap-3 text-white font-semibold text-sm sm:text-base"
+              >
+                <div
+                  class="flex items-center justify-center w-8 h-8 bg-white bg-opacity-20 rounded-lg"
+                >
+                  <i class="fas fa-calendar-alt text-white text-sm"></i>
+                </div>
+                Select Time Period
+              </label>
+              <div class="flex gap-3" id="period-buttons"></div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Loader -->
-      <div
-        id="loading"
-        class="hidden glass-effect rounded-2xl shadow-xl p-6 sm:p-8"
-      >
-        <div class="flex items-center justify-center">
-          <div
-            class="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-b-2 border-indigo-500"
-          ></div>
-          <span class="ml-3 text-gray-600 text-sm sm:text-base"
-            >Loading prayer data...</span
-          >
+        <!-- Loader -->
+        <div
+          id="loading"
+          class="hidden glass-morphism rounded-3xl shadow-2xl p-8 sm:p-12"
+        >
+          <div class="flex flex-col items-center justify-center space-y-6">
+            <div class="loading-dots">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <p class="text-white text-lg sm:text-xl font-medium">
+              Loading prayer data...
+            </p>
+          </div>
         </div>
-      </div>
 
-      <!-- Error -->
-      <div
-        id="error"
-        class="hidden bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6"
-      >
-        <p class="text-red-600 font-medium text-sm sm:text-base"></p>
-      </div>
+        <!-- Error -->
+        <div
+          id="error"
+          class="hidden glass-morphism rounded-3xl p-6 sm:p-8 border border-red-200"
+        >
+          <div class="flex items-center gap-4">
+            <div
+              class="flex items-center justify-center w-12 h-12 bg-red-100 rounded-full"
+            >
+              <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+            </div>
+            <p
+              class="text-red-600 font-semibold text-sm sm:text-base flex-1"
+            ></p>
+          </div>
+        </div>
 
-      <!-- Prayer Data -->
-      <div id="prayer-data" class="hidden"></div>
-    </div>
+        <!-- Prayer Data -->
+        <div id="prayer-data" class="hidden fade-in"></div>
 
-    <script>
-      const periods = [
-        { value: "today", label: "Today" },
-        { value: "month", label: "This Month" },
-        { value: "year", label: "This Year" },
-      ];
-
-      let locations = [];
-      let selectedLocation = null;
-      let selectedPeriod = "today";
-
-      const locationSelect = document.getElementById("location");
-      const periodButtonsDiv = document.getElementById("period-buttons");
-      const loadingDiv = document.getElementById("loading");
-      const errorDiv = document.getElementById("error");
-      const prayerDataDiv = document.getElementById("prayer-data");
-
-      async function loadLocations() {
-        try {
-          const res = await fetch("/v1/timesheets/index.json");
-          if (!res.ok) throw new Error("index.json not found");
-          locations = await res.json();
-
-          locations.sort();
-          locations = locations.map((loc) => loc.replace(/_/g, " "));
-
-          locationSelect.innerHTML = "";
-          const defaultOption = document.createElement("option");
-          defaultOption.textContent = "Select Location";
-          defaultOption.value = "";
-          defaultOption.disabled = true;
-          defaultOption.selected = true;
-          locationSelect.appendChild(defaultOption);
-          locations.forEach((loc) => {
-            const option = document.createElement("option");
-            option.textContent = loc;
-            option.value = loc.replace(/ /g, "_");
-            locationSelect.appendChild(option);
-          });
-
-          selectedLocation = defaultOption.value;
-          loadPrayerData();
-        } catch (err) {
-          console.error("⚠️ Could not load locations:", err);
-          showError("Could not load locations. Please generate index.json.");
-        }
-      }
-
-      periods.forEach((period, index) => {
-        const btn = document.createElement("button");
-        btn.className = `period-btn px-3 py-2 sm:px-4 sm:py-3 rounded-xl font-medium flex-1 flex items-center justify-center gap-1 sm:gap-2 bg-white/80 text-gray-700 hover:bg-indigo-50 text-xs sm:text-sm border border-gray-200`;
-        btn.dataset.value = period.value;
-        btn.innerHTML = `<span>${period.label}</span>`;
-        btn.addEventListener("click", () => {
-          selectedPeriod = period.value;
-          document
-            .querySelectorAll("#period-buttons button")
-            .forEach((b) => b.classList.remove("active", "text-white"));
-          btn.classList.add("active", "text-white");
-          loadPrayerData();
-        });
-        periodButtonsDiv.appendChild(btn);
-
-        if (index === 0) {
-          btn.classList.add("active", "text-white");
-        }
-      });
-
-      locationSelect.addEventListener("change", (e) => {
-        selectedLocation = e.target.value;
-        loadPrayerData();
-      });
-
-      async function loadPrayerData() {
-        if (!selectedLocation) return;
-        selectedLocation = selectedLocation.replace(/ /g, "_");
-        showLoading();
-        hideError();
-        try {
-          const res = await fetch(
-            `/v1/timesheets/${selectedLocation}/${selectedPeriod}.json`
-          );
-          let data;
-          if (res.ok) {
-            data = await res.json();
-          } else {
-            throw new Error("File not found, using demo data");
-          }
-          renderPrayerData({
-            location: selectedLocation,
-            period: selectedPeriod,
-            data,
-          });
-        } catch (err) {
-          console.error("⚠️ Could not load prayer data:", err);
-          showError(
-            "Could not load prayer data for the selected location and period."
-          );
-          prayerDataDiv.classList.add("hidden");
-        }
-        hideLoading();
-      }
-
-      function renderPrayerData({ location, period, data }) {
-        prayerDataDiv.classList.remove("hidden");
-        location = location.replace(/_/g, " ");
-
-        let prayers = [];
-
-        if (period === "today" && !Array.isArray(data)) {
-          const { date, subh, sunrise, duhr, asar, maghrib, isha } = data;
-          prayers = [
-            { name: "Subh", time: subh },
-            { name: "Sunrise", time: sunrise },
-            { name: "Dhuhr", time: duhr },
-            { name: "Asar", time: asar },
-            { name: "Maghrib", time: maghrib },
-            { name: "Isha", time: isha },
-          ];
-
-          // Convert string times into Date objects for today
-          const now = new Date();
-          const todayPrayers = prayers.map((p) => {
-            const [h, m] = p.time.split(":").map(Number);
-            const d = new Date(now);
-            d.setHours(h, m, 0, 0);
-            return { ...p, dateObj: d };
-          });
-
-          // Find next prayer
-          let nextPrayer = getNextPrayer(prayers);
-
-          // Format times to 12-hour
-          const formattedTimes = todayPrayers.map((p) => ({
-            ...p,
-            time: formatTime(p.time),
-          }));
-
-          const hijriDate = "1447 Rabi' al-awwal 6"; // placeholder
-          const gregDate = formatDate(date);
-
-          let html = `
-            <div class="glass-effect rounded-2xl shadow-xl p-4 sm:p-6">
-              <div class="mb-4 sm:mb-6 text-center">
-                <h2 class="text-lg sm:text-xl lg:text-2xl font-semibold text-indigo-700">${gregDate}</h2>
-                <p class="text-xs sm:text-sm text-gray-600 mt-1">${location}</p>
+        <!-- Footer -->
+        <footer class="text-center mt-12 sm:mt-16 fade-in">
+          <div
+            class="glass-morphism rounded-2xl p-6 sm:p-8 border border-white border-opacity-20"
+          >
+            <div
+              class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-white"
+            >
+              <div class="flex items-center gap-2">
+                <i class="fas fa-mosque text-lg text-white"></i>
+                <span class="font-semibold text-white">Prayer Times API</span>
               </div>
+              <div class="flex items-center gap-2">
+                <i class="fas fa-code text-sm text-white"></i>
+                <span class="text-sm font-medium text-white"
+                  >Built with precision & care</span
+                >
+              </div>
+              <div class="flex items-center gap-2">
+                <i class="fas fa-heart text-red-300 text-sm"></i>
+                <span class="text-sm font-medium text-white"
+                  >Serving the Ummah</span
+                >
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+
+      <script>
+        const periods = [
+          { value: "today", label: "Today" },
+          { value: "month", label: "This Month" },
+          { value: "year", label: "This Year" },
+        ];
+
+        let locations = [];
+        let selectedLocation = null;
+        let selectedPeriod = "today";
+        let geocodeCache = new Map(); // Cache for geocoded coordinates
+        let isAutoDetecting = false;
+
+        // Initialize cache from localStorage
+        function initializeGeocodeCache() {
+          try {
+            const savedCache = localStorage.getItem("azanLocationCache");
+            if (savedCache) {
+              const cacheData = JSON.parse(savedCache);
+              // Convert back to Map
+              geocodeCache = new Map(Object.entries(cacheData));
+              console.log(
+                `📍 Loaded ${geocodeCache.size} cached locations from localStorage`
+              );
+            }
+          } catch (error) {
+            console.warn("Failed to load cache from localStorage:", error);
+            geocodeCache = new Map();
+          }
+        }
+
+        // Save cache to localStorage
+        function saveGeocodeCache() {
+          try {
+            // Convert Map to plain object for JSON storage
+            const cacheObject = Object.fromEntries(geocodeCache);
+            localStorage.setItem(
+              "azanLocationCache",
+              JSON.stringify(cacheObject)
+            );
+            console.log(
+              `💾 Saved ${geocodeCache.size} locations to localStorage cache`
+            );
+          } catch (error) {
+            console.warn("Failed to save cache to localStorage:", error);
+          }
+        }
+
+        // Clear old cache entries (older than 30 days)
+        function cleanupGeocodeCache() {
+          try {
+            const cacheTimestamp = localStorage.getItem(
+              "azanLocationCacheTimestamp"
+            );
+            const now = Date.now();
+            const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+
+            if (
+              cacheTimestamp &&
+              now - parseInt(cacheTimestamp) > thirtyDaysMs
+            ) {
+              console.log("🧹 Clearing old location cache (>30 days)");
+              localStorage.removeItem("azanLocationCache");
+              localStorage.removeItem("azanLocationCacheTimestamp");
+              geocodeCache.clear();
+            }
+
+            // Set current timestamp
+            localStorage.setItem("azanLocationCacheTimestamp", now.toString());
+          } catch (error) {
+            console.warn("Failed to cleanup cache:", error);
+          }
+        }
+
+        // Cache utility functions for debugging and management
+        function showCacheStats() {
+          console.log(`📊 Location Cache Statistics:`);
+          console.log(`   • Cached locations: ${geocodeCache.size}`);
+          const timestamp = localStorage.getItem("azanLocationCacheTimestamp");
+          if (timestamp) {
+            const cacheAge = Math.floor(
+              (Date.now() - parseInt(timestamp)) / (1000 * 60 * 60 * 24)
+            );
+            console.log(`   • Cache age: ${cacheAge} days`);
+          }
+        }
+
+        function clearLocationCache() {
+          geocodeCache.clear();
+          localStorage.removeItem("azanLocationCache");
+          localStorage.removeItem("azanLocationCacheTimestamp");
+          console.log("🗑️ Location cache cleared completely");
+        }
+
+        // Make cache functions available globally for debugging
+        window.azanCache = {
+          stats: showCacheStats,
+          clear: clearLocationCache,
+          size: () => geocodeCache.size,
+        };
+
+        const locationSelect = document.getElementById("location");
+        const periodButtonsDiv = document.getElementById("period-buttons");
+        const loadingDiv = document.getElementById("loading");
+        const errorDiv = document.getElementById("error");
+        const prayerDataDiv = document.getElementById("prayer-data");
+
+        // Geocoding and auto-detection functions
+        async function geocodeLocation(locationName, attempt = 1) {
+          // Check cache first
+          if (geocodeCache.has(locationName)) {
+            return geocodeCache.get(locationName);
+          }
+
+          try {
+            let searchQuery = "";
+
+            if (attempt === 1) {
+              // First attempt: comprehensive cleaning
+              searchQuery = locationName
+                .replace(/_/g, " ")
+                .replace(
+                  /HANAFI|SHAFI|SAMASTHA|MARKAZ|CHANDRIKA|ALBUSTHAN|SUNNI|JAMIYYATHUL|MUALLIMEEN/gi,
+                  ""
+                )
+                .replace(
+                  /Assembly Constituency|District|Taluk|Corporation|Municipality|Panchayat/gi,
+                  ""
+                )
+                .replace(/Town|City|Village|North|South|East|West/gi, "")
+                .replace(/\b\d{4}\b/g, "")
+                .replace(
+                  /12:40_Fixed|ROUND_FIGURE|ORIGIN_80|Magrib_Isha|OG|standard_to_thambaanur/gi,
+                  ""
+                )
+                .replace(
+                  /Malik_Dinar_Mazjid|Market_Pally|Eriyad_Special|Luhar/gi,
+                  ""
+                )
+                .replace(
+                  /KKPJ|EKM|UK|TVM|PAIPPAD_ISLAMIC_FINDER|PADUBIDRI/gi,
+                  ""
+                )
+                .replace(/\([^)]*\)/g, "")
+                .replace(/[-_]+/g, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+            } else if (attempt === 2) {
+              const parts = locationName.split("_");
+              searchQuery = parts[0].replace(/[^a-zA-Z]/g, "");
+            } else if (attempt === 3) {
+              const parts = locationName.split("_");
+              if (parts.length > 1) {
+                searchQuery = parts[1].replace(/[^a-zA-Z]/g, "");
+              } else {
+                return null;
+              }
+            } else {
+              return null;
+            }
+
+            if (searchQuery.length < 3) {
+              const parts = locationName.split("_");
+              searchQuery = parts[0].replace(/[^a-zA-Z]/g, "");
+            }
+
+            if (searchQuery.length < 3) {
+              return null;
+            }
+
+            searchQuery += ", Kerala, India";
+
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+              searchQuery
+            )}&limit=3&countrycodes=in`;
+
+            await new Promise((resolve) => setTimeout(resolve, 300 * attempt));
+
+            const response = await fetch(url, {
+              headers: {
+                "User-Agent": "Prayer Times Dashboard (contact@azantimes.in)",
+              },
+            });
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const data = await response.json();
+
+            if (data.length > 0) {
+              let bestMatch = data[0];
+              for (const result of data) {
+                if (
+                  result.display_name &&
+                  result.display_name.toLowerCase().includes("kerala")
+                ) {
+                  bestMatch = result;
+                  break;
+                }
+              }
+
+              const coords = {
+                lat: parseFloat(bestMatch.lat),
+                lon: parseFloat(bestMatch.lon),
+              };
+
+              geocodeCache.set(locationName, coords);
+
+              // Save to localStorage after adding new coordinates
+              saveGeocodeCache();
+
+              return coords;
+            } else {
+              if (attempt < 3) {
+                return await geocodeLocation(locationName, attempt + 1);
+              }
+              return null;
+            }
+          } catch (error) {
+            if (attempt < 3) {
+              return await geocodeLocation(locationName, attempt + 1);
+            }
+            return null;
+          }
+        }
+
+        // Haversine formula for calculating distance
+        function getDistance(lat1, lon1, lat2, lon2) {
+          const R = 6371; // Earth's radius in kilometers
+          const dLat = ((lat2 - lat1) * Math.PI) / 180;
+          const dLon = ((lon2 - lon1) * Math.PI) / 180;
+          const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos((lat1 * Math.PI) / 180) *
+              Math.cos((lat2 * Math.PI) / 180) *
+              Math.sin(dLon / 2) *
+              Math.sin(dLon / 2);
+          return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        }
+
+        async function autoDetectLocation() {
+          if (isAutoDetecting) return;
+          isAutoDetecting = true;
+
+          try {
+            showLoading();
+
+            // Check if geolocation is supported
+            if (!navigator.geolocation) {
+              throw new Error("Geolocation is not supported by this browser");
+            }
+
+            // Check HTTPS requirement
+            if (
+              location.protocol !== "https:" &&
+              location.hostname !== "localhost"
+            ) {
+              throw new Error("HTTPS connection required for geolocation");
+            }
+
+            const position = await new Promise((resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 60000,
+              });
+            });
+
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+
+            console.log(`User location: ${userLat}, ${userLon}`);
+
+            let nearest = null;
+            let minDist = Infinity;
+            let processed = 0;
+            const total = locations.length;
+
+            // Process locations in batches to avoid rate limiting
+            const batchSize = 3;
+            for (let i = 0; i < locations.length; i += batchSize) {
+              const batch = locations.slice(i, i + batchSize);
+
+              // Process batch in parallel
+              const promises = batch.map(async (locationDisplay) => {
+                try {
+                  const locationName = locationDisplay.replace(/ /g, "_");
+                  const coords = await geocodeLocation(locationName);
+                  if (coords) {
+                    const dist = getDistance(
+                      userLat,
+                      userLon,
+                      coords.lat,
+                      coords.lon
+                    );
+                    processed++;
+
+                    if (dist < minDist) {
+                      minDist = dist;
+                      nearest = {
+                        name: locationName,
+                        display: locationDisplay,
+                        lat: coords.lat,
+                        lon: coords.lon,
+                        dist: dist,
+                      };
+                    }
+                  }
+                } catch (error) {
+                  console.error(`Error processing ${locationDisplay}:`, error);
+                }
+              });
+
+              await Promise.all(promises);
+
+              // Update progress
+              const progress = Math.min(i + batchSize, total);
+              if (loadingDiv.querySelector("p")) {
+                loadingDiv.querySelector(
+                  "p"
+                ).textContent = `Finding nearest location... (${progress}/${total} checked)`;
+              }
+
+              // Add delay between batches
+              if (i + batchSize < locations.length) {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+              }
+            }
+
+            if (nearest) {
+              console.log(
+                `Nearest location: ${nearest.display} (${nearest.dist.toFixed(
+                  2
+                )} km)`
+              );
+
+              // Select the nearest location
+              selectedLocation = nearest.name;
+              locationSelect.value = nearest.name;
+
+              // Update the option text to show it's auto-detected
+              const option = Array.from(locationSelect.options).find(
+                (opt) => opt.value === nearest.name
+              );
+              if (option) {
+                option.textContent = `🎯 ${
+                  nearest.display
+                } (${nearest.dist.toFixed(1)}km away)`;
+              }
+
+              // Load prayer data for the selected location
+              await loadPrayerData();
+
+              hideLoading();
+
+              // Flash success message in console and brief visual feedback
+              console.log(
+                `✅ Auto-detected: ${nearest.display} (${nearest.dist.toFixed(
+                  1
+                )}km away)`
+              );
+
+              // Temporarily update the page title to show success
+              const originalTitle = document.title;
+              document.title = `📍 Found: ${nearest.display}`;
+              setTimeout(() => {
+                document.title = originalTitle;
+              }, 3000);
+            } else {
+              throw new Error("Could not find any nearby locations");
+            }
+          } catch (error) {
+            console.error("Auto-detection error:", error);
+
+            let errorMessage;
+            if (error.name === "GeolocationPositionError") {
+              switch (error.code) {
+                case 1:
+                  errorMessage =
+                    "Location access denied. Please allow location access and try again.";
+                  break;
+                case 2:
+                  errorMessage = "Location unavailable. Please check your GPS.";
+                  break;
+                case 3:
+                  errorMessage =
+                    "Location request timed out. Please try again.";
+                  break;
+                default:
+                  errorMessage = "Unknown geolocation error.";
+              }
+            } else {
+              errorMessage = error.message || "Could not auto-detect location";
+            }
+
+            hideLoading();
+            showError(errorMessage);
+
+            // Reset selection
+            locationSelect.value = "";
+          } finally {
+            isAutoDetecting = false;
+          }
+        }
+
+        async function loadLocations() {
+          try {
+            showLoading();
+            const res = await fetch("/v1/timesheets/index.json");
+            if (!res.ok) throw new Error("index.json not found");
+            locations = await res.json();
+
+            locations.sort();
+            locations = locations.map((loc) => loc.replace(/_/g, " "));
+
+            locationSelect.innerHTML = "";
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "🕌 Select Your Location";
+            defaultOption.value = "";
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            locationSelect.appendChild(defaultOption);
+
+            // Add auto-detect option
+            const autoDetectOption = document.createElement("option");
+            autoDetectOption.textContent = "📡 Auto-detect My Location";
+            autoDetectOption.value = "auto-detect";
+            locationSelect.appendChild(autoDetectOption);
+
+            // Add separator
+            const separatorOption = document.createElement("option");
+            separatorOption.textContent = "━━━━━━━━━━━━━━━━━━━━━━━━━";
+            separatorOption.disabled = true;
+            locationSelect.appendChild(separatorOption);
+
+            locations.forEach((loc) => {
+              const option = document.createElement("option");
+              option.textContent = `📍 ${loc}`;
+              option.value = loc.replace(/ /g, "_");
+              locationSelect.appendChild(option);
+            });
+
+            selectedLocation = defaultOption.value;
+            hideLoading();
+          } catch (err) {
+            console.error("⚠️ Could not load locations:", err);
+            hideLoading();
+            showError(
+              "Could not load locations. Please ensure the server is running and data is available."
+            );
+          }
+        }
+
+        periods.forEach((period, index) => {
+          const btn = document.createElement("button");
+          btn.className = `period-btn px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-semibold flex-1 flex items-center justify-center gap-2 text-white text-sm sm:text-base transition-all duration-300`;
+          btn.dataset.value = period.value;
+
+          const icons = {
+            today: "fas fa-sun",
+            month: "fas fa-calendar-week",
+            year: "fas fa-calendar",
+          };
+
+          btn.innerHTML = `
+          <i class="${icons[period.value]} text-sm"></i>
+          <span>${period.label}</span>
+        `;
+
+          btn.addEventListener("click", () => {
+            selectedPeriod = period.value;
+            document
+              .querySelectorAll("#period-buttons button")
+              .forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            loadPrayerData();
+          });
+          periodButtonsDiv.appendChild(btn);
+
+          if (index === 0) {
+            btn.classList.add("active");
+          }
+        });
+
+        locationSelect.addEventListener("change", async (e) => {
+          if (e.target.value === "auto-detect") {
+            await autoDetectLocation();
+          } else {
+            selectedLocation = e.target.value;
+            loadPrayerData();
+          }
+        });
+
+        async function loadPrayerData() {
+          if (!selectedLocation) return;
+          selectedLocation = selectedLocation.replace(/ /g, "_");
+          showLoading();
+          hideError();
+          try {
+            const res = await fetch(
+              `/v1/timesheets/${selectedLocation}/${selectedPeriod}.json`
+            );
+            let data;
+            if (res.ok) {
+              data = await res.json();
+            } else {
+              throw new Error("File not found, using demo data");
+            }
+            renderPrayerData({
+              location: selectedLocation,
+              period: selectedPeriod,
+              data,
+            });
+          } catch (err) {
+            console.error("⚠️ Could not load prayer data:", err);
+            showError(
+              "Could not load prayer data for the selected location and period."
+            );
+            prayerDataDiv.classList.add("hidden");
+          }
+          hideLoading();
+        }
+
+        function renderPrayerData({ location, period, data }) {
+          prayerDataDiv.classList.remove("hidden");
+          location = location.replace(/_/g, " ");
+
+          let prayers = [];
+
+          if (period === "today" && !Array.isArray(data)) {
+            const { date, subh, sunrise, duhr, asar, maghrib, isha } = data;
+            prayers = [
+              { name: "Fajr", time: subh, icon: "fas fa-moon" },
+              { name: "Sunrise", time: sunrise, icon: "fas fa-sun" },
+              { name: "Dhuhr", time: duhr, icon: "fas fa-sun" },
+              { name: "Asr", time: asar, icon: "fas fa-sun" },
+              { name: "Maghrib", time: maghrib, icon: "fas fa-sun" },
+              { name: "Isha", time: isha, icon: "fas fa-moon" },
+            ];
+
+            // Find next prayer
+            let nextPrayer = getNextPrayer(prayers);
+            const gregDate = formatDate(date);
+
+            let html = `
+            <div class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
+              <!-- Header -->
+              <div class="text-center mb-8 sm:mb-12">
+                <div class="inline-flex items-center justify-center w-16 h-16 glass-morphism rounded-2xl mb-6">
+                  <i class="fas fa-calendar-day text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">${gregDate}</h2>
+                <div class="flex items-center justify-center gap-2 text-white">
+                  <i class="fas fa-map-marker-alt text-sm"></i>
+                  <p class="text-sm sm:text-base font-medium">${location}</p>
+                </div>
+                <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-yellow-50 rounded-full">
+                  <div class="w-2 h-2 bg-yellow-500 rounded-full pulse-ring"></div>
+                  <span class="text-sm font-medium text-white-700">Next: ${
+                    nextPrayer.name
+                  } at ${formatTime(nextPrayer.time)}</span>
+                </div>
+              </div>
+              
+              <!-- Prayer Times Grid -->
               <div class="prayer-time-grid">
           `;
 
-          formattedTimes.forEach((p) => {
-            const isNext = p.name === nextPrayer.name;
-            const highlight = isNext ? "text-indigo-600" : "text-gray-900";
-            const labelColor = isNext
-              ? "text-indigo-700 font-semibold"
-              : "text-gray-500";
-            const bgColor = isNext
-              ? "bg-indigo-50 border-indigo-200"
-              : "bg-white/60 border-gray-200";
+            prayers.forEach((p) => {
+              const isNext = p.name === nextPrayer.name;
+              const cardClass = isNext
+                ? "prayer-card active prayer-glow"
+                : "prayer-card";
 
-            html += `
-              <div class="prayer-card ${bgColor} border rounded-xl p-3 sm:p-4 text-center">
-                <p class="text-xs uppercase ${labelColor} mb-1">${p.name}</p>
-                <p class="text-sm sm:text-lg font-bold ${highlight}">${p.time}</p>
+              html += `
+              <div class="${cardClass} rounded-2xl p-4 sm:p-6 text-center">
+                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 ${
+                  isNext
+                    ? "bg-white bg-opacity-25"
+                    : "bg-gradient-to-br from-green-50 to-yellow-50"
+                } rounded-xl">
+                  <i class="${p.icon} text-lg ${
+                isNext ? "text-white" : "text-gray-700"
+              }"></i>
+                </div>
+                <p class="text-xs sm:text-sm uppercase font-bold ${
+                  isNext ? "text-white text-opacity-90" : "text-gray-600"
+                } mb-2 tracking-wider">${p.name}</p>
+                <p class="text-lg sm:text-xl lg:text-2xl font-bold ${
+                  isNext ? "text-white" : "time-highlight"
+                }">${formatTime(p.time)}</p>
               </div>
             `;
-          });
+            });
 
-          html += `</div></div>`;
-          prayerDataDiv.innerHTML = html;
-        } else if (Array.isArray(data)) {
-          let days = data.map((row) => ({
-            date: row.date,
-            times: {
-              Fajr: formatTime(row.subh),
-              Dhuhr: formatTime(row.duhr),
-              Asr: formatTime(row.asar),
-              Maghrib: formatTime(row.maghrib),
-              Isha: formatTime(row.isha),
-              Sunrise: formatTime(row.sun_rise),
-            },
-          }));
+            html += `</div></div>`;
+            prayerDataDiv.innerHTML = html;
+          } else if (Array.isArray(data)) {
+            let days = data.map((row) => ({
+              date: row.date,
+              times: {
+                Fajr: { time: formatTime(row.subh), icon: "fas fa-moon" },
+                Sunrise: {
+                  time: formatTime(row.sunrise || row.sun_rise),
+                  icon: "fas fa-sun",
+                },
+                Dhuhr: { time: formatTime(row.duhr), icon: "fas fa-sun" },
+                Asr: { time: formatTime(row.asar), icon: "fas fa-cloud-sun" },
+                Maghrib: {
+                  time: formatTime(row.maghrib),
+                  icon: "fas fa-sunset",
+                },
+                Isha: { time: formatTime(row.isha), icon: "fas fa-moon" },
+              },
+            }));
 
-          let html = `
-            <div class="mb-4 sm:mb-6 text-center">
-              <h2 class="text-xl sm:text-2xl font-bold text-gray-800">${location}</h2>
-              <p class="text-sm sm:text-base text-gray-600 capitalize">${
+            let html = `
+            <div class="text-center mb-8 sm:mb-12">
+              <div class="inline-flex items-center justify-center w-16 h-16 glass-morphism rounded-2xl mb-6">
+                <i class="fas fa-${
+                  period === "month" ? "calendar-week" : "calendar"
+                } text-2xl text-white"></i>
+              </div>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">${location}</h2>
+              <p class="text-lg sm:text-xl text-white text-opacity-80 capitalize">${
                 period === "month" ? "This Month" : "This Year"
               }</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           `;
 
-          days.forEach((day) => {
-            const today = new Date();
-            const dayDate = new Date(day.date.split("-").reverse().join("-"));
-            const isToday = dayDate.toDateString() === today.toDateString();
+            days.forEach((day) => {
+              const today = new Date();
+              const dayDate = new Date(day.date.split("-").reverse().join("-"));
+              const isToday = dayDate.toDateString() === today.toDateString();
 
-            html += `
-              <div class="prayer-card glass-effect rounded-xl p-4 sm:p-5 ${
-                isToday ? "ring-2 ring-indigo-300 bg-indigo-50/80" : ""
+              html += `
+              <div class="glass-morphism rounded-2xl p-5 sm:p-6 ${
+                isToday ? "ring-2 ring-yellow-400 ring-opacity-60" : ""
               }">
-                <h3 class="font-bold text-sm sm:text-base lg:text-lg text-gray-800 mb-3 ${
-                  isToday ? "text-indigo-700" : ""
-                } text-center">
-                  ${formatDateShort(day.date)}
-                  ${
-                    isToday
-                      ? '<span class="text-xs font-normal text-indigo-600 block">Today</span>'
-                      : ""
-                  }
-                </h3>
-                <div class="space-y-2">
+                <div class="text-center mb-5">
+                  <h3 class="text-base sm:text-lg font-bold mb-2 text-white">
+                    ${formatDateShort(day.date)}
+                  </h3>
+                </div>
+                <div class="space-y-3">
                   ${Object.entries(day.times)
                     .map(
-                      ([name, time]) => `
-                      <div class="flex justify-between items-center text-xs sm:text-sm">
-                        <span class="font-medium text-gray-600">${name}:</span>
-                        <span class="font-bold text-gray-800">${time}</span>
+                      ([name, prayer]) => `
+                      <div class="flex justify-between items-center p-2 rounded-lg bg-white bg-opacity-100">
+                        <div class="flex items-center gap-2">
+                          <i class="${prayer.icon} text-xs text-gray-700"></i>
+                          <span class="font-medium text-gray-800 text-sm">${name}</span>
+                        </div>
+                        <span class="font-bold text-gray-900 text-sm">${prayer.time}</span>
                       </div>
                     `
                     )
@@ -417,85 +1420,177 @@
                 </div>
               </div>
             `;
+            });
+            html += `</div>`;
+            prayerDataDiv.innerHTML = html;
+          }
+        }
+
+        function showLoading() {
+          loadingDiv.classList.remove("hidden");
+        }
+        function hideLoading() {
+          loadingDiv.classList.add("hidden");
+        }
+        function hideError() {
+          errorDiv.classList.add("hidden");
+        }
+        function showError(msg) {
+          errorDiv.classList.remove("hidden");
+          errorDiv.querySelector("p").textContent = msg;
+        }
+
+        function formatTime(time) {
+          if (!time) return "";
+
+          // Today's date + given time (safe parsing of AM/PM)
+          const today = new Date();
+          const dateString = `${today.toDateString()} ${time}`;
+
+          const date = new Date(dateString);
+
+          // Ensure valid Date
+          if (isNaN(date.getTime())) {
+            return time; // fallback to raw if parsing fails
+          }
+
+          return date.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
           });
-          html += `</div>`;
-          prayerDataDiv.innerHTML = html;
-        }
-      }
-
-      function showLoading() {
-        loadingDiv.classList.remove("hidden");
-      }
-      function hideLoading() {
-        loadingDiv.classList.add("hidden");
-      }
-      function hideError() {
-        errorDiv.classList.add("hidden");
-      }
-      function showError(msg) {
-        errorDiv.classList.remove("hidden");
-        errorDiv.querySelector("p").textContent = msg;
-      }
-
-      function formatTime(time) {
-        if (!time) return "";
-
-        // Today's date + given time (safe parsing of AM/PM)
-        const today = new Date();
-        const dateString = `${today.toDateString()} ${time}`;
-
-        const date = new Date(dateString);
-
-        // Ensure valid Date
-        if (isNaN(date.getTime())) {
-          return time; // fallback to raw if parsing fails
         }
 
-        return date.toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
-          hour12: true,
+        function getNextPrayer(prayers) {
+          const now = new Date();
+
+          // Convert prayer times into Date objects for today
+          const today = now.toDateString();
+          const times = prayers.map((p) => {
+            const date = new Date(`${today} ${p.time}`);
+            return { ...p, date };
+          });
+
+          // Find the first prayer after now
+          const next = times.find((p) => p.date > now);
+
+          return next || times[0]; // default to last prayer if past Isha
+        }
+
+        function formatDate(dateStr) {
+          const [day, month, year] = dateStr.split("-");
+          const date = new Date(year, month - 1, day);
+          return date.toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+
+        function formatDateShort(dateStr) {
+          const [day, month, year] = dateStr.split("-");
+          const date = new Date(year, month - 1, day);
+          return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            weekday: "short",
+          });
+        }
+
+        // Add smooth transitions when data loads
+        function showContent(element) {
+          element.style.opacity = "0";
+          element.classList.remove("hidden");
+          setTimeout(() => {
+            element.style.transition = "opacity 0.5s ease-in-out";
+            element.style.opacity = "1";
+          }, 10);
+        }
+
+        function showLoading() {
+          loadingDiv.classList.remove("hidden");
+        }
+        function hideLoading() {
+          loadingDiv.classList.add("hidden");
+        }
+        function hideError() {
+          errorDiv.classList.add("hidden");
+        }
+        function showError(msg) {
+          errorDiv.classList.remove("hidden");
+          errorDiv.querySelector("p").textContent = msg;
+        }
+
+        // Initialize the dashboard
+        document.addEventListener("DOMContentLoaded", () => {
+          // Initialize localStorage cache first
+          initializeGeocodeCache();
+          cleanupGeocodeCache();
+
+          loadLocations();
+
+          // Log cache initialization info
+          console.log("🚀 Prayer Times Dashboard initialized");
+          console.log("💡 Cache utilities available via window.azanCache");
+          console.log("   • azanCache.stats() - Show cache statistics");
+          console.log("   • azanCache.clear() - Clear all cached locations");
+          console.log("   • azanCache.size() - Get cache size");
+
+          // Add keyboard navigation
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+              hideError();
+            }
+          });
+
+          // Parallax effect for floating elements
+          let scrollY = 0;
+
+          function updateParallax() {
+            scrollY = window.scrollY;
+            const floatingElements =
+              document.querySelectorAll(".floating-element");
+
+            floatingElements.forEach((element, index) => {
+              const speed = ((index % 3) + 1) * 0.5; // Different speeds for different elements
+              const yPos = -(scrollY * speed);
+              element.style.transform = `translateY(${yPos}px)`;
+            });
+
+            requestAnimationFrame(updateParallax);
+          }
+
+          // Start parallax effect
+          updateParallax();
+
+          // Smooth entrance animations for cards
+          const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          };
+
+          const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                setTimeout(() => {
+                  entry.target.style.opacity = "1";
+                  entry.target.style.transform = "translateY(0)";
+                }, index * 100);
+              }
+            });
+          }, observerOptions);
+
+          // Observe all glass cards
+          document.querySelectorAll(".glass-card").forEach((card) => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(30px)";
+            card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+            cardObserver.observe(card);
+          });
         });
-      }
-
-      function getNextPrayer(prayers) {
-        const now = new Date();
-
-        // Convert prayer times into Date objects for today
-        const today = now.toDateString();
-        const times = prayers.map((p) => {
-          const date = new Date(`${today} ${p.time}`);
-          return { ...p, date };
-        });
-
-        // Find the first prayer after now
-        const next = times.find((p) => p.date > now);
-
-        return next || times[0]; // default to last prayer if past Isha
-      }
-
-      function formatDate(dateStr) {
-        const [day, month, year] = dateStr.split("-");
-        const date = new Date(year, month - 1, day);
-        return date.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-      }
-
-      function formatDateShort(dateStr) {
-        const [day, month, year] = dateStr.split("-");
-        const date = new Date(year, month - 1, day);
-        return date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          weekday: "short",
-        });
-      }
-
-      loadLocations();
-    </script>
+      </script>
+    </div>
+    <!-- Close dark horizon glow container -->
   </body>
 </html>
