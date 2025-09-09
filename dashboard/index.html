@@ -1539,7 +1539,8 @@
 
             if (
               location.protocol !== "https:" &&
-              location.hostname !== "localhost"
+              location.hostname !== "localhost" &&
+              location.hostname !== "127.0.0.1"
             ) {
               throw new Error("HTTPS connection required for geolocation");
             }
@@ -2042,6 +2043,9 @@
                     display: locationDisplay,
                   });
 
+                  document.getElementById("locationName").textContent =
+                    locationDisplay;
+
                   // Success feedback
                   console.log(`✅ Switched to: ${locationDisplay}`);
                 }
@@ -2282,7 +2286,7 @@
                 <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">${gregDate}</h2>
                 <div class="flex items-center justify-center gap-2 text-white">
                   <i class="fas fa-map-marker-alt text-sm"></i>
-                  <p class="text-sm sm:text-base font-medium">${location}</p>
+                  <p id="locationName" class="text-sm sm:text-base font-medium">${location}</p>
                 </div>
                 <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-yellow-50 rounded-full">
                   <div class="w-2 h-2 bg-yellow-500 rounded-full pulse-ring"></div>
