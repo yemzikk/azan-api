@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-LC24F79QZ5"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-LC24F79QZ5");
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Prayer Times Dashboard</title>
@@ -832,7 +845,6 @@
       </div>
 
       <script>
-
         const periods = [
           { value: "today", label: "Today" },
           { value: "month", label: "This Month" },
@@ -1907,7 +1919,9 @@
                     ? "bg-gradient-to-r from-[#1a5f4a] to-[#2d8659] text-white border-[#2d8659]"
                     : "bg-white bg-opacity-95 hover:bg-opacity-100 text-gray-800 border-gray-200 hover:border-[#2d8659]";
 
-                  const iconClass = isSelected ? "text-white" : "text-[#1a5f4a]";
+                  const iconClass = isSelected
+                    ? "text-white"
+                    : "text-[#1a5f4a]";
                   const badgeClass = isSelected
                     ? "bg-white bg-opacity-20 text-white"
                     : "bg-[#e6f2ed] text-[#1a5f4a]"; // subtle badge for unselected
@@ -1919,7 +1933,9 @@
                       <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3 flex-1 min-w-0">
                           <div class="flex items-center justify-center w-8 h-8 rounded-lg ${
-                            isSelected ? "bg-white bg-opacity-20" : "bg-[#e6f2ed]"
+                            isSelected
+                              ? "bg-white bg-opacity-20"
+                              : "bg-[#e6f2ed]"
                           }">
                             <i class="fas fa-${
                               isSelected ? "check-circle" : "mosque"
@@ -1931,7 +1947,9 @@
                             }</p>
                             <div class="flex items-center gap-2 mt-1">
                               <span class="text-xs ${
-                                isSelected ? "text-white text-opacity-80" : "text-gray-600"
+                                isSelected
+                                  ? "text-white text-opacity-80"
+                                  : "text-gray-600"
                               }">
                                 ${distanceText} away
                               </span>
