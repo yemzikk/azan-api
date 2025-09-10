@@ -7,14 +7,14 @@ const OFFLINE_CACHE = 'prayer-times-offline-v1.0.0';
 
 // Core files to cache for offline functionality
 const CORE_ASSETS = [
-  '/index.html',
-  '/favicon/android-chrome-192x192.png',
-  '/favicon/android-chrome-512x512.png',
-  '/favicon/apple-touch-icon.png',
-  '/favicon/favicon-32x32.png',
-  '/favicon/favicon-16x16.png',
-  '/favicon/favicon.ico',
-  '/favicon/site.webmanifest',
+  '/dashboard/index.html',
+  '/dashboard/favicon/android-chrome-192x192.png',
+  '/dashboard/favicon/android-chrome-512x512.png',
+  '/dashboard/favicon/apple-touch-icon.png',
+  '/dashboard/favicon/favicon-32x32.png',
+  '/dashboard/favicon/favicon-16x16.png',
+  '/dashboard/favicon/favicon.ico',
+  '/dashboard/favicon/site.webmanifest',
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
