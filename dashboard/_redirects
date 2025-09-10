@@ -1,8 +1,5 @@
 # URL Redirects for Cloudflare Pages
 
-# SPA fallback for any unmatched routes in dashboard
-/*  /index.html  200
-
 # API routes - serve as static files
 /v1/*  /v1/:splat  200
 
