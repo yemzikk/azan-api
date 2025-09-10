@@ -62,9 +62,23 @@
       content="https://azan-api.yemzikk.in/prayer-time.png"
     />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/android-chrome-192x192.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
     <link rel="manifest" href="favicon/site.webmanifest" />
 
     <!-- Structured Data (JSON-LD) -->
@@ -2180,6 +2194,7 @@
 
             selectedLocation = defaultOption.value;
             hideLoading();
+            setLocationFromQuery();
           } catch (err) {
             console.error("⚠️ Could not load locations:", err);
             hideLoading();
@@ -2687,6 +2702,34 @@
         function showError(msg) {
           errorDiv.classList.remove("hidden");
           errorDiv.querySelector("p").textContent = msg;
+        }
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+
+        function setLocationFromQuery() {
+          let queryLocation = getQueryParam("location");
+          console.log("Query location:", queryLocation);
+
+          if (queryLocation) {
+            const locationSelect = document.getElementById("location");
+
+            const selectedOption = Array.from(locationSelect.options).find(
+              (opt) => {
+                return (
+                  opt.value.replace(/ /g, "_") ===
+                  queryLocation.replace(/ /g, "_")
+                );
+              }
+            );
+
+            if (selectedOption) {
+              locationSelect.value = selectedOption.value;
+              selectedLocation = selectedOption.value;
+              loadPrayerData();
+            }
+          }
         }
 
         // Initialize the dashboard
