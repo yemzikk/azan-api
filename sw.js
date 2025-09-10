@@ -1,9 +1,9 @@
-// Service Worker for Prayer Times Kerala PWA
-// Version 1.0.1
+// Service Worker for Prayer Times Kerala PWA Dashboard
+// Version 1.0.3 - Fixed scope and offline handling
 
-const CACHE_NAME = "prayer-times-kerala-v1.0.1";
-const API_CACHE = "prayer-times-api-v1.0.1";
-const OFFLINE_CACHE = "prayer-times-offline-v1.0.1";
+const CACHE_NAME = "prayer-times-kerala-v1.0.3";
+const API_CACHE = "prayer-times-api-v1.0.3";
+const OFFLINE_CACHE = "prayer-times-offline-v1.0.3";
 
 // Core files to cache for offline functionality
 const CORE_ASSETS = [
@@ -176,7 +176,7 @@ async function handleApiRequest(request) {
   }
 
   // Return offline fallback
-  return createOfflineResponse();
+  return createOfflineResponse(request);
 }
 
 // Handle core asset requests
@@ -199,7 +199,7 @@ async function handleCoreAssetRequest(request) {
     console.log("Service Worker: Failed to fetch core asset:", request.url);
   }
 
-  return createOfflineResponse();
+  return createOfflineResponse(request);
 }
 
 // Handle other network requests
@@ -223,11 +223,77 @@ async function handleNetworkRequest(request) {
     return cachedResponse;
   }
 
-  return createOfflineResponse();
+  return createOfflineResponse(request);
 }
 
 // Create offline response
-function createOfflineResponse() {
+function createOfflineResponse(request) {
+  const url = new URL(request.url);
+
+  // For HTML pages in dashboard scope, show offline page
+  if (
+    (request.headers.get("accept")?.includes("text/html") ||
+      url.pathname.endsWith(".html") ||
+      url.pathname.endsWith("/")) &&
+    url.pathname.startsWith("/dashboard/")
+  ) {
+    return new Response(
+      `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Offline - Prayer Times</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+            body { 
+              font-family: system-ui, -apple-system, sans-serif; 
+              margin: 0; 
+              padding: 2rem; 
+              background: linear-gradient(135deg, #0f4c3a, #1a5f4a);
+              color: white;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-align: center;
+            }
+            .container { max-width: 400px; }
+            h1 { color: #d4af37; margin-bottom: 1rem; }
+            .icon { font-size: 3rem; margin-bottom: 1rem; }
+            button { 
+              background: #d4af37; 
+              color: #0f4c3a; 
+              border: none; 
+              padding: 1rem 2rem; 
+              border-radius: 0.5rem; 
+              font-weight: bold;
+              cursor: pointer;
+              margin-top: 1rem;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="icon">📡</div>
+            <h1>You're Offline</h1>
+            <p>Please check your internet connection and try again.</p>
+            <button onclick="window.location.reload()">Try Again</button>
+          </div>
+        </body>
+      </html>
+    `,
+      {
+        status: 503,
+        statusText: "Service Unavailable",
+        headers: {
+          "Content-Type": "text/html",
+          "sw-offline": "true",
+        },
+      }
+    );
+  }
+
+  // For API requests, return JSON error
   return new Response(
     JSON.stringify({
       error: "Offline",

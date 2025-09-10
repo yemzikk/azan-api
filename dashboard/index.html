@@ -15,7 +15,10 @@
       gtag("config", "G-LC24F79QZ5");
     </script>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Prayer Times Kerala</title>
     <!-- Primary Meta Tags -->
     <title>
@@ -69,30 +72,40 @@
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="favicon/android-chrome-192x192.png"
+      href="../favicon/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="favicon/favicon-32x32.png"
+      href="../favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="favicon/favicon-16x16.png"
+      href="../favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link rel="manifest" href="../favicon/site.webmanifest" />
 
     <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Prayer Times Kerala" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <meta name="apple-mobile-web-app-title" content="Prayer Times Kerala" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="msapplication-TileColor" content="#1a5f4a" />
-    <meta name="msapplication-config" content="favicon/browserconfig.xml" />
+    <meta name="msapplication-config" content="../favicon/browserconfig.xml" />
     <meta name="theme-color" content="#1a5f4a" />
+
+    <!-- Additional PWA Meta Tags for proper app recognition -->
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-navbutton-color" content="#1a5f4a" />
+    <meta name="msapplication-starturl" content="/dashboard/" />
     <meta name="color-scheme" content="light" />
 
     <!-- Structured Data (JSON-LD) -->
@@ -1089,7 +1102,7 @@
                 this.swRegistration = await navigator.serviceWorker.register(
                   "/sw.js",
                   {
-                    scope: "/",
+                    scope: "/dashboard/",
                     updateViaCache: "none", // Always check for updates
                   }
                 );
@@ -1651,9 +1664,46 @@
               console.log("📡 Gone offline");
             });
 
-            // Initial state
-            if (!isOnline) {
-              this.showOfflineIndicator();
+            // Initial state check - be more reliable
+            this.checkInitialNetworkState();
+          }
+
+          async checkInitialNetworkState() {
+            // Use multiple methods to determine actual network state
+            const browserOnline = navigator.onLine;
+
+            try {
+              // Test actual connectivity with a small request
+              const controller = new AbortController();
+              const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+              await fetch("/", {
+                method: "HEAD",
+                signal: controller.signal,
+                cache: "no-cache",
+              });
+
+              clearTimeout(timeoutId);
+
+              // If fetch succeeds, we're definitely online
+              isOnline = true;
+              this.hideOfflineIndicator();
+              console.log("🌐 Network connectivity confirmed");
+            } catch (error) {
+              // If fetch fails, check if browser thinks we're online
+              if (browserOnline) {
+                // Browser says online but fetch failed - might be limited connectivity
+                isOnline = true; // Assume online to avoid false offline indicator
+                this.hideOfflineIndicator();
+                console.log(
+                  "🌐 Browser reports online (connectivity test failed)"
+                );
+              } else {
+                // Browser says offline and fetch failed - definitely offline
+                isOnline = false;
+                this.showOfflineIndicator();
+                console.log("📡 Confirmed offline");
+              }
             }
           }
 
