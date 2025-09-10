@@ -763,30 +763,6 @@
         }
       }
 
-      /* Offline Indicator */
-      .offline-indicator {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        animation: pulse 2s infinite;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.8;
-        }
-      }
-
       /* PWA Update Available */
       .update-banner {
         background: linear-gradient(135deg, #3b82f6, #2563eb);
@@ -877,14 +853,6 @@
           </div>
         </div>
 
-        <!-- Offline Indicator -->
-        <div
-          id="offline-indicator"
-          class="offline-indicator fixed bottom-4 right-4 z-50 hidden"
-        >
-          <i class="fas fa-wifi-slash"></i>
-          <span>You're offline</span>
-        </div>
         <!-- Header -->
         <div class="text-center mb-8 sm:mb-12 fade-in">
           <div class="mb-6">
@@ -1026,7 +994,6 @@
         // 🔥 PWA FUNCTIONALITY & SERVICE WORKER REGISTRATION
 
         let deferredPrompt = null;
-        let isOnline = navigator.onLine;
         let defaultLocation = null;
 
         // PWA Installation and Service Worker Setup
@@ -1079,8 +1046,8 @@
             // Setup PWA install prompt
             this.setupInstallPrompt();
 
-            // Setup online/offline detection
-            this.setupNetworkDetection();
+            // Setup date change detection for PWA auto-refresh
+            this.setupDateChecker();
 
             // Setup auto-refresh for today's data
             this.setupAutoRefresh();
@@ -1594,62 +1561,65 @@
             this.hideInstallBanner();
           }
 
-          setupNetworkDetection() {
-            // Handle online/offline events
-            window.addEventListener("online", () => {
-              isOnline = true;
-              this.hideOfflineIndicator();
-              console.log("🌐 Back online");
-            });
+          setupDateChecker() {
+            // Store the current date when the page loads
+            const loadDate = new Date().toDateString();
+            console.log("📅 PWA loaded on:", loadDate);
 
-            window.addEventListener("offline", () => {
-              isOnline = false;
-              this.showOfflineIndicator();
-              console.log("📡 Gone offline");
-            });
+            // Check every 30 seconds if the date has changed
+            setInterval(() => {
+              const currentDate = new Date().toDateString();
 
-            // Initial state check - be more reliable
-            this.checkInitialNetworkState();
+              if (currentDate !== loadDate) {
+                console.log(
+                  "📅 Date changed detected! Reloading page for fresh data..."
+                );
+                console.log(
+                  "🔄 Old date:",
+                  loadDate,
+                  "→ New date:",
+                  currentDate
+                );
+
+                // Show a brief notification before reload
+                this.showDateChangeReload();
+
+                // Reload after a short delay to show the notification
+                setTimeout(() => {
+                  window.location.reload();
+                }, 1500);
+              }
+            }, 30000); // Check every 30 seconds
+
+            console.log(
+              "⏰ Date change monitoring enabled for PWA auto-refresh"
+            );
           }
 
-          async checkInitialNetworkState() {
-            // Use multiple methods to determine actual network state
-            const browserOnline = navigator.onLine;
+          showDateChangeReload() {
+            // Create and show a notification that the page is reloading due to date change
+            const notification = document.createElement("div");
+            notification.className =
+              "fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 opacity-0";
+            notification.innerHTML = `
+              <div class="flex items-center gap-3">
+                <i class="fas fa-calendar-day text-lg"></i>
+                <div>
+                  <div class="font-semibold">New Day Detected</div>
+                  <div class="text-sm opacity-90">Refreshing for today's prayer times...</div>
+                </div>
+                <div class="ml-2">
+                  <i class="fas fa-sync-alt animate-spin"></i>
+                </div>
+              </div>
+            `;
 
-            try {
-              // Test actual connectivity with a small request to a reliable endpoint
-              const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 3000);
+            document.body.appendChild(notification);
 
-              // Use a small, cacheable resource from our own domain for connectivity test
-              await fetch("./manifest.json", {
-                method: "HEAD",
-                signal: controller.signal,
-                cache: "no-cache",
-              });
-
-              clearTimeout(timeoutId);
-
-              // If fetch succeeds, we're definitely online
-              isOnline = true;
-              this.hideOfflineIndicator();
-              console.log("🌐 Network connectivity confirmed");
-            } catch (error) {
-              // If fetch fails, check if browser thinks we're online
-              if (browserOnline) {
-                // Browser says online but fetch failed - might be limited connectivity
-                isOnline = true; // Assume online to avoid false offline indicator
-                this.hideOfflineIndicator();
-                console.log(
-                  "🌐 Browser reports online (connectivity test failed, assuming online)"
-                );
-              } else {
-                // Browser says offline and fetch failed - definitely offline
-                isOnline = false;
-                this.showOfflineIndicator();
-                console.log("📡 Confirmed offline");
-              }
-            }
+            // Fade in
+            setTimeout(() => {
+              notification.style.opacity = "1";
+            }, 100);
           }
 
           async installPWA() {
@@ -1757,20 +1727,6 @@
 
               // Reload the page to use the new service worker
               window.location.reload();
-            }
-          }
-
-          showOfflineIndicator() {
-            const indicator = document.getElementById("offline-indicator");
-            if (indicator) {
-              indicator.classList.remove("hidden");
-            }
-          }
-
-          hideOfflineIndicator() {
-            const indicator = document.getElementById("offline-indicator");
-            if (indicator) {
-              indicator.classList.add("hidden");
             }
           }
 
@@ -3301,7 +3257,9 @@
 
           try {
             showLoading("locations");
-            const res = await fetch("https://api.azantimes.in/v1/timesheets/index.json");
+            const res = await fetch(
+              "https://api.azantimes.in/v1/timesheets/index.json"
+            );
             if (!res.ok) throw new Error("index.json not found");
             locations = await res.json();
 
