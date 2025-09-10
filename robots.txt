@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://azan-api.yemzikk.in/sitemap.xml
+# XML Sitemap
+Sitemap: https://api.azantimes.in/sitemap.xml
 
 # API endpoints
 Allow: /v1/
