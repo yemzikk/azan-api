@@ -22,7 +22,7 @@ const CORE_ASSETS = [
 
 // API endpoints to cache
 const API_ENDPOINTS = [
-  '/v1/timesheets/index.json'
+  'https://api.azantimes.in/v1/timesheets/index.json'
 ];
 
 // Install event - cache core assets

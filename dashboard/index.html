@@ -3302,7 +3302,7 @@
 
           try {
             showLoading("locations");
-            const res = await fetch("/v1/timesheets/index.json");
+            const res = await fetch("https://api.azantimes.in/v1/timesheets/index.json");
             if (!res.ok) throw new Error("index.json not found");
             locations = await res.json();
 
@@ -3406,7 +3406,7 @@
           hideError();
           try {
             const res = await fetch(
-              `/v1/timesheets/${selectedLocation}/${selectedPeriod}.json`
+              `https://api.azantimes.in/v1/timesheets/${selectedLocation}/${selectedPeriod}.json`
             );
             let data;
             if (res.ok) {
