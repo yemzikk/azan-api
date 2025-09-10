@@ -22,7 +22,7 @@
     <title>Prayer Times Kerala</title>
     <!-- Primary Meta Tags -->
     <title>
-      Prayer Times Dashboard - Accurate Islamic Prayer Schedules for Kerala
+      Kerala Prayer Times - Accurate Islamic Prayer Schedules for Kerala
     </title>
     <meta
       name="description"
@@ -41,7 +41,7 @@
     <meta property="og:url" content="https://azantimes.in/" />
     <meta
       property="og:title"
-      content="Prayer Times Dashboard - Islamic Prayer Schedules for Kerala"
+      content="Kerala Prayer Times - Islamic Prayer Schedules for Kerala"
     />
     <meta
       property="og:description"
@@ -54,7 +54,7 @@
     <meta name="twitter:url" content="https://azantimes.in/" />
     <meta
       name="twitter:title"
-      content="Prayer Times Dashboard - Islamic Prayer Schedules for Kerala"
+      content="Kerala Prayer Times - Islamic Prayer Schedules for Kerala"
     />
     <meta
       name="twitter:description"
@@ -69,21 +69,21 @@
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="../favicon/apple-touch-icon.png"
+      href="favicon/apple-touch-icon.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="../favicon/favicon-32x32.png"
+      href="favicon/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="../favicon/favicon-16x16.png"
+      href="favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="../favicon/site.webmanifest" />
+    <link rel="manifest" href="favicon/site.webmanifest" />
 
     <!-- PWA Meta Tags -->
     <meta name="application-name" content="Prayer Times Kerala" />
@@ -95,14 +95,14 @@
     <meta name="apple-mobile-web-app-title" content="Prayer Times Kerala" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="msapplication-TileColor" content="#1a5f4a" />
-    <meta name="msapplication-config" content="../favicon/browserconfig.xml" />
+    <meta name="msapplication-config" content="favicon/browserconfig.xml" />
     <meta name="theme-color" content="#1a5f4a" />
 
     <!-- Additional PWA Meta Tags for proper app recognition -->
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-navbutton-color" content="#1a5f4a" />
-    <meta name="msapplication-starturl" content="/dashboard/" />
+    <meta name="msapplication-starturl" content="/" />
     <meta name="color-scheme" content="light" />
 
     <!-- Structured Data (JSON-LD) -->
@@ -110,7 +110,7 @@
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Prayer Times Dashboard",
+        "name": "Kerala Prayer Times",
         "url": "https://azantimes.in/",
         "description": "Dashboard to track and browse Islamic prayer times for Kerala locations by date with a beautiful interface. Perfect for the Ummah and app developers.",
         "applicationCategory": "Religion & Spirituality, Tools",
@@ -1044,7 +1044,6 @@
                 this.swRegistration = await navigator.serviceWorker.register(
                   "/sw.js",
                   {
-                    scope: "/dashboard/",
                     updateViaCache: "none", // Always check for updates
                   }
                 );
@@ -2580,7 +2579,7 @@
             try {
               const response = await fetch(url, {
                 headers: {
-                  "User-Agent": "Prayer Times Dashboard (contact@azantimes.in)",
+                  "User-Agent": "Kerala Prayer Times (contact@azantimes.in)",
                 },
                 signal: AbortSignal.timeout(8000), // 8 second timeout
               });
