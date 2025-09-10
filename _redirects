@@ -1,0 +1,27 @@
+# URL Redirects for Cloudflare Pages
+
+# Redirect root to dashboard
+/  /dashboard/  301
+
+# Redirect dashboard without trailing slash
+/dashboard  /dashboard/  301
+
+# Handle legacy URLs
+/index.html  /dashboard/  301
+/dashboard/index.html  /dashboard/  301
+
+# SPA fallback for any unmatched routes in dashboard
+/dashboard/*  /dashboard/index.html  200
+
+# API routes - serve as static files
+/v1/*  /v1/:splat  200
+
+# Favicon shortcuts
+/favicon.ico  /favicon/favicon.ico  301
+/apple-touch-icon.png  /favicon/apple-touch-icon.png  301
+/android-chrome-192x192.png  /favicon/android-chrome-192x192.png  301
+/android-chrome-512x512.png  /favicon/android-chrome-512x512.png  301
+
+# Manifest shortcuts
+/manifest.json  /favicon/site.webmanifest  301
+/site.webmanifest  /favicon/site.webmanifest  301
