@@ -2709,8 +2709,7 @@
         }
 
         function setLocationFromQuery() {
-          let queryLocation = getQueryParam("location");
-          console.log("Query location:", queryLocation);
+          let queryLocation = getQueryParam("q");
 
           if (queryLocation) {
             const locationSelect = document.getElementById("location");
