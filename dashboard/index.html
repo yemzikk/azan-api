@@ -752,20 +752,6 @@
         transform: translateY(-100%);
       }
 
-      /* Default Location Indicator */
-      .default-location-badge {
-        background: linear-gradient(135deg, #d4af37, #f4d03f);
-        color: #0f4c3a;
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.5rem;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.25rem;
-        animation: sparkle 2s ease-in-out infinite;
-      }
-
       @keyframes sparkle {
         0%,
         100% {
@@ -775,30 +761,6 @@
           opacity: 0.8;
           transform: scale(1.05);
         }
-      }
-
-      /* Save Location Button */
-      .save-location-btn {
-        background: linear-gradient(135deg, #10b981, #059669);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .save-location-btn:hover {
-        background: linear-gradient(135deg, #059669, #047857);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-      }
-
-      .save-location-btn:active {
-        transform: translateY(0);
-      }
-
-      .save-location-btn.saved {
-        background: linear-gradient(135deg, #d4af37, #f4d03f);
-        color: #0f4c3a;
       }
 
       /* Offline Indicator */
@@ -967,23 +929,6 @@
                   </div>
                   Select Location
                 </label>
-                <div class="flex items-center gap-2">
-                  <button
-                    id="save-location-btn"
-                    class="save-location-btn hidden text-white px-3 py-1.5 rounded-lg text-sm font-medium shadow-lg"
-                    title="Save as default location"
-                  >
-                    <i class="fas fa-bookmark mr-1"></i>
-                    <span>Save Default</span>
-                  </button>
-                  <div
-                    id="default-location-indicator"
-                    class="default-location-badge hidden"
-                  >
-                    <i class="fas fa-star"></i>
-                    <span>Default</span>
-                  </div>
-                </div>
               </div>
               <div class="select-wrapper">
                 <select
@@ -1137,6 +1082,9 @@
 
             // Setup online/offline detection
             this.setupNetworkDetection();
+
+            // Setup auto-refresh for today's data
+            this.setupAutoRefresh();
 
             // Load user preferences
             this.loadUserPreferences();
@@ -1670,11 +1618,12 @@
             const browserOnline = navigator.onLine;
 
             try {
-              // Test actual connectivity with a small request
+              // Test actual connectivity with a small request to a reliable endpoint
               const controller = new AbortController();
               const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-              await fetch("/", {
+              // Use a small, cacheable resource from our own domain for connectivity test
+              await fetch("./manifest.json", {
                 method: "HEAD",
                 signal: controller.signal,
                 cache: "no-cache",
@@ -1693,7 +1642,7 @@
                 isOnline = true; // Assume online to avoid false offline indicator
                 this.hideOfflineIndicator();
                 console.log(
-                  "🌐 Browser reports online (connectivity test failed)"
+                  "🌐 Browser reports online (connectivity test failed, assuming online)"
                 );
               } else {
                 // Browser says offline and fetch failed - definitely offline
@@ -1837,6 +1786,74 @@
             );
           }
 
+          setupAutoRefresh() {
+            // Store the current date to detect day changes
+            let currentDate = new Date().toDateString();
+
+            // Check every minute if the day has changed
+            setInterval(() => {
+              const newDate = new Date().toDateString();
+
+              if (newDate !== currentDate) {
+                currentDate = newDate;
+                console.log("📅 Day changed, refreshing today's prayer times");
+
+                // If user is currently viewing "today", refresh the data
+                const periodSelect = document.getElementById("period-select");
+                if (periodSelect && periodSelect.value === "today") {
+                  // Clear cache for today's data to force fresh fetch
+                  if (window.azanCache) {
+                    const locationSelect =
+                      document.getElementById("location-select");
+                    if (locationSelect && locationSelect.value) {
+                      const cacheKey = `${locationSelect.value}/today.json`;
+                      window.azanCache.cache.delete(cacheKey);
+                      console.log("🗑️ Cleared today's cache for fresh data");
+                    }
+                  }
+
+                  // Trigger refresh by dispatching change event
+                  periodSelect.dispatchEvent(new Event("change"));
+
+                  // Show subtle notification
+                  this.showDayChangeNotification();
+                }
+              }
+            }, 60000); // Check every minute
+
+            console.log("⏰ Auto-refresh for today's data enabled");
+          }
+
+          showDayChangeNotification() {
+            // Create and show a subtle notification that today's data has been updated
+            const notification = document.createElement("div");
+            notification.className =
+              "fixed top-4 right-4 z-50 bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300";
+            notification.innerHTML = `
+              <div class="flex items-center gap-2">
+                <i class="fas fa-sync-alt text-sm"></i>
+                <span class="text-sm font-medium">Today's prayer times updated</span>
+              </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Slide in
+            setTimeout(() => {
+              notification.classList.remove("translate-x-full");
+            }, 100);
+
+            // Slide out and remove after 3 seconds
+            setTimeout(() => {
+              notification.classList.add("translate-x-full");
+              setTimeout(() => {
+                if (notification.parentNode) {
+                  notification.parentNode.removeChild(notification);
+                }
+              }, 300);
+            }, 3000);
+          }
+
           loadUserPreferences() {
             // Load default location from localStorage
             try {
@@ -1863,12 +1880,7 @@
           }
 
           setupEventListeners() {
-            // Save location button
-            document
-              .getElementById("save-location-btn")
-              ?.addEventListener("click", () => {
-                this.saveDefaultLocation();
-              });
+            // No event listeners needed - automatic saving is handled in main location change event
           }
 
           saveDefaultLocation() {
@@ -1891,7 +1903,6 @@
               defaultLocation = locationData;
 
               this.updateLocationUI();
-              this.showMessage("Location saved as default!", "success");
 
               console.log("💾 Default location saved:", locationData.name);
             } catch (error) {
@@ -1921,40 +1932,7 @@
           }
 
           updateLocationUI() {
-            const saveBtn = document.getElementById("save-location-btn");
-            const indicator = document.getElementById(
-              "default-location-indicator"
-            );
-
-            if (
-              selectedLocation &&
-              defaultLocation &&
-              selectedLocation === defaultLocation.value
-            ) {
-              // This is the default location
-              if (saveBtn) {
-                saveBtn.classList.add("hidden");
-              }
-              if (indicator) {
-                indicator.classList.remove("hidden");
-              }
-            } else if (selectedLocation) {
-              // Different location selected
-              if (saveBtn) {
-                saveBtn.classList.remove("hidden");
-              }
-              if (indicator) {
-                indicator.classList.add("hidden");
-              }
-            } else {
-              // No location selected
-              if (saveBtn) {
-                saveBtn.classList.add("hidden");
-              }
-              if (indicator) {
-                indicator.classList.add("hidden");
-              }
-            }
+            // No UI updates needed - automatic saving handles everything
           }
 
           getLocationDisplayName(locationValue) {
@@ -3041,8 +3019,8 @@
           selectedLocation = location.name;
           locationSelect.value = location.name;
 
-          // Update location preferences UI
-          preferencesManager.updateLocationUI();
+          // Automatically save the auto-detected location as default
+          preferencesManager.saveDefaultLocation();
 
           // Enhanced option text with detailed info
           const option = Array.from(locationSelect.options).find(
@@ -3199,6 +3177,9 @@
                   // Update selection
                   selectedLocation = locationName;
                   locationSelect.value = locationName;
+
+                  // Automatically save the selected location as default
+                  preferencesManager.saveDefaultLocation();
 
                   // Update option text
                   const option = Array.from(locationSelect.options).find(
@@ -3411,8 +3392,8 @@
             selectedLocation = e.target.value;
             hideNearbyLocations(); // Hide nearby locations when manually selecting
 
-            // Update location preferences UI
-            preferencesManager.updateLocationUI();
+            // Automatically save the selected location as default
+            preferencesManager.saveDefaultLocation();
 
             loadPrayerData();
           }
@@ -3486,6 +3467,20 @@
                   <span class="text-sm font-medium text-white-700">Next: ${
                     nextPrayer.name
                   } at ${formatTime(nextPrayer.time)}</span>
+                </div>
+                
+                <!-- Share Button -->
+                <div class="mt-6">
+                  <button 
+                    id="share-prayer-times"
+                    class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-green-900 font-semibold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                    onclick="sharePrayerTimes('${location}', '${gregDate}', ${JSON.stringify(
+              prayers
+            ).replace(/"/g, "&quot;")})"
+                  >
+                    <i class="fas fa-share-alt text-sm"></i>
+                    <span>Share Today's Prayer Times</span>
+                  </button>
                 </div>
               </div>
               
@@ -3851,6 +3846,93 @@
             day: "numeric",
             weekday: "short",
           });
+        }
+
+        // 📤 SHARE PRAYER TIMES FUNCTIONALITY
+        async function sharePrayerTimes(location, date, prayers) {
+          const locationName = location.replace(/_/g, " ");
+
+          // Create share text
+          const shareText = `🕌 Prayer Times for ${locationName}
+📅 ${date}
+
+🌙 Fajr: ${prayers[0].time}
+🌅 Sunrise: ${prayers[1].time}
+☀️ Dhuhr: ${prayers[2].time}
+🌤️ Asr: ${prayers[3].time}
+🌅 Maghrib: ${prayers[4].time}
+🌙 Isha: ${prayers[5].time}
+
+📱 Get prayer times for your location: https://azantimes.in/`;
+
+          try {
+            // Try Web Share API (mobile/modern browsers)
+            if (navigator.share) {
+              await navigator.share({
+                title: `Prayer Times - ${locationName}`,
+                text: shareText,
+                url: "https://azantimes.in/",
+              });
+              console.log("✅ Shared successfully");
+            } else {
+              // Fallback: Copy to clipboard
+              await navigator.clipboard.writeText(shareText);
+
+              // Show success feedback
+              const shareBtn = document.getElementById("share-prayer-times");
+              const originalText = shareBtn.innerHTML;
+              shareBtn.innerHTML =
+                '<i class="fas fa-check text-sm"></i><span>Copied to Clipboard!</span>';
+              shareBtn.classList.add("bg-green-500", "hover:bg-green-600");
+              shareBtn.classList.remove(
+                "bg-gradient-to-r",
+                "from-yellow-400",
+                "to-yellow-500",
+                "hover:from-yellow-500",
+                "hover:to-yellow-600"
+              );
+
+              setTimeout(() => {
+                shareBtn.innerHTML = originalText;
+                shareBtn.classList.remove("bg-green-500", "hover:bg-green-600");
+                shareBtn.classList.add(
+                  "bg-gradient-to-r",
+                  "from-yellow-400",
+                  "to-yellow-500",
+                  "hover:from-yellow-500",
+                  "hover:to-yellow-600"
+                );
+              }, 2000);
+            }
+          } catch (error) {
+            console.error("Share failed:", error);
+
+            // Show error feedback
+            const shareBtn = document.getElementById("share-prayer-times");
+            const originalText = shareBtn.innerHTML;
+            shareBtn.innerHTML =
+              '<i class="fas fa-exclamation text-sm"></i><span>Share Failed</span>';
+            shareBtn.classList.add("bg-red-500", "hover:bg-red-600");
+            shareBtn.classList.remove(
+              "bg-gradient-to-r",
+              "from-yellow-400",
+              "to-yellow-500",
+              "hover:from-yellow-500",
+              "hover:to-yellow-600"
+            );
+
+            setTimeout(() => {
+              shareBtn.innerHTML = originalText;
+              shareBtn.classList.remove("bg-red-500", "hover:bg-red-600");
+              shareBtn.classList.add(
+                "bg-gradient-to-r",
+                "from-yellow-400",
+                "to-yellow-500",
+                "hover:from-yellow-500",
+                "hover:to-yellow-600"
+              );
+            }, 2000);
+          }
         }
 
         // Add smooth transitions when data loads

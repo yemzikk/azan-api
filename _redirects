@@ -1,17 +1,7 @@
 # URL Redirects for Cloudflare Pages
 
-# Redirect root to dashboard
-/  /dashboard/  301
-
-# Redirect dashboard without trailing slash
-/dashboard  /dashboard/  301
-
-# Handle legacy URLs
-/index.html  /dashboard/  301
-/dashboard/index.html  /dashboard/  301
-
 # SPA fallback for any unmatched routes in dashboard
-/dashboard/*  /dashboard/index.html  200
+/*  /index.html  200
 
 # API routes - serve as static files
 /v1/*  /v1/:splat  200
