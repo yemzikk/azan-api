@@ -6,7 +6,6 @@ Sitemap: https://api.azantimes.in/sitemap.xml
 
 # API endpoints
 Allow: /v1/
-Allow: /dashboard/
 
 # Crawl delay for respectful crawling
 Crawl-delay: 1
