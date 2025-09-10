@@ -1,9 +1,8 @@
 // Service Worker for Prayer Times Kerala PWA
-// Version 1.0.0
 
-const CACHE_NAME = "prayer-times-kerala-v1.0.0";
-const API_CACHE = "prayer-times-api-v1.0.0";
-const OFFLINE_CACHE = "prayer-times-offline-v1.0.0";
+const CACHE_NAME = "prayer-times-kerala-v2.0.0";
+const API_CACHE = "prayer-times-api-v2.0.0";
+const OFFLINE_CACHE = "prayer-times-offline-v2.0.0";
 
 // Core files to cache for offline functionality
 const CORE_ASSETS = [
