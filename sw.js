@@ -7,8 +7,7 @@ const OFFLINE_CACHE = "prayer-times-offline-v1.0.3";
 
 // Core files to cache for offline functionality
 const CORE_ASSETS = [
-  "/dashboard/",
-  "/dashboard/index.html",
+  "/index.html",
   "/css/styles.css",
   "/favicon/android-chrome-192x192.png",
   "/favicon/android-chrome-512x512.png",

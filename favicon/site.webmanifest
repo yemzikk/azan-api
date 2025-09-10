@@ -60,7 +60,7 @@
       "name": "Today's Prayer Times",
       "short_name": "Today",
       "description": "View today's prayer schedule",
-      "url": "/dashboard/?period=today",
+      "url": "/?q=today",
       "icons": [
         {
           "src": "/favicon/android-chrome-192x192.png",
@@ -73,7 +73,7 @@
       "name": "Monthly Schedule",
       "short_name": "Month",
       "description": "View this month's prayer times",
-      "url": "/dashboard/?period=month",
+      "url": "/?q=month",
       "icons": [
         {
           "src": "/favicon/android-chrome-192x192.png",
