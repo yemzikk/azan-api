@@ -16,6 +16,16 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="theme-color"
+      content="#0d4a38"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0f1419"
+      media="(prefers-color-scheme: dark)"
+    />
     <title>
       Prayer Times API - Free Islamic Prayer Times REST API | api.azantimes.in
     </title>
@@ -27,15 +37,25 @@
     />
     <meta
       name="keywords"
-      content="prayer times API, Islamic prayer times, salah times, REST API, Kerala prayer times, mosque times, fajr, dhuhr, asr, maghrib, isha, JSON API, free API, Islamic calendar, azan times"
+      content="prayer times API, Islamic prayer times, salah times, REST API, Kerala prayer times, mosque times, fajr, dhuhr, asr, maghrib, isha, JSON API, free API, Islamic calendar, azan times, namaz times, islamic schedule"
     />
     <meta name="author" content="api.azantimes.in" />
+    <meta name="generator" content="Prayer Times API Documentation" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="General" />
     <meta
       name="robots"
       content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
     />
     <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
     <link rel="canonical" href="https://api.azantimes.in/" />
+
+    <!-- DNS Prefetch for performance -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -76,17 +96,21 @@
     <meta name="twitter:site" content="@azanapp" />
 
     <!-- Additional SEO -->
-    <meta name="theme-color" content="#0f4c3a" />
-    <meta name="msapplication-TileColor" content="#0f4c3a" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
+    <meta name="apple-mobile-web-app-title" content="Prayer Times API" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Prayer Times API" />
 
-    <!-- Sitemap reference -->
+    <!-- Sitemap and RSS -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Prayer Times API Updates"
+      href="/rss.xml"
+    />
 
     <link
       rel="apple-touch-icon"
@@ -174,23 +198,474 @@
     />
 
     <style>
+      :root {
+        --primary-green: #0d4a38;
+        --secondary-green: #155c49;
+        --accent-green: #1f7052;
+        --gold: #b8941f;
+        --gold-light: #d4af37;
+
+        /* Light theme variables - WCAG 2.2 AA compliant */
+        --bg-primary: #ffffff;
+        --bg-secondary: #f7fafc;
+        --bg-tertiary: #edf2f7;
+        --text-primary: #1a202c;
+        --text-secondary: #4a5568;
+        --text-muted: #718096;
+        --border-color: #e2e8f0;
+        --shadow-light: rgba(13, 74, 56, 0.08);
+        --shadow-medium: rgba(13, 74, 56, 0.12);
+        --shadow-heavy: rgba(13, 74, 56, 0.16);
+        --glass-bg: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(184, 148, 31, 0.15);
+        --code-bg: #f7fafc;
+        --code-text: #2d3748;
+        --success-color: #0d7737;
+        --warning-color: #b7791f;
+        --error-color: #c53030;
+        --info-color: #3182ce;
+      }
+
+      [data-theme="dark"] {
+        --primary-green: #34d399;
+        --secondary-green: #10b981;
+        --accent-green: #059669;
+        --bg-primary: #0f1419;
+        --bg-secondary: #1a202c;
+        --bg-tertiary: #2d3748;
+        --text-primary: #f7fafc;
+        --text-secondary: #e2e8f0;
+        --text-muted: #a0aec0;
+        --border-color: #4a5568;
+        --shadow-light: rgba(0, 0, 0, 0.25);
+        --shadow-medium: rgba(0, 0, 0, 0.35);
+        --shadow-heavy: rgba(0, 0, 0, 0.45);
+        --glass-bg: rgba(26, 32, 44, 0.85);
+        --glass-border: rgba(212, 175, 55, 0.25);
+        --code-bg: #1a202c;
+        --code-text: #e2e8f0;
+        --success-color: #48bb78;
+        --warning-color: #ed8936;
+        --error-color: #f56565;
+        --info-color: #63b3ed;
+      }
+
+      /* Auto theme based on system preference */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --primary-green: #34d399;
+          --secondary-green: #10b981;
+          --accent-green: #059669;
+          --bg-primary: #0f1419;
+          --bg-secondary: #1a202c;
+          --bg-tertiary: #2d3748;
+          --text-primary: #f7fafc;
+          --text-secondary: #e2e8f0;
+          --text-muted: #a0aec0;
+          --border-color: #4a5568;
+          --shadow-light: rgba(0, 0, 0, 0.25);
+          --shadow-medium: rgba(0, 0, 0, 0.35);
+          --shadow-heavy: rgba(0, 0, 0, 0.45);
+          --glass-bg: rgba(26, 32, 44, 0.85);
+          --glass-border: rgba(212, 175, 55, 0.25);
+          --code-bg: #1a202c;
+          --code-text: #e2e8f0;
+          --success-color: #48bb78;
+          --warning-color: #ed8936;
+          --error-color: #f56565;
+          --info-color: #63b3ed;
+        }
+      }
+
       * {
-        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
       body {
-        background: linear-gradient(
-          135deg,
-          #0f4c3a 0%,
-          #1a5f4a 50%,
-          #2d8659 100%
-        );
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        line-height: 1.6;
+        color: var(--text-primary);
+        background: var(--bg-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
 
-      body::before {
+      /* Container and layout */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding: 0 2rem;
+        }
+      }
+
+      /* Header */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+        gap: 1rem;
+        min-width: 0;
+      }
+
+      @media (min-width: 768px) {
+        .header-content {
+          gap: 3rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header-content {
+          padding: 0.75rem 0;
+          gap: 0.75rem;
+        }
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        min-width: 0;
+        flex-shrink: 0;
+      }
+
+      .logo-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        background: linear-gradient(135deg, var(--gold), var(--primary-green));
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.125rem;
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-green);
+        white-space: nowrap;
+        line-height: 1;
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          gap: 0.5rem;
+        }
+
+        .logo-icon {
+          width: 2rem;
+          height: 2rem;
+          font-size: 1rem;
+        }
+
+        .logo-text {
+          font-size: 1.25rem;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .logo-text {
+          font-size: 1.1rem;
+        }
+      }
+
+      /* Navigation */
+      .nav {
+        display: none;
+        gap: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .nav {
+          display: flex;
+          gap: 2rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .nav {
+          gap: 2.5rem;
+        }
+      }
+
+      .nav-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-link:hover {
+        color: var(--primary-green);
+        background: var(--bg-tertiary);
+      }
+
+      .nav-cta {
+        background: var(--gold);
+        color: var(--primary-green);
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 9999px;
+        margin-right: 0.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .nav-cta {
+          margin-right: 1rem;
+        }
+      }
+
+      .nav-cta:hover {
+        background: var(--gold-light);
+        transform: translateY(-1px);
+      }
+
+      /* Header Actions */
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+      }
+
+      .header-actions::before {
+        content: "";
+        width: 1px;
+        height: 1.5rem;
+        background: var(--border-color);
+        margin-right: 0.5rem;
+        opacity: 0.5;
+        display: none;
+      }
+
+      @media (min-width: 768px) {
+        .header-actions {
+          gap: 1.5rem;
+        }
+
+        .header-actions::before {
+          display: block;
+          margin-right: 1rem;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .header-actions {
+          gap: 0.75rem;
+        }
+
+        .mobile-menu-btn {
+          width: 2.5rem;
+          height: 2.5rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Floating Theme Toggle */
+      .floating-theme-toggle {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        background: var(--primary-green);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.25rem;
+        z-index: 1000;
+        box-shadow: 0 4px 20px var(--shadow-heavy);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .floating-theme-toggle:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 30px var(--shadow-heavy);
+        background: var(--secondary-green);
+      }
+
+      .floating-theme-toggle:active {
+        transform: translateY(0) scale(0.95);
+      }
+
+      .floating-theme-toggle i {
+        transition: transform 0.3s ease;
+      }
+
+      .floating-theme-toggle:hover i {
+        transform: rotate(15deg);
+      }
+
+      .floating-theme-toggle:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--primary-green),
+          0 8px 30px var(--shadow-heavy);
+        transform: scale(1.05);
+      }
+
+      .floating-theme-toggle:focus:not(:focus-visible) {
+        box-shadow: 0 4px 20px var(--shadow-heavy);
+        transform: none;
+      }
+
+      .floating-theme-toggle:focus-visible {
+        outline: 2px solid var(--primary-green);
+        outline-offset: 2px;
+      }
+
+      @media (max-width: 768px) {
+        .floating-theme-toggle {
+          bottom: 1.5rem;
+          right: 1.5rem;
+          width: 3rem;
+          height: 3rem;
+          font-size: 1.1rem;
+        }
+      }
+
+      /* Hide original theme toggle in header */
+      .theme-toggle {
+        display: none;
+      }
+
+      /* Mobile menu */
+      .mobile-menu-btn {
+        display: block;
+        background: var(--bg-tertiary);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+      }
+
+      @media (min-width: 768px) {
+        .mobile-menu-btn {
+          display: none;
+        }
+      }
+
+      .mobile-menu-btn:hover {
+        background: var(--bg-primary);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px var(--shadow-light);
+      }
+
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        z-index: 60;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+
+      .mobile-nav-link {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-size: 1.25rem;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-nav-link:hover {
+        background: var(--primary-green);
+        color: white;
+      }
+
+      .close-menu {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .close-menu:hover {
+        color: var(--text-primary);
+        background: var(--bg-tertiary);
+      }
+
+      /* Main content */
+      .main {
+        padding-top: 5rem;
+      }
+
+      /* Hero section */
+      .hero {
+        background: linear-gradient(
+          135deg,
+          var(--primary-green) 0%,
+          var(--secondary-green) 50%,
+          var(--accent-green) 100%
+        );
+        color: white;
+        padding: 4rem 0 6rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
         content: "";
         position: absolute;
         top: 0;
@@ -199,114 +674,227 @@
         bottom: 0;
         background: radial-gradient(
             circle at 20% 20%,
-            rgba(255, 255, 255, 0.08) 0%,
+            rgba(212, 175, 55, 0.1) 0%,
             transparent 50%
           ),
           radial-gradient(
             circle at 80% 80%,
-            rgba(255, 255, 255, 0.08) 0%,
+            rgba(212, 175, 55, 0.1) 0%,
             transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(255, 255, 255, 0.04) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 60% 20%,
-            rgba(255, 255, 255, 0.06) 0%,
-            transparent 40%
-          ),
-          radial-gradient(
-            circle at 10% 70%,
-            rgba(255, 255, 255, 0.06) 0%,
-            transparent 40%
           );
         pointer-events: none;
-        animation: backgroundShift 20s ease-in-out infinite;
       }
 
-      @keyframes backgroundShift {
+      .hero-content {
+        position: relative;
+        text-align: center;
+        max-width: 4xl;
+        margin: 0 auto;
+      }
+
+      .hero-icon {
+        width: 5rem;
+        height: 5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
         0%,
         100% {
-          opacity: 0.8;
+          transform: translateY(0px);
         }
         50% {
-          opacity: 1;
+          transform: translateY(-10px);
         }
       }
 
-      .islamic-pattern {
-        background: linear-gradient(
-          135deg,
-          #0f4c3a 0%,
-          #1a5f4a 50%,
-          #2d8659 100%
-        );
-        background-image: 
-          /* Islamic Star Pattern */ radial-gradient(
-            circle at 25px 25px,
-            rgba(212, 175, 55, 0.08) 2px,
-            transparent 2px
-          ),
-          radial-gradient(
-            circle at 75px 75px,
-            rgba(212, 175, 55, 0.06) 2px,
-            transparent 2px
-          ),
-          /* Geometric Grid */ repeating-linear-gradient(transparent 12px),
-          repeating-linear-gradient(
-            -45deg,
-            rgba(212, 175, 55, 0.02) 0px,
-            rgba(212, 175, 55, 0.02) 1px,
-            transparent 1px,
-            transparent 12px
-          ),
-          /* Hexagonal Pattern */ linear-gradient(rgba(212, 175, 55, 0.01)),
-          linear-gradient(
-            -60deg,
-            rgba(212, 175, 55, 0.01) 25%,
-            transparent 25.5%,
-            transparent 75%,
-            rgba(212, 175, 55, 0.01) 75.5%,
-            rgba(212, 175, 55, 0.01)
-          );
-        background-size: 50px 50px, 100px 100px, 24px 24px, 24px 24px, 60px 36px,
-          60px 36px;
-        background-position: 0 0, 25px 25px, 0 0, 12px 12px, 0 0, 30px 18px;
+      .hero-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, white, var(--gold-light));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
-      .glass {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(15, 76, 58, 0.2);
+      .hero-description {
+        font-size: clamp(1.125rem, 2vw, 1.5rem);
+        margin-bottom: 3rem;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 42rem;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      .glass-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        box-shadow: 0 20px 40px rgba(15, 76, 58, 0.15);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      .hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
       }
 
-      .glass-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(15, 76, 58, 0.2);
-        background: rgba(255, 255, 255, 1);
-        border-color: rgba(212, 175, 55, 0.4);
+      @media (min-width: 640px) {
+        .hero-actions {
+          flex-direction: row;
+          justify-content: center;
+        }
       }
 
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 2rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+
+      .btn-primary {
+        background: var(--gold);
+        color: var(--primary-green);
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+      }
+
+      .btn-primary:hover {
+        background: var(--gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.8);
+      }
+
+      .btn-secondary:hover {
+        background: white;
+        color: var(--primary-green);
+        border-color: white;
+      }
+
+      /* Sections */
+      .section {
+        padding: 4rem 0;
+        scroll-margin-top: 6rem;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: var(--primary-green);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .section-description {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        max-width: 42rem;
+        margin: 0 auto;
+      }
+
+      /* Cards */
+      .card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 20px var(--shadow-light);
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 40px var(--shadow-medium);
+        border-color: var(--gold);
+      }
+
+      .grid {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 768px) {
+        .grid-2 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 768px) {
+        .grid-3 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .grid-3 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      /* Features list */
+      .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 0.5rem 0;
+      }
+
+      .feature-icon {
+        color: var(--primary-green);
+        margin-top: 0.125rem;
+      }
+
+      /* Code blocks */
       .code-block {
-        background: linear-gradient(135deg, #1a5f4a 0%, #0f4c3a 100%);
-        color: #e2e8f0;
+        background: var(--code-bg);
+        color: var(--code-text);
         padding: 1.5rem;
-        border-radius: 12px;
-        font-size: 0.9rem;
+        border-radius: 0.75rem;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 0.875rem;
         overflow-x: auto;
-        border: 1px solid rgba(212, 175, 55, 0.3);
+        border: 1px solid var(--border-color);
         position: relative;
+        line-height: 1.5;
       }
 
       .code-block::before {
@@ -316,768 +904,1013 @@
         left: 0;
         right: 0;
         height: 3px;
-        background: linear-gradient(90deg, #d4af37, #f4d03f);
-        border-radius: 12px 12px 0 0;
+        background: linear-gradient(90deg, var(--gold), var(--primary-green));
+        border-radius: 0.75rem 0.75rem 0 0;
       }
 
+      /* Method badges */
       .method-badge {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         padding: 0.25rem 0.75rem;
         border-radius: 9999px;
         font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        border: 1px solid rgba(212, 175, 55, 0.5);
       }
 
-      .get {
-        background: #d4af37;
-        color: #0f4c3a;
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-      }
-      .post {
-        background: #1a5f4a;
-        color: white;
-        box-shadow: 0 4px 15px rgba(26, 95, 74, 0.3);
-      }
-      .put {
-        background: #2d8659;
-        color: white;
-        box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
-      }
-      .delete {
-        background: #8b5a3c;
-        color: white;
-        box-shadow: 0 4px 15px rgba(139, 90, 60, 0.3);
+      .method-get {
+        background: var(--gold);
+        color: var(--primary-green);
       }
 
-      .nav-link {
+      /* API Playground */
+      .playground {
+        background: linear-gradient(
+          135deg,
+          rgba(212, 175, 55, 0.05) 0%,
+          rgba(15, 76, 58, 0.05) 50%,
+          rgba(45, 134, 89, 0.05) 100%
+        );
+        border: 1px solid var(--gold);
+        border-radius: 1.5rem;
+        padding: 0.25rem;
+      }
+
+      .playground-inner {
+        background: var(--bg-primary);
+        border-radius: 1.25rem;
+        padding: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--border-color);
+        border-radius: 0.75rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 1rem;
         transition: all 0.3s ease;
-        border-radius: 8px;
-        padding: 0.5rem 1rem;
-        color: rgba(255, 255, 255, 0.95);
-        font-weight: 500;
       }
 
-      .nav-link:hover {
-        background: rgba(212, 175, 55, 0.2);
-        transform: translateX(4px);
-        color: white;
-        border-color: rgba(212, 175, 55, 0.4);
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 3px rgba(15, 76, 58, 0.1);
       }
 
-      .floating-nav {
-        position: fixed;
-        top: 50%;
-        right: 2rem;
-        transform: translateY(-50%);
-        z-index: 50;
+      /* Response display */
+      .response-display {
+        background: var(--code-bg);
+        color: var(--code-text);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        min-height: 20rem;
+        overflow: auto;
+        font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border: 1px solid var(--border-color);
       }
 
-      .section {
-        scroll-margin-top: 6rem;
+      /* Footer */
+      .footer {
+        background: var(--bg-secondary);
+        padding: 3rem 0;
+        border-top: 1px solid var(--border-color);
       }
 
-      .hero-gradient {
-        background: linear-gradient(
-          135deg,
-          rgba(15, 76, 58, 0.95) 0%,
-          rgba(26, 95, 74, 0.95) 50%,
-          rgba(45, 134, 89, 0.95) 100%
-        );
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-      }
-
-      .interactive-demo {
-        background: linear-gradient(
-          135deg,
-          rgba(212, 175, 55, 0.2) 0%,
-          rgba(26, 95, 74, 0.3) 50%,
-          rgba(45, 134, 89, 0.2) 100%
-        );
-        border: 1px solid rgba(212, 175, 55, 0.3);
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px) translateX(0px) rotate(0deg);
-          opacity: 0.8;
-        }
-        25% {
-          transform: translateY(-10px) translateX(3px) rotate(45deg);
-          opacity: 1;
-        }
-        50% {
-          transform: translateY(-15px) translateX(-3px) rotate(90deg);
-          opacity: 0.6;
-        }
-        75% {
-          transform: translateY(-8px) translateX(5px) rotate(135deg);
-          opacity: 0.9;
-        }
-      }
-
-      .float-animation {
-        animation: float 6s ease-in-out infinite;
-      }
-
-      .response-highlight {
-        background: rgba(212, 175, 55, 0.1);
-        color: #1f2937;
-        padding: 1rem;
-        border-radius: 12px;
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        box-shadow: 0 8px 25px rgba(15, 76, 58, 0.2);
-      }
-
+      /* Animations */
       .fade-in {
-        animation: fadeIn 0.8s ease-out;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive utilities */
+      .hidden {
+        display: none;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Loading spinner */
+      .spinner {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid var(--border-color);
+        border-radius: 50%;
+        border-top-color: var(--primary-green);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
         to {
-          opacity: 1;
-          transform: translateY(0);
+          transform: rotate(360deg);
         }
-      }
-
-      .slide-in {
-        animation: slideIn 0.6s ease-out;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      /* Mobile optimizations */
-      @media (max-width: 640px) {
-        .glass-card {
-          padding: 1rem;
-        }
-
-        .float-animation {
-          animation-duration: 4s;
-        }
-      }
-
-      /* Enhanced hover effects */
-      .glass-card:hover {
-        background: rgba(255, 255, 255, 0.98);
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      /* Focus states for accessibility */
-      button:focus,
-      select:focus {
-        outline: 2px solid rgba(212, 175, 55, 0.6);
-        outline-offset: 2px;
       }
 
       /* Smooth scrolling */
       html {
         scroll-behavior: smooth;
       }
+
+      /* Focus styles for accessibility */
+      *:focus-visible {
+        outline: 2px solid var(--gold);
+        outline-offset: 2px;
+      }
+
+      /* High contrast mode support */
+      @media (prefers-contrast: high) {
+        .card {
+          border-width: 2px;
+        }
+
+        .btn {
+          border-width: 2px;
+        }
+      }
+
+      /* Reduced motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Print styles */
+      @media print {
+        .header,
+        .mobile-menu,
+        .header-actions,
+        .hero-actions,
+        .playground {
+          display: none;
+        }
+
+        body {
+          background: white;
+          color: black;
+        }
+
+        .card {
+          border: 1px solid #ccc;
+          background: white;
+        }
+      }
     </style>
     <script>
       const baseCurrentLocation =
         window.location.origin + window.location.pathname;
+
+      // Theme management
+      const initTheme = () => {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        } else if (prefersDark) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      };
+
+      // Initialize theme before page load
+      initTheme();
     </script>
   </head>
-  <body class="min-h-screen islamic-pattern">
-    <!-- Fixed Navigation -->
-    <nav
-      class="fixed top-0 left-0 right-0 z-40 glass border-b border-yellow-400/20"
-    >
-      <div class="container mx-auto px-4 py-3">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div
-              class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-green-600 rounded-lg flex items-center justify-center"
-              role="img"
-              aria-label="Mosque icon"
-            >
-              <i class="fas fa-mosque text-white text-sm"></i>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-mosque" aria-hidden="true"></i>
             </div>
-            <h1
-              class="text-xl font-bold bg-green-700 to-white bg-clip-text text-transparent"
+            <span class="logo-text">Prayer Times API</span>
+          </a>
+
+          <nav class="nav">
+            <a href="#overview" class="nav-link">Overview</a>
+            <a href="#authentication" class="nav-link">Authentication</a>
+            <a href="#endpoints" class="nav-link">Endpoints</a>
+            <a href="#examples" class="nav-link">Examples</a>
+            <a href="#playground" class="nav-link">Playground</a>
+            <a href="/dashboard/" class="nav-link nav-cta">Dashboard</a>
+          </nav>
+
+          <div class="header-actions">
+            <button
+              class="mobile-menu-btn"
+              id="mobile-menu-btn"
+              aria-label="Open menu"
             >
-              Prayer Times API
-            </h1>
+              <i class="fas fa-bars"></i>
+            </button>
           </div>
-          <div class="hidden md:flex space-x-6">
-            <a href="#overview" class="nav-link text-green-700 hover:text-black"
-              >Overview</a
-            >
-            <a
-              href="#authentication"
-              class="nav-link text-green-700 hover:text-black"
-              >Auth</a
-            >
-            <a
-              href="#endpoints"
-              class="nav-link text-green-700 hover:text-black"
-              >Endpoints</a
-            >
-            <a href="#examples" class="nav-link text-green-700 hover:text-black"
-              >Examples</a
-            >
-            <a
-              href="#playground"
-              class="nav-link text-green-700 hover:text-black"
-              >Playground</a
-            >
-            <a
-              href="/dashboard/"
-              class="nav-link bg-yellow-400 text-green-900 px-4 py-2 rounded-full font-semibold hover:bg-yellow-500 hover:scale-105 transition-all"
-              >Dashboard</a
-            >
-          </div>
-          <button id="mobile-menu-btn" class="md:hidden text-white">
-            <i class="fas fa-bars text-xl"></i>
-          </button>
         </div>
       </div>
-    </nav>
+    </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-50 glass hidden">
-      <div
-        class="flex flex-col items-center justify-center h-full space-y-8 text-xl"
-      >
-        <a href="#overview" class="nav-link text-white hover:text-yellow-200"
-          >Overview</a
-        >
-        <a
-          href="#authentication"
-          class="nav-link text-white hover:text-yellow-200"
-          >Authentication</a
-        >
-        <a href="#endpoints" class="nav-link text-white hover:text-yellow-200"
-          >Endpoints</a
-        >
-        <a href="#examples" class="nav-link text-white hover:text-yellow-200"
-          >Examples</a
-        >
-        <a href="#playground" class="nav-link text-white hover:text-yellow-200"
-          >Playground</a
-        >
-        <button
-          id="close-mobile-menu"
-          class="text-gray-400 hover:text-white mt-8"
-        >
-          <i class="fas fa-times text-2xl"></i>
-        </button>
-      </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <button class="close-menu" id="close-menu" aria-label="Close menu">
+        <i class="fas fa-times"></i>
+      </button>
+      <nav>
+        <a href="#overview" class="mobile-nav-link">Overview</a>
+        <a href="#authentication" class="mobile-nav-link">Authentication</a>
+        <a href="#endpoints" class="mobile-nav-link">Endpoints</a>
+        <a href="#examples" class="mobile-nav-link">Examples</a>
+        <a href="#playground" class="mobile-nav-link">Playground</a>
+        <a href="/dashboard/" class="mobile-nav-link">Dashboard</a>
+      </nav>
     </div>
 
-    <!-- Floating Navigation -->
-    <div class="floating-nav hidden xl:block">
-      <div class="glass rounded-full p-4 space-y-3">
-        <a
-          href="#overview"
-          class="block w-3 h-3 rounded-full bg-yellow-400 hover:scale-125 transition-all"
-          title="Overview"
-        ></a>
-        <a
-          href="#authentication"
-          class="block w-3 h-3 rounded-full bg-green-400 hover:scale-125 transition-all"
-          title="Authentication"
-        ></a>
-        <a
-          href="#endpoints"
-          class="block w-3 h-3 rounded-full bg-green-500 hover:scale-125 transition-all"
-          title="Endpoints"
-        ></a>
-        <a
-          href="#examples"
-          class="block w-3 h-3 rounded-full bg-yellow-400 hover:scale-125 transition-all"
-          title="Examples"
-        ></a>
-        <a
-          href="#playground"
-          class="block w-3 h-3 rounded-full bg-pink-400 hover:scale-125 transition-all"
-          title="Playground"
-        ></a>
-      </div>
-    </div>
-
-    <main class="pt-20 relative z-10">
+    <!-- Main Content -->
+    <main class="main">
       <!-- Hero Section -->
-      <section class="hero-gradient py-20 px-4 fade-in">
-        <div class="container mx-auto max-w-4xl text-center">
-          <div class="float-animation inline-block mb-6">
-            <div
-              class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-yellow-400/30"
-              role="img"
-              aria-label="Mosque icon - Prayer Times API"
-            >
-              <i class="fas fa-mosque text-4xl text-yellow-400"></i>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <div class="hero-icon">
+              <i class="fas fa-mosque" aria-hidden="true"></i>
             </div>
-          </div>
-          <h1
-            class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent"
-          >
-            Prayer Times API
-          </h1>
-          <p
-            class="text-xl md:text-2xl text-white text-opacity-90 mb-8 max-w-2xl mx-auto"
-          >
-            A comprehensive REST API for accessing accurate Islamic prayer times
-            data for locations in Kerala, India. Free, fast, and reliable.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#playground"
-              class="bg-yellow-400 text-green-900 px-8 py-3 rounded-full font-semibold hover:bg-yellow-500 hover:scale-105 transition-all transform shadow-lg"
-            >
-              <i class="fas fa-play mr-2"></i>Try It Now
-            </a>
-            <a
-              href="#endpoints"
-              class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-green-800 transition-all text-white"
-            >
-              <i class="fas fa-book mr-2"></i>View Documentation
-            </a>
+            <h1 class="hero-title">Prayer Times API</h1>
+            <p class="hero-description">
+              A comprehensive REST API for accessing accurate Islamic prayer
+              times data for locations in Kerala, India. Free, fast, and
+              reliable.
+            </p>
+            <div class="hero-actions">
+              <a href="#playground" class="btn btn-primary">
+                <i class="fas fa-play" aria-hidden="true"></i>
+                Try It Now
+              </a>
+              <a href="#endpoints" class="btn btn-secondary">
+                <i class="fas fa-book" aria-hidden="true"></i>
+                View Documentation
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      <div class="container mx-auto px-4 py-12 max-w-6xl">
-        <!-- Overview -->
-        <section id="overview" class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <header>
-              <h2
-                class="text-3xl font-bold mb-6 text-center bg-green-700 to-green-400 bg-clip-text text-transparent"
+      <!-- Overview Section -->
+      <section id="overview" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-book-open" aria-hidden="true"></i>
+              API Overview
+            </h2>
+            <p class="section-description">
+              Everything you need to know to get started with our Prayer Times
+              API
+            </p>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <h3
+                class="section-title"
+                style="font-size: 1.5rem; margin-bottom: 1.5rem"
               >
-                <i class="fas fa-book-open mr-3"></i>API Overview
-              </h2>
-            </header>
-            <div class="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 class="text-xl font-semibold mb-4 text-green-700">
-                  <i class="fas fa-bullseye mr-2"></i>Features
-                </h3>
-                <ul class="space-y-3 text-gray-700">
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-check"></i
-                    ></span>
-                    <span>Accurate prayer times for locations in Kerala</span>
-                  </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-check"></i
-                    ></span>
-                    <span>Daily, monthly, and yearly data formats</span>
-                  </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-check"></i
-                    ></span>
-                    <span>RESTful JSON API with consistent responses</span>
-                  </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-check"></i
-                    ></span>
-                    <span>No authentication required</span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 class="text-xl font-semibold mb-4 text-green-700">
-                  <i class="fas fa-bolt mr-2"></i>Quick Start
-                </h3>
-                <div class="code-block">
-                  <div class="text-green-300 mb-2">
-                    # Get today's prayer times for Kuttiady Assembly
-                    Constituency
-                  </div>
-                  <div class="text-blue-300">curl -X GET \</div>
-                  <div class="text-white ml-4">
-                    /v1/timesheets/Kuttiady_Assembly_Constituency/today.json
-                  </div>
+                <i class="fas fa-star" aria-hidden="true"></i>
+                Features
+              </h3>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>Accurate prayer times for locations in Kerala</span>
+                </li>
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>Daily, monthly, and yearly data formats</span>
+                </li>
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>RESTful JSON API with consistent responses</span>
+                </li>
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>No authentication required</span>
+                </li>
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>Fast and reliable service</span>
+                </li>
+                <li class="feature-item">
+                  <i
+                    class="fas fa-check-circle feature-icon"
+                    aria-hidden="true"
+                  ></i>
+                  <span>CORS enabled for web applications</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3
+                class="section-title"
+                style="font-size: 1.5rem; margin-bottom: 1.5rem"
+              >
+                <i class="fas fa-rocket" aria-hidden="true"></i>
+                Quick Start
+              </h3>
+              <div class="code-block">
+                <div style="color: var(--primary-green); margin-bottom: 0.5rem">
+                  # Get today's prayer times for Kuttiady Assembly Constituency
+                </div>
+                <div style="color: #3b82f6">curl -X GET \</div>
+                <div style="margin-left: 1rem">
+                  <script>
+                    document.write(baseCurrentLocation.replace(/\/+$/, ""));
+                  </script>
+                  /v1/timesheets/Kuttiady_Assembly_Constituency/today.json
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Base URL -->
-        <section class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-green-700">
-              <i class="fas fa-link mr-2"></i>Base URL
+      <!-- Base URL Section -->
+      <section class="section" style="padding: 2rem 0">
+        <div class="container">
+          <div class="card">
+            <h2 class="section-title" style="margin-bottom: 1.5rem">
+              <i class="fas fa-link" aria-hidden="true"></i>
+              Base URL
             </h2>
             <div class="code-block">
-              <div class="text-yellow-300 text-lg font-mono">
+              <div
+                style="
+                  color: var(--gold);
+                  font-size: 1.125rem;
+                  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                "
+              >
                 <script>
                   document.write(baseCurrentLocation.replace(/\/+$/, ""));
                 </script>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Authentication -->
-        <section id="authentication" class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-green-700">
-              <i class="fas fa-lock-open mr-2"></i>Authentication
-            </h2>
-            <div class="response-highlight">
-              <p class="font-semibold mb-2">
-                <i class="fas fa-check-circle mr-2 text-green-400"></i>No
-                Authentication Required
-              </p>
-              <p>
+      <!-- Authentication Section -->
+      <section id="authentication" class="section">
+        <div class="container">
+          <div class="card">
+            <div class="section-header">
+              <h2 class="section-title">
+                <i class="fas fa-lock-open" aria-hidden="true"></i>
+                Authentication
+              </h2>
+            </div>
+            <div
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(212, 175, 55, 0.1),
+                  rgba(15, 76, 58, 0.1)
+                );
+                padding: 2rem;
+                border-radius: 1rem;
+                border: 2px solid var(--gold);
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.75rem;
+                  margin-bottom: 1rem;
+                "
+              >
+                <i
+                  class="fas fa-check-circle"
+                  style="color: var(--primary-green); font-size: 1.5rem"
+                ></i>
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0;
+                  "
+                >
+                  No Authentication Required
+                </h3>
+              </div>
+              <p
+                style="
+                  color: var(--text-secondary);
+                  margin: 0;
+                  font-size: 1.125rem;
+                "
+              >
                 This API is completely open and does not require any API keys,
                 tokens, or authentication headers. Simply make requests to the
-                endpoints directly.
+                endpoints directly and start integrating immediately.
               </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Endpoints -->
-        <section id="endpoints" class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-8 text-green-700">
-              <i class="fas fa-map-marker-alt mr-2"></i>API Endpoints
+      <!-- Endpoints Section -->
+      <section id="endpoints" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-code" aria-hidden="true"></i>
+              API Endpoints
             </h2>
+            <p class="section-description">
+              Explore all available endpoints and their usage
+            </p>
+          </div>
 
-            <div class="space-y-8">
-              <!-- Get Locations -->
+          <div class="grid gap-6">
+            <!-- Get Locations -->
+            <div class="card">
               <div
-                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1.5rem;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
               >
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0;
+                  "
+                >
+                  <i class="fas fa-list" aria-hidden="true"></i>
+                  Get Available Locations
+                </h3>
+                <span class="method-badge method-get">GET</span>
+              </div>
+              <div class="code-block" style="margin-bottom: 1rem">
+                <div style="color: #3b82f6">GET</div>
                 <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                  style="
+                    color: var(--text-primary);
+                    font-size: 1.125rem;
+                    margin-top: 0.25rem;
+                  "
                 >
-                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
-                    <i class="fas fa-list mr-2"></i>Get Available Locations
-                  </h3>
-                  <span class="method-badge get">GET</span>
+                  /v1/timesheets/index.json
                 </div>
-                <div class="code-block mb-4">
-                  <div class="text-blue-300">GET</div>
-                  <div class="text-white text-lg">
-                    /v1/timesheets/index.json
-                  </div>
-                </div>
-                <p class="text-gray-700 mb-4">
-                  Returns an array of all available location identifiers.
-                </p>
-                <details
-                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
+              </div>
+              <p style="color: var(--text-secondary); margin-bottom: 1.5rem">
+                Returns an array of all available location identifiers that you
+                can use for fetching prayer times.
+              </p>
+              <details
+                style="
+                  background: var(--bg-secondary);
+                  border-radius: 0.75rem;
+                  padding: 1rem;
+                  border: 1px solid var(--border-color);
+                "
+              >
+                <summary
+                  style="
+                    cursor: pointer;
+                    font-weight: 600;
+                    color: var(--primary-green);
+                  "
                 >
-                  <summary
-                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                  Response Example
+                </summary>
+                <div class="code-block" style="margin-top: 1rem">
+                  [ "Kozhikode_North_Assembly_Constituency",
+                  "Chandrika_Calicut_2011", "Arookutty_Vaduthala",
+                  "Kalpetta_Assembly_Constituency" ]
+                </div>
+              </details>
+            </div>
+
+            <!-- Today's Prayer Times -->
+            <div class="card">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1.5rem;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
+              >
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0;
+                  "
+                >
+                  <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                  Get Today's Prayer Times
+                </h3>
+                <span class="method-badge method-get">GET</span>
+              </div>
+              <div class="code-block" style="margin-bottom: 1rem">
+                <div style="color: #3b82f6">GET</div>
+                <div
+                  style="
+                    color: var(--text-primary);
+                    font-size: 1.125rem;
+                    margin-top: 0.25rem;
+                  "
+                >
+                  /v1/timesheets/<span
+                    style="color: var(--gold); font-weight: 600"
+                    >{location}</span
+                  >/today.json
+                </div>
+              </div>
+              <div
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(15, 76, 58, 0.1),
+                    rgba(212, 175, 55, 0.1)
+                  );
+                  padding: 1rem;
+                  border-radius: 0.75rem;
+                  margin-bottom: 1.5rem;
+                  border: 1px solid var(--primary-green);
+                "
+              >
+                <h4
+                  style="
+                    font-weight: 600;
+                    color: var(--primary-green);
+                    margin: 0 0 0.5rem 0;
+                  "
+                >
+                  <i class="fas fa-cog" aria-hidden="true"></i>
+                  Parameters
+                </h4>
+                <div style="color: var(--text-secondary)">
+                  <code
+                    style="
+                      background: var(--bg-primary);
+                      padding: 0.25rem 0.5rem;
+                      border-radius: 0.25rem;
+                      border: 1px solid var(--border-color);
+                    "
                   >
-                    <i class="fas fa-eye mr-2"></i>Response Example
-                  </summary>
-                  <div class="code-block mt-4">
-                    [ "Kozhikode_North_Assembly_Constituency",
-                    "Chandrika_Calicut_2011", "Arookutty_Vaduthala",
-                    "Kalpetta_Assembly_Constituency", ]
-                  </div>
-                </details>
+                    {location}
+                  </code>
+                  - Location identifier with underscores instead of spaces
+                </div>
               </div>
-
-              <!-- Today's Prayer Times -->
-              <div
-                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+              <details
+                style="
+                  background: var(--bg-secondary);
+                  border-radius: 0.75rem;
+                  padding: 1rem;
+                  border: 1px solid var(--border-color);
+                "
               >
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                <summary
+                  style="
+                    cursor: pointer;
+                    font-weight: 600;
+                    color: var(--primary-green);
+                  "
                 >
-                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
-                    <i class="fas fa-calendar-day mr-2"></i>Get Today's Prayer
-                    Times
-                  </h3>
-                  <span class="method-badge get">GET</span>
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                  Response Example
+                </summary>
+                <div class="code-block" style="margin-top: 1rem">
+                  { "date": "29-08-2025", "subh": "4:57 AM", "duhr": "12:31 PM",
+                  "asar": "3:38 PM", "maghrib": "6:43 PM", "isha": "7:53 PM",
+                  "sunrise": "6:17 AM" }
                 </div>
-                <div class="code-block mb-4">
-                  <div class="text-blue-300">GET</div>
-                  <div class="text-white text-lg">
-                    /v1/timesheets/<span class="text-yellow-300"
-                      >{location}</span
-                    >/today.json
-                  </div>
-                </div>
-                <div
-                  class="bg-green-100 rounded-lg p-4 mb-4 border border-green-200"
-                >
-                  <h4 class="font-semibold text-green-700 mb-2">
-                    <i class="fas fa-cog mr-2"></i>Parameters
-                  </h4>
-                  <div class="text-gray-700">
-                    <code class="bg-white/50 px-2 py-1 rounded border"
-                      >{location}</code
-                    >
-                    - Location identifier with underscores instead of spaces
-                  </div>
-                </div>
-                <details
-                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
-                >
-                  <summary
-                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
-                  >
-                    <i class="fas fa-eye mr-2"></i>Response Example
-                  </summary>
-                  <div class="code-block mt-4">
-                    <code>
-                      { "date": "29-08-2025", "subh": "4:57 AM", "duhr": "12:31
-                      PM", "asar": "3:38 PM", "maghrib": "6:43 PM", "isha":
-                      "7:53 PM", "sunrise": "6:17 AM" }</code
-                    >
-                  </div>
-                </details>
-              </div>
+              </details>
+            </div>
 
-              <!-- Month's Prayer Times -->
+            <!-- Month's Prayer Times -->
+            <div class="card">
               <div
-                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1.5rem;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
               >
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0;
+                  "
                 >
-                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
-                    <i class="fas fa-calendar-alt mr-2"></i>Get Month's Prayer
-                    Times
-                  </h3>
-                  <span class="method-badge get">GET</span>
-                </div>
-                <div class="code-block mb-4">
-                  <div class="text-blue-300">GET</div>
-                  <div class="text-white text-lg">
-                    /v1/timesheets/<span class="text-yellow-300"
-                      >{location}</span
-                    >/month.json
-                  </div>
-                </div>
-                <p class="text-gray-700 mb-4">
-                  Returns prayer times for the current month.
-                </p>
-                <details
-                  class="bg-white/70 rounded-lg p-4 border border-yellow-400/20"
-                >
-                  <summary
-                    class="cursor-pointer font-semibold text-green-700 hover:text-green-600"
-                  >
-                    <i class="fas fa-eye mr-2"></i>Response Example
-                  </summary>
-                  <div class="code-block mt-4">
-                    [ { "date": "01-08-2025", "subh": "4:52 AM", "duhr": "12:37
-                    PM", "asar": "3:53 PM", "maghrib": "6:56 PM", "isha": "8:09
-                    PM", "sunrise": "6:15 AM" }, { "date": "02-08-2025", "subh":
-                    "4:52 AM", "duhr": "12:37 PM", "asar": "3:53 PM", "maghrib":
-                    "6:55 PM", "isha": "8:09 PM", "sunrise": "6:15 AM" }, {
-                    "date": "03-08-2025", "subh": "4:52 AM", "duhr": "12:37 PM",
-                    "asar": "3:52 PM", "maghrib": "6:55 PM", "isha": "8:08 PM",
-                    "sunrise": "6:15 AM" }, { "date": "04-08-2025", "subh":
-                    "4:52 AM", "duhr": "12:36 PM", "asar": "3:51 PM", "maghrib":
-                    "6:55 PM", "isha": "8:08 PM", "sunrise": "6:15 AM" }, ... ]
-                  </div>
-                </details>
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  Get Month's Prayer Times
+                </h3>
+                <span class="method-badge method-get">GET</span>
               </div>
+              <div class="code-block" style="margin-bottom: 1rem">
+                <div style="color: #3b82f6">GET</div>
+                <div
+                  style="
+                    color: var(--text-primary);
+                    font-size: 1.125rem;
+                    margin-top: 0.25rem;
+                  "
+                >
+                  /v1/timesheets/<span
+                    style="color: var(--gold); font-weight: 600"
+                    >{location}</span
+                  >/month.json
+                </div>
+              </div>
+              <p style="color: var(--text-secondary); margin-bottom: 1.5rem">
+                Returns prayer times for the current month as an array of
+                objects.
+              </p>
+              <details
+                style="
+                  background: var(--bg-secondary);
+                  border-radius: 0.75rem;
+                  padding: 1rem;
+                  border: 1px solid var(--border-color);
+                "
+              >
+                <summary
+                  style="
+                    cursor: pointer;
+                    font-weight: 600;
+                    color: var(--primary-green);
+                  "
+                >
+                  <i class="fas fa-eye" aria-hidden="true"></i>
+                  Response Example
+                </summary>
+                <div class="code-block" style="margin-top: 1rem">
+                  [ { "date": "01-08-2025", "subh": "4:52 AM", "duhr": "12:37
+                  PM", "asar": "3:53 PM", "maghrib": "6:56 PM", "isha": "8:09
+                  PM", "sunrise": "6:15 AM" }, { "date": "02-08-2025", "subh":
+                  "4:52 AM", "duhr": "12:37 PM", "asar": "3:53 PM", "maghrib":
+                  "6:55 PM", "isha": "8:09 PM", "sunrise": "6:15 AM" } ]
+                </div>
+              </details>
+            </div>
 
-              <!-- Year's Prayer Times -->
+            <!-- Year's Prayer Times -->
+            <div class="card">
               <div
-                class="border border-yellow-400/20 rounded-2xl p-6 bg-gradient-to-r from-green-50 to-yellow-50"
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 1.5rem;
+                  flex-wrap: wrap;
+                  gap: 1rem;
+                "
               >
-                <div
-                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4"
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0;
+                  "
                 >
-                  <h3 class="text-xl font-semibold text-gray-800 mb-2 sm:mb-0">
-                    <i class="fas fa-calendar mr-2"></i>Get Year's Prayer Times
-                  </h3>
-                  <span class="method-badge get">GET</span>
-                </div>
-                <div class="code-block mb-4">
-                  <div class="text-blue-300">GET</div>
-                  <div class="text-white text-lg">
-                    /v1/timesheets/<span class="text-yellow-300"
-                      >{location}</span
-                    >/year.json
-                  </div>
-                </div>
-                <p class="text-gray-700 mb-4">
-                  Returns prayer times for the entire current year.
-                </p>
+                  <i class="fas fa-calendar" aria-hidden="true"></i>
+                  Get Year's Prayer Times
+                </h3>
+                <span class="method-badge method-get">GET</span>
               </div>
+              <div class="code-block" style="margin-bottom: 1rem">
+                <div style="color: #3b82f6">GET</div>
+                <div
+                  style="
+                    color: var(--text-primary);
+                    font-size: 1.125rem;
+                    margin-top: 0.25rem;
+                  "
+                >
+                  /v1/timesheets/<span
+                    style="color: var(--gold); font-weight: 600"
+                    >{location}</span
+                  >/year.json
+                </div>
+              </div>
+              <p style="color: var(--text-secondary)">
+                Returns prayer times for the entire current year as an array of
+                objects.
+              </p>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Response Format -->
-        <section class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-green-700">
-              <i class="fas fa-clipboard-list mr-2"></i>Response Format
-            </h2>
-            <div class="grid md:grid-cols-2 gap-6">
+      <!-- Response Format Section -->
+      <section class="section" style="padding: 2rem 0">
+        <div class="container">
+          <div class="card">
+            <div class="section-header">
+              <h2 class="section-title">
+                <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+                Response Format
+              </h2>
+            </div>
+            <div class="grid grid-2">
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-green-600">
-                  <i class="fas fa-database mr-2"></i>Data Formats
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--primary-green);
+                    margin-bottom: 1rem;
+                  "
+                >
+                  <i class="fas fa-database" aria-hidden="true"></i>
+                  Data Formats
                 </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li>
-                    <code class="bg-green-100 px-2 py-1 rounded border"
+                <ul class="feature-list">
+                  <li class="feature-item">
+                    <code
+                      style="
+                        background: var(--bg-tertiary);
+                        padding: 0.25rem 0.5rem;
+                        border-radius: 0.25rem;
+                        border: 1px solid var(--border-color);
+                        font-size: 0.875rem;
+                      "
                       >Time:</code
                     >
-                    12-hour format (hh:mm AM/PM)
+                    <span>12-hour format (hh:mm AM/PM)</span>
                   </li>
-                  <li>
-                    <code class="bg-green-100 px-2 py-1 rounded border"
+                  <li class="feature-item">
+                    <code
+                      style="
+                        background: var(--bg-tertiary);
+                        padding: 0.25rem 0.5rem;
+                        border-radius: 0.25rem;
+                        border: 1px solid var(--border-color);
+                        font-size: 0.875rem;
+                      "
                       >Date:</code
                     >
-                    DD-MM-YYYY format
+                    <span>DD-MM-YYYY format</span>
                   </li>
-                  <li>
-                    <code class="bg-green-100 px-2 py-1 rounded border"
+                  <li class="feature-item">
+                    <code
+                      style="
+                        background: var(--bg-tertiary);
+                        padding: 0.25rem 0.5rem;
+                        border-radius: 0.25rem;
+                        border: 1px solid var(--border-color);
+                        font-size: 0.875rem;
+                      "
                       >Location:</code
                     >
-                    Underscore separated
+                    <span>Underscore separated identifiers</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-red-600">
-                  <i class="fas fa-exclamation-triangle mr-2"></i>Error
-                  Responses
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: #dc2626;
+                    margin-bottom: 1rem;
+                  "
+                >
+                  <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                  Error Responses
                 </h3>
                 <div class="code-block">
-                  <div class="text-red-300">404 Not Found</div>
-                  <div class="text-gray-300">
+                  <div style="color: #dc2626">404 Not Found</div>
+                  <div style="color: var(--text-muted); margin-top: 0.25rem">
                     When location or file doesn't exist
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Code Examples -->
-        <section id="examples" class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-8 text-green-700">
-              <i class="fas fa-code mr-2"></i>Code Examples
+      <!-- Code Examples Section -->
+      <section id="examples" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-code" aria-hidden="true"></i>
+              Code Examples
             </h2>
+            <p class="section-description">
+              Integration examples in different programming languages
+            </p>
+          </div>
 
-            <div class="grid lg:grid-cols-2 gap-8">
-              <!-- JavaScript -->
-              <div>
-                <h3 class="text-lg font-semibold mb-4 text-yellow-600">
-                  <i class="fab fa-js-square mr-2"></i>JavaScript (Fetch)
-                </h3>
-                <div class="code-block">
-                  // Fetch today's prayer times async function
-                  getPrayerTimes(location) { try { const response = await fetch(
-                  `/v1/timesheets/${location}/today.json` ); const data = await
-                  response.json(); console.log(data); } catch (error) {
-                  console.error('Error:', error); } }
-                  getPrayerTimes('Kuttiady_Assembly_Constituency');
-                </div>
+          <div class="grid grid-2">
+            <!-- JavaScript -->
+            <div class="card">
+              <h3
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  color: #f7df1e;
+                  margin-bottom: 1rem;
+                "
+              >
+                <i class="fab fa-js-square" aria-hidden="true"></i>
+                JavaScript (Fetch)
+              </h3>
+              <div class="code-block">
+                // Fetch today's prayer times async function
+                getPrayerTimes(location) { try { const response = await fetch(
+                `/v1/timesheets/${location}/today.json` ); const data = await
+                response.json(); console.log(data); } catch (error) {
+                console.error('Error:', error); } }
+                getPrayerTimes('Kuttiady_Assembly_Constituency');
               </div>
+            </div>
 
-              <!-- cURL -->
-              <div>
-                <h3 class="text-lg font-semibold mb-4 text-green-600">
-                  <i class="fas fa-terminal mr-2"></i>cURL
-                </h3>
-                <div class="code-block">
-                  # Get locations curl -X GET /v1/timesheets/index.json # Get
-                  today's times curl -X GET
-                  /v1/timesheets/Kuttiady_Assembly_Constituency/today.json # Get
-                  month's times curl -X GET /v1/timesheets/Mumbai/month.json
-                </div>
+            <!-- cURL -->
+            <div class="card">
+              <h3
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  color: var(--primary-green);
+                  margin-bottom: 1rem;
+                "
+              >
+                <i class="fas fa-terminal" aria-hidden="true"></i>
+                cURL
+              </h3>
+              <div class="code-block">
+                # Get locations curl -X GET /v1/timesheets/index.json # Get
+                today's times curl -X GET \
+                /v1/timesheets/Kuttiady_Assembly_Constituency/today.json # Get
+                month's times curl -X GET \ /v1/timesheets/Mumbai/month.json
               </div>
+            </div>
 
-              <!-- Python -->
-              <div>
-                <h3 class="text-lg font-semibold mb-4 text-blue-600">
-                  <i class="fab fa-python mr-2"></i>Python (Requests)
-                </h3>
-                <div class="code-block">
-                  import requests def get_prayer_times(location,
-                  period='today'): url =
-                  f"/v1/timesheets/{location}/{period}.json" try: response =
-                  requests.get(url) response.raise_for_status() return
-                  response.json() except requests.exceptions.RequestException as
-                  e: print(f"Error: {e}") return None # Usage data =
-                  get_prayer_times('Istanbul', 'today') print(data)
-                </div>
+            <!-- Python -->
+            <div class="card">
+              <h3
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  color: #3776ab;
+                  margin-bottom: 1rem;
+                "
+              >
+                <i class="fab fa-python" aria-hidden="true"></i>
+                Python (Requests)
+              </h3>
+              <div class="code-block">
+                import requests def get_prayer_times(location, period='today'):
+                url = f"/v1/timesheets/{location}/{period}.json" try: response =
+                requests.get(url) response.raise_for_status() return
+                response.json() except requests.exceptions.RequestException as
+                e: print(f"Error: {e}") return None # Usage data =
+                get_prayer_times('Istanbul', 'today') print(data)
               </div>
+            </div>
 
-              <!-- Node.js -->
-              <div>
-                <h3 class="text-lg font-semibold mb-4 text-purple-600">
-                  <i class="fab fa-node-js mr-2"></i>Node.js (Axios)
-                </h3>
-                <div class="code-block">
-                  const axios = require('axios'); async function
-                  fetchPrayerTimes(location) { try { const response = await
-                  axios.get( `/v1/timesheets/${location}/today.json` ); return
-                  response.data; } catch (error) { console.error('Request
-                  failed:', error); } } // Usage
-                  fetchPrayerTimes('London').then(data => { console.log(data);
-                  });
-                </div>
+            <!-- Node.js -->
+            <div class="card">
+              <h3
+                style="
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  color: #68a063;
+                  margin-bottom: 1rem;
+                "
+              >
+                <i class="fab fa-node-js" aria-hidden="true"></i>
+                Node.js (Axios)
+              </h3>
+              <div class="code-block">
+                const axios = require('axios'); async function
+                fetchPrayerTimes(location) { try { const response = await
+                axios.get( `/v1/timesheets/${location}/today.json` ); return
+                response.data; } catch (error) { console.error('Request
+                failed:', error); } } // Usage
+                fetchPrayerTimes('London').then(data => { console.log(data); });
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Interactive Playground -->
-        <section id="playground" class="section mb-16 slide-in">
-          <div class="interactive-demo rounded-3xl p-1">
-            <div class="glass-card rounded-3xl p-8">
-              <h2 class="text-2xl font-bold mb-8 text-center text-green-700">
-                <i class="fas fa-flask mr-2"></i>Interactive API Playground
-              </h2>
+      <!-- Interactive Playground Section -->
+      <section id="playground" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-flask" aria-hidden="true"></i>
+              Interactive API Playground
+            </h2>
+            <p class="section-description">
+              Test the API endpoints directly from your browser
+            </p>
+          </div>
 
-              <div class="grid lg:grid-cols-2 gap-8">
+          <div class="playground">
+            <div class="playground-inner">
+              <div class="grid grid-2">
                 <!-- Controls -->
-                <div class="space-y-6">
-                  <div>
-                    <label
-                      class="block text-sm font-semibold text-gray-700 mb-2"
-                      ><i class="fas fa-map-marker-alt mr-1"></i>Location</label
-                    >
-                    <select
-                      id="location"
-                      class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
-                    >
+                <div>
+                  <div class="form-group">
+                    <label for="location" class="form-label">
+                      <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                      Location
+                    </label>
+                    <select id="location" class="form-control">
                       <option value="">Select a location...</option>
                     </select>
                   </div>
 
-                  <div>
-                    <label
-                      class="block text-sm font-semibold text-gray-700 mb-2"
-                      ><i class="fas fa-clock mr-1"></i>Time Period</label
-                    >
-                    <select
-                      id="period"
-                      class="w-full px-4 py-3 rounded-xl bg-white border border-gray-300 text-gray-800 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all"
-                    >
+                  <div class="form-group">
+                    <label for="period" class="form-label">
+                      <i class="fas fa-clock" aria-hidden="true"></i>
+                      Time Period
+                    </label>
+                    <select id="period" class="form-control">
                       <option value="today">Today</option>
                       <option value="month">This Month</option>
                       <option value="year">This Year</option>
@@ -1086,20 +1919,39 @@
 
                   <button
                     onclick="testAPI()"
-                    class="w-full bg-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-lg"
+                    class="btn btn-primary"
+                    style="width: 100%"
                   >
-                    <i class="fas fa-rocket mr-2"></i>Fetch Prayer Times
+                    <i class="fas fa-rocket" aria-hidden="true"></i>
+                    Fetch Prayer Times
                   </button>
 
                   <!-- Request Info -->
                   <div
-                    class="bg-green-50 rounded-xl p-4 border border-green-200"
+                    style="
+                      background: linear-gradient(
+                        135deg,
+                        rgba(15, 76, 58, 0.05),
+                        rgba(212, 175, 55, 0.05)
+                      );
+                      padding: 1rem;
+                      border-radius: 0.75rem;
+                      border: 1px solid var(--primary-green);
+                      margin-top: 1.5rem;
+                    "
                   >
-                    <h4 class="font-semibold text-green-700 mb-2">
-                      <i class="fas fa-satellite-dish mr-2"></i>Request Details
+                    <h4
+                      style="
+                        font-weight: 600;
+                        color: var(--primary-green);
+                        margin: 0 0 0.75rem 0;
+                      "
+                    >
+                      <i class="fas fa-satellite-dish" aria-hidden="true"></i>
+                      Request Details
                     </h4>
                     <div id="request-info" class="code-block">
-                      <div class="text-gray-400">
+                      <div style="color: var(--text-muted); text-align: center">
                         Select location and period, then click fetch to see
                         request details
                       </div>
@@ -1109,12 +1961,32 @@
 
                 <!-- Response -->
                 <div>
-                  <h4 class="font-semibold text-green-700 mb-4">
-                    <i class="fas fa-file-code mr-2"></i>API Response
+                  <h4
+                    style="
+                      font-weight: 600;
+                      color: var(--primary-green);
+                      margin-bottom: 1rem;
+                    "
+                  >
+                    <i class="fas fa-file-code" aria-hidden="true"></i>
+                    API Response
                   </h4>
-                  <div id="result" class="code-block h-96 overflow-auto">
-                    <div class="text-gray-400 text-center mt-20">
-                      <i class="fas fa-hand-pointer text-2xl mb-4 block"></i>
+                  <div id="result" class="response-display">
+                    <div
+                      style="
+                        color: var(--text-muted);
+                        text-align: center;
+                        margin-top: 5rem;
+                      "
+                    >
+                      <i
+                        class="fas fa-hand-pointer"
+                        style="
+                          font-size: 2rem;
+                          display: block;
+                          margin-bottom: 1rem;
+                        "
+                      ></i>
                       Select options and click "Fetch Prayer Times" to see the
                       API response
                     </div>
@@ -1123,49 +1995,74 @@
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- Rate Limits & Best Practices -->
-        <section class="section mb-16 slide-in">
-          <div class="glass-card rounded-3xl p-8">
-            <h2 class="text-2xl font-bold mb-6 text-green-700">
-              <i class="fas fa-tachometer-alt mr-2"></i>Best Practices
-            </h2>
-            <div class="grid md:grid-cols-2 gap-8">
+      <!-- Best Practices Section -->
+      <section class="section" style="padding: 2rem 0">
+        <div class="container">
+          <div class="card">
+            <div class="section-header">
+              <h2 class="section-title">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                Best Practices
+              </h2>
+            </div>
+            <div class="grid grid-2">
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-green-600">
-                  <i class="fas fa-chart-line mr-2"></i>Usage Guidelines
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: var(--primary-green);
+                    margin-bottom: 1rem;
+                  "
+                >
+                  <i class="fas fa-chart-line" aria-hidden="true"></i>
+                  Usage Guidelines
                 </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-dot-circle"></i
-                    ></span>
+                <ul class="feature-list">
+                  <li class="feature-item">
+                    <i
+                      class="fas fa-check-circle feature-icon"
+                      aria-hidden="true"
+                    ></i>
                     <span>Cache responses to reduce API calls</span>
                   </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-dot-circle"></i
-                    ></span>
+                  <li class="feature-item">
+                    <i
+                      class="fas fa-check-circle feature-icon"
+                      aria-hidden="true"
+                    ></i>
                     <span>Use appropriate time period endpoints</span>
                   </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-dot-circle"></i
-                    ></span>
+                  <li class="feature-item">
+                    <i
+                      class="fas fa-check-circle feature-icon"
+                      aria-hidden="true"
+                    ></i>
                     <span>Handle 404 errors gracefully</span>
                   </li>
-                  <li class="flex items-start space-x-3">
-                    <span class="text-green-500 mt-1"
-                      ><i class="fas fa-dot-circle"></i
-                    ></span>
+                  <li class="feature-item">
+                    <i
+                      class="fas fa-check-circle feature-icon"
+                      aria-hidden="true"
+                    ></i>
                     <span>Validate location names before requests</span>
                   </li>
                 </ul>
               </div>
               <div>
-                <h3 class="text-lg font-semibold mb-4 text-red-600">
-                  <i class="fas fa-sync-alt mr-2"></i>Error Handling
+                <h3
+                  style="
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: #dc2626;
+                    margin-bottom: 1rem;
+                  "
+                >
+                  <i class="fas fa-bug" aria-hidden="true"></i>
+                  Error Handling
                 </h3>
                 <div class="code-block">
                   if (response.status === 404) { console.log('Location not
@@ -1175,270 +2072,610 @@
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white py-12 backdrop-blur-sm">
-      <div class="container mx-auto px-4 text-center">
-        <div class="glass-card rounded-2xl p-8 max-w-2xl mx-auto">
-          <h3 class="text-xl font-semibold mb-4 text-green-700">
-            <i class="fas fa-question-circle mr-2"></i>Need Help?
-          </h3>
-          <p class="text-gray-700 mb-6">
+    <footer class="footer">
+      <div class="container">
+        <div
+          class="card"
+          style="max-width: 48rem; margin: 0 auto; text-align: center"
+        >
+          <div class="section-header">
+            <h3 class="section-title" style="font-size: 1.5rem">
+              <i class="fas fa-question-circle" aria-hidden="true"></i>
+              Need Help?
+            </h3>
+          </div>
+          <p
+            style="
+              color: var(--text-secondary);
+              margin-bottom: 2rem;
+              font-size: 1.125rem;
+            "
+          >
             This API provides accurate Islamic prayer times for locations in
             Kerala. For support, questions, or feedback, please contact us at
             <a
               href="mailto:support@azantimes.in"
-              class="text-green-600 hover:underline font-semibold"
+              style="
+                color: var(--primary-green);
+                text-decoration: none;
+                font-weight: 600;
+              "
               >support@azantimes.in</a
             >
           </p>
-          <!-- Additional footer links for SEO -->
-          <nav class="mb-6">
-            <div class="flex flex-wrap justify-center gap-4 text-sm">
+
+          <!-- Footer Navigation -->
+          <nav style="margin-bottom: 2rem">
+            <div
+              style="
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+                font-size: 0.875rem;
+              "
+            >
               <a
                 href="#overview"
-                class="text-gray-600 hover:text-green-600 transition-colors"
+                style="
+                  color: var(--text-secondary);
+                  text-decoration: none;
+                  transition: color 0.3s ease;
+                "
                 >API Overview</a
               >
               <a
                 href="#endpoints"
-                class="text-gray-600 hover:text-green-600 transition-colors"
+                style="
+                  color: var(--text-secondary);
+                  text-decoration: none;
+                  transition: color 0.3s ease;
+                "
                 >Endpoints</a
               >
               <a
                 href="#examples"
-                class="text-gray-600 hover:text-green-600 transition-colors"
+                style="
+                  color: var(--text-secondary);
+                  text-decoration: none;
+                  transition: color 0.3s ease;
+                "
                 >Code Examples</a
               >
               <a
                 href="#playground"
-                class="text-gray-600 hover:text-green-600 transition-colors"
+                style="
+                  color: var(--text-secondary);
+                  text-decoration: none;
+                  transition: color 0.3s ease;
+                "
                 >API Playground</a
               >
               <a
                 href="/dashboard/"
-                class="text-gray-600 hover:text-green-600 transition-colors font-semibold"
+                style="
+                  color: var(--primary-green);
+                  text-decoration: none;
+                  font-weight: 600;
+                  transition: color 0.3s ease;
+                "
                 >Prayer Dashboard</a
               >
             </div>
           </nav>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#playground"
-              class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition-all transform hover:scale-105 shadow-lg"
+
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 1rem;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+              "
             >
-              <i class="fas fa-play mr-2"></i>Try API
-            </a>
-            <a
-              href="#examples"
-              class="border-2 border-green-600 text-green-600 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all"
+              <a href="#playground" class="btn btn-primary">
+                <i class="fas fa-play" aria-hidden="true"></i>
+                Try API
+              </a>
+              <a
+                href="#examples"
+                class="btn btn-secondary"
+                style="
+                  background: transparent;
+                  color: var(--primary-green);
+                  border: 2px solid var(--primary-green);
+                "
+              >
+                <i class="fas fa-code" aria-hidden="true"></i>
+                View Examples
+              </a>
+            </div>
+
+            <div
+              style="
+                border-top: 1px solid var(--border-color);
+                padding-top: 1.5rem;
+                margin-top: 1.5rem;
+                width: 100%;
+              "
             >
-              <i class="fas fa-code mr-2"></i>View Examples
-            </a>
+              <p
+                style="color: var(--text-muted); font-size: 0.875rem; margin: 0"
+              >
+                © 2025 api.azantimes.in. Built with ❤️ for the Islamic
+                community.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </footer>
 
     <script>
-      // Mobile menu toggle
-      document
-        .getElementById("mobile-menu-btn")
-        .addEventListener("click", () => {
-          document.getElementById("mobile-menu").classList.remove("hidden");
-        });
+      // Theme Management
+      class ThemeManager {
+        constructor() {
+          this.init();
+        }
 
-      document
-        .getElementById("close-mobile-menu")
-        .addEventListener("click", () => {
-          document.getElementById("mobile-menu").classList.add("hidden");
-        });
+        init() {
+          this.applyTheme();
+          this.setupEventListeners();
+          this.updateThemeIcon();
+        }
 
-      // Close mobile menu when clicking on links
-      document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", () => {
-          document.getElementById("mobile-menu").classList.add("hidden");
-        });
-      });
+        applyTheme() {
+          const savedTheme = localStorage.getItem("theme");
+          const systemPrefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
 
-      // Smooth scrolling for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
+          let theme;
+          if (savedTheme) {
+            theme = savedTheme;
+          } else if (systemPrefersDark) {
+            theme = "dark";
+          } else {
+            theme = "light";
           }
-        });
-      });
 
-      // Load locations
-      async function loadLocations() {
-        const locationSelect = document.getElementById("location");
-        try {
-          const res = await fetch("/v1/timesheets/index.json");
-          if (!res.ok) throw new Error("index.json not found");
-          let locations = await res.json();
+          document.documentElement.setAttribute("data-theme", theme);
+          this.currentTheme = theme;
+        }
 
-          // Normalize and sort
-          locations.sort();
-          locationSelect.innerHTML =
-            '<option value="">Select a location...</option>';
-          locations.forEach((loc) => {
-            const option = document.createElement("option");
-            option.textContent = loc.replace(/_/g, " ");
-            option.value = loc; // already with underscores
-            locationSelect.appendChild(option);
-          });
-        } catch (err) {
-          console.error("⚠️ Could not load locations:", err);
-          locationSelect.innerHTML = `<option disabled>Error loading locations</option>`;
+        toggleTheme() {
+          const newTheme = this.currentTheme === "light" ? "dark" : "light";
+          document.documentElement.setAttribute("data-theme", newTheme);
+          localStorage.setItem("theme", newTheme);
+          this.currentTheme = newTheme;
+          this.updateThemeIcon();
+        }
+
+        updateThemeIcon() {
+          const icon = document.getElementById("theme-icon");
+          const mobileIcon = document.getElementById("mobile-theme-icon");
+          const newClass =
+            this.currentTheme === "light" ? "fas fa-moon" : "fas fa-sun";
+
+          if (icon) {
+            icon.className = newClass;
+          }
+          if (mobileIcon) {
+            mobileIcon.className = newClass;
+          }
+        }
+
+        setupEventListeners() {
+          const themeToggle = document.getElementById("theme-toggle");
+          if (themeToggle) {
+            themeToggle.addEventListener("click", () => this.toggleTheme());
+          }
+
+          // Listen for system theme changes
+          window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", (e) => {
+              if (!localStorage.getItem("theme")) {
+                this.applyTheme();
+                this.updateThemeIcon();
+              }
+            });
         }
       }
 
-      // Test API function
-      async function testAPI() {
-        const loc = document.getElementById("location").value;
-        const period = document.getElementById("period").value;
-        const resultBox = document.getElementById("result");
-        const requestInfo = document.getElementById("request-info");
-
-        if (!loc) {
-          resultBox.innerHTML = `
-            <div class="text-yellow-300 text-center mt-20">
-              ⚠️ Please select a location first
-            </div>
-          `;
-          return;
+      // Mobile Menu Management
+      class MobileMenuManager {
+        constructor() {
+          this.mobileMenu = document.getElementById("mobile-menu");
+          this.mobileMenuBtn = document.getElementById("mobile-menu-btn");
+          this.closeMenuBtn = document.getElementById("close-menu");
+          this.init();
         }
 
-        const url = `/v1/timesheets/${loc}/${period}.json`;
+        init() {
+          this.setupEventListeners();
+        }
 
-        // Show request info
-        requestInfo.innerHTML = `
-          <div class="text-green-300">Method:</div>
-          <div class="text-white ml-4">GET</div>
-          <div class="text-green-300 mt-2">URL:</div>
-          <div class="text-blue-300 ml-4">${url}</div>
-          <div class="text-green-300 mt-2">Headers:</div>
-          <div class="text-white ml-4">Accept: application/json</div>
-        `;
+        setupEventListeners() {
+          // Open mobile menu
+          if (this.mobileMenuBtn) {
+            this.mobileMenuBtn.addEventListener("click", () => this.openMenu());
+          }
 
-        resultBox.innerHTML = `
-          <div class="text-blue-300 text-center mt-20">
-            <div class="animate-spin w-8 h-8 border-2 border-blue-300 border-t-transparent rounded-full mx-auto mb-4"></div>
-            Fetching ${url}...
-          </div>
-        `;
+          // Close mobile menu
+          if (this.closeMenuBtn) {
+            this.closeMenuBtn.addEventListener("click", () => this.closeMenu());
+          }
 
-        try {
-          const res = await fetch(url);
-          if (!res.ok) {
-            resultBox.innerHTML = `
-              <div class="text-red-300">
-                <div class="font-semibold mb-2">❌ Error ${res.status}</div>
-                <div>${res.statusText}</div>
-                <div class="mt-4 text-gray-400 text-sm">
-                  The requested resource was not found. Please check:
-                  <ul class="list-disc ml-6 mt-2">
-                    <li>Location name is correct</li>
-                    <li>Data file exists for this location</li>
-                    <li>API endpoint is accessible</li>
-                  </ul>
-                </div>
+          // Close menu when clicking on links
+          const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+          mobileNavLinks.forEach((link) => {
+            link.addEventListener("click", () => this.closeMenu());
+          });
+
+          // Close menu on escape key
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && this.isMenuOpen()) {
+              this.closeMenu();
+            }
+          });
+
+          // Close menu when clicking outside
+          if (this.mobileMenu) {
+            this.mobileMenu.addEventListener("click", (e) => {
+              if (e.target === this.mobileMenu) {
+                this.closeMenu();
+              }
+            });
+          }
+        }
+
+        openMenu() {
+          if (this.mobileMenu) {
+            this.mobileMenu.classList.add("active");
+            document.body.style.overflow = "hidden";
+          }
+        }
+
+        closeMenu() {
+          if (this.mobileMenu) {
+            this.mobileMenu.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        }
+
+        isMenuOpen() {
+          return (
+            this.mobileMenu && this.mobileMenu.classList.contains("active")
+          );
+        }
+      }
+
+      // API Playground
+      class APIPlayground {
+        constructor() {
+          this.locationSelect = document.getElementById("location");
+          this.periodSelect = document.getElementById("period");
+          this.resultDiv = document.getElementById("result");
+          this.requestInfoDiv = document.getElementById("request-info");
+          this.init();
+        }
+
+        async init() {
+          await this.loadLocations();
+          this.setupEventListeners();
+        }
+
+        setupEventListeners() {
+          // Update request info when selections change
+          [this.locationSelect, this.periodSelect].forEach((select) => {
+            if (select) {
+              select.addEventListener("change", () => this.updateRequestInfo());
+            }
+          });
+        }
+
+        async loadLocations() {
+          if (!this.locationSelect) return;
+
+          try {
+            this.locationSelect.innerHTML =
+              '<option value="">Loading locations...</option>';
+            const response = await fetch("/v1/timesheets/index.json");
+
+            if (!response.ok) {
+              throw new Error(
+                `HTTP ${response.status}: ${response.statusText}`
+              );
+            }
+
+            const locations = await response.json();
+            locations.sort();
+
+            this.locationSelect.innerHTML =
+              '<option value="">Select a location...</option>';
+            locations.forEach((location) => {
+              const option = document.createElement("option");
+              option.value = location;
+              option.textContent = location.replace(/_/g, " ");
+              this.locationSelect.appendChild(option);
+            });
+          } catch (error) {
+            console.error("Failed to load locations:", error);
+            this.locationSelect.innerHTML =
+              '<option value="">Error loading locations</option>';
+          }
+        }
+
+        updateRequestInfo() {
+          if (!this.requestInfoDiv) return;
+
+          const location = this.locationSelect?.value;
+          const period = this.periodSelect?.value;
+
+          if (!location || !period) {
+            this.requestInfoDiv.innerHTML = `
+              <div style="color: var(--text-muted); text-align: center;">
+                Select location and period to see request details
               </div>
             `;
             return;
           }
-          const data = await res.json();
 
-          // Pretty print JSON with syntax highlighting
-          const jsonString = JSON.stringify(data, null, 2);
-          const highlighted = jsonString
-            .replace(/(".*?")/g, '<span class="text-green-300">$1</span>')
-            .replace(/: (".*?")/g, ': <span class="text-yellow-300">$1</span>')
-            .replace(/: (\d+)/g, ': <span class="text-blue-300">$1</span>')
+          const url = `/v1/timesheets/${location}/${period}.json`;
+          const fullUrl = baseCurrentLocation.replace(/\/+$/, "") + url;
+
+          this.requestInfoDiv.innerHTML = `
+            <div style="color: var(--primary-green);">Method:</div>
+            <div style="margin-left: 1rem; color: var(--text-primary);">GET</div>
+            <div style="color: var(--primary-green); margin-top: 0.5rem;">URL:</div>
+            <div style="margin-left: 1rem; color: #3b82f6; word-break: break-all;">${fullUrl}</div>
+            <div style="color: var(--primary-green); margin-top: 0.5rem;">Headers:</div>
+            <div style="margin-left: 1rem; color: var(--text-primary);">Accept: application/json</div>
+          `;
+        }
+
+        async testAPI() {
+          if (!this.locationSelect || !this.periodSelect || !this.resultDiv) {
+            console.error("Required elements not found");
+            return;
+          }
+
+          const location = this.locationSelect.value;
+          const period = this.periodSelect.value;
+
+          if (!location) {
+            this.showResult("error", "⚠️ Please select a location first");
+            return;
+          }
+
+          const url = `/v1/timesheets/${location}/${period}.json`;
+
+          // Show loading state
+          this.showResult("loading", `Fetching ${url}...`);
+
+          try {
+            const response = await fetch(url);
+
+            if (!response.ok) {
+              throw new Error(
+                `HTTP ${response.status}: ${response.statusText}`
+              );
+            }
+
+            const data = await response.json();
+            this.showResult("success", data, response.status);
+          } catch (error) {
+            console.error("API request failed:", error);
+            this.showResult("error", `❌ Request Failed: ${error.message}`);
+          }
+        }
+
+        showResult(type, content, status = null) {
+          if (!this.resultDiv) return;
+
+          let html = "";
+
+          switch (type) {
+            case "loading":
+              html = `
+                <div style="color: #3b82f6; text-align: center; margin-top: 5rem;">
+                  <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                  ${content}
+                </div>
+              `;
+              break;
+
+            case "success":
+              const jsonString = JSON.stringify(content, null, 2);
+              const highlighted = this.highlightJSON(jsonString);
+              html = `
+                <div style="color: var(--primary-green); margin-bottom: 0.5rem;">✅ Success (${status})</div>
+                <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                  <pre style="white-space: pre-wrap; margin: 0; font-family: inherit;">${highlighted}</pre>
+                </div>
+              `;
+              break;
+
+            case "error":
+              html = `
+                <div style="color: #dc2626; text-align: center; margin-top: 2rem;">
+                  <div style="font-weight: 600; margin-bottom: 1rem;">${content}</div>
+                  <div style="color: var(--text-muted); font-size: 0.875rem;">
+                    Please check:
+                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem; text-align: left;">
+                      <li>Location name is correct</li>
+                      <li>Data file exists for this location</li>
+                      <li>Network connectivity</li>
+                    </ul>
+                  </div>
+                </div>
+              `;
+              break;
+          }
+
+          this.resultDiv.innerHTML = html;
+        }
+
+        highlightJSON(jsonString) {
+          return jsonString
+            .replace(
+              /(".*?")/g,
+              '<span style="color: var(--primary-green);">$1</span>'
+            )
+            .replace(
+              /: (".*?")/g,
+              ': <span style="color: var(--gold);">$1</span>'
+            )
+            .replace(/: (\d+)/g, ': <span style="color: #3b82f6;">$1</span>')
             .replace(
               /: (true|false)/g,
-              ': <span class="text-purple-300">$1</span>'
+              ': <span style="color: #8b5cf6;">$1</span>'
             );
-
-          resultBox.innerHTML = `
-            <div class="text-green-400 mb-2">✅ Success (${res.status})</div>
-            <div class="border-t border-gray-600 pt-4">
-              <pre class="whitespace-pre-wrap">${highlighted}</pre>
-            </div>
-          `;
-        } catch (err) {
-          resultBox.innerHTML = `
-            <div class="text-red-300">
-              <div class="font-semibold mb-2">⚠️ Request Failed</div>
-              <div>${err.message}</div>
-              <div class="mt-4 text-gray-400 text-sm">
-                This could be due to:
-                <ul class="list-disc ml-6 mt-2">
-                  <li>Network connectivity issues</li>
-                  <li>CORS policy restrictions</li>
-                  <li>Server unavailability</li>
-                </ul>
-              </div>
-            </div>
-          `;
         }
       }
 
-      // Initialize
-      document.addEventListener("DOMContentLoaded", () => {
-        loadLocations();
+      // Scroll Animation Manager
+      class ScrollAnimationManager {
+        constructor() {
+          this.init();
+        }
 
-        // Add keyboard shortcut for API testing
+        init() {
+          const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          };
+
+          this.observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          }, observerOptions);
+
+          // Observe all sections
+          document.querySelectorAll(".section").forEach((section) => {
+            section.classList.add("fade-in");
+            this.observer.observe(section);
+          });
+        }
+      }
+
+      // Smooth Scroll Manager
+      class SmoothScrollManager {
+        constructor() {
+          this.init();
+        }
+
+        init() {
+          document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", (e) => {
+              e.preventDefault();
+              const targetId = anchor.getAttribute("href").substring(1);
+              const targetElement = document.getElementById(targetId);
+
+              if (targetElement) {
+                targetElement.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            });
+          });
+        }
+      }
+
+      // Global API instance
+      let apiPlayground;
+
+      // Global function for the playground button
+      function testAPI() {
+        if (apiPlayground) {
+          apiPlayground.testAPI();
+        }
+      }
+
+      // Initialize everything when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initialize all managers
+        new ThemeManager();
+        new MobileMenuManager();
+        apiPlayground = new APIPlayground();
+        new ScrollAnimationManager();
+        new SmoothScrollManager();
+
+        // Add keyboard shortcuts
         document.addEventListener("keydown", (e) => {
-          if (e.ctrlKey && e.key === "Enter") {
+          // Ctrl/Cmd + Enter to test API
+          if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
             testAPI();
           }
         });
-      });
 
-      // Add some interactive effects
-      document.querySelectorAll(".glass-card, .glass").forEach((element) => {
-        element.addEventListener("mouseenter", () => {
-          element.style.transform = "translateY(-2px)";
-          element.style.transition = "transform 0.3s ease";
+        // Add hover effects to cards
+        document.querySelectorAll(".card").forEach((card) => {
+          card.addEventListener("mouseenter", () => {
+            if (
+              !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+              card.style.transform = "translateY(-2px)";
+            }
+          });
+
+          card.addEventListener("mouseleave", () => {
+            card.style.transform = "";
+          });
         });
 
-        element.addEventListener("mouseleave", () => {
-          element.style.transform = "translateY(0)";
+        // Update footer nav links hover effects
+        document.querySelectorAll("footer a").forEach((link) => {
+          link.addEventListener("mouseenter", () => {
+            link.style.color = "var(--primary-green)";
+          });
+
+          link.addEventListener("mouseleave", () => {
+            if (!link.style.fontWeight || link.style.fontWeight !== "600") {
+              link.style.color = "var(--text-secondary)";
+            }
+          });
         });
+
+        console.log("🕌 Prayer Times API Documentation loaded successfully!");
       });
 
-      // Intersection Observer for scroll animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
+      // Handle page visibility changes
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          // Update theme if system preference changed while page was hidden
+          if (!localStorage.getItem("theme")) {
+            const themeManager = new ThemeManager();
           }
-        });
-      }, observerOptions);
-
-      // Observe all sections
-      document.querySelectorAll(".section").forEach((section) => {
-        section.style.opacity = "0";
-        section.style.transform = "translateY(20px)";
-        section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(section);
+        }
       });
     </script>
+
+    <!-- Floating Theme Toggle -->
+    <button
+      class="floating-theme-toggle"
+      id="theme-toggle"
+      aria-label="Toggle theme"
+      title="Toggle light/dark theme"
+    >
+      <i class="fas fa-moon" id="theme-icon"></i>
+    </button>
   </body>
 </html>
