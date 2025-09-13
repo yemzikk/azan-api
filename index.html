@@ -12,7 +12,67 @@
       }
       gtag("js", new Date());
 
-      gtag("config", "G-D3XTX2S974");
+      gtag("config", "G-D3XTX2S974", {
+        // Enhanced measurement settings
+        send_page_view: true,
+        page_title: document.title,
+        page_location: window.location.href,
+        // Custom parameters
+        custom_map: {
+          custom_parameter_1: "user_engagement_level",
+          custom_parameter_2: "api_interaction_type",
+        },
+      });
+
+      // Analytics Event Helper
+      window.trackEvent = function (
+        eventName,
+        eventCategory,
+        eventLabel,
+        value,
+        customParams = {}
+      ) {
+        try {
+          const eventData = {
+            event_category: eventCategory || "User Interaction",
+            event_label: eventLabel || "",
+            value: value || 1,
+            ...customParams,
+          };
+
+          gtag("event", eventName, eventData);
+          console.log("📊 Analytics Event:", eventName, eventData);
+        } catch (error) {
+          console.warn("Analytics tracking error:", error);
+        }
+      };
+
+      // Page Performance Tracking
+      window.addEventListener("load", function () {
+        // Track page load time
+        const loadTime =
+          performance.timing.loadEventEnd - performance.timing.navigationStart;
+        trackEvent("page_load_time", "Performance", "Load Complete", loadTime, {
+          load_time_ms: loadTime,
+          page_type: "api_documentation",
+        });
+
+        // Track time to first contentful paint
+        if ("getEntriesByType" in performance) {
+          const paintEntries = performance.getEntriesByType("paint");
+          const fcp = paintEntries.find(
+            (entry) => entry.name === "first-contentful-paint"
+          );
+          if (fcp) {
+            trackEvent(
+              "first_contentful_paint",
+              "Performance",
+              "FCP",
+              Math.round(fcp.startTime)
+            );
+          }
+        }
+      });
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -2261,6 +2321,21 @@
           localStorage.setItem("theme", newTheme);
           this.currentTheme = newTheme;
           this.updateThemeIcon();
+
+          // Track theme toggle event
+          trackEvent(
+            "theme_toggle",
+            "User Interface",
+            `Switch to ${newTheme}`,
+            1,
+            {
+              previous_theme: this.currentTheme === "light" ? "dark" : "light",
+              new_theme: newTheme,
+              user_preference: localStorage.getItem("theme")
+                ? "manual"
+                : "system",
+            }
+          );
         }
 
         updateThemeIcon() {
@@ -2382,7 +2457,34 @@
           // Update request info when selections change
           [this.locationSelect, this.periodSelect].forEach((select) => {
             if (select) {
-              select.addEventListener("change", () => this.updateRequestInfo());
+              select.addEventListener("change", () => {
+                this.updateRequestInfo();
+
+                // Track form interactions
+                if (select === this.locationSelect) {
+                  trackEvent(
+                    "location_selected",
+                    "Form Interaction",
+                    select.value,
+                    1,
+                    {
+                      location: select.value,
+                      form_type: "api_playground",
+                    }
+                  );
+                } else if (select === this.periodSelect) {
+                  trackEvent(
+                    "period_selected",
+                    "Form Interaction",
+                    select.value,
+                    1,
+                    {
+                      period: select.value,
+                      form_type: "api_playground",
+                    }
+                  );
+                }
+              });
             }
           });
         }
@@ -2458,16 +2560,46 @@
 
           if (!location) {
             this.showResult("error", "⚠️ Please select a location first");
+            // Track failed API test attempt
+            trackEvent(
+              "api_test_attempt",
+              "API Interaction",
+              "Missing Location",
+              0,
+              {
+                error_type: "missing_location",
+                has_location: false,
+                has_period: !!period,
+              }
+            );
             return;
           }
 
           const url = `/v1/timesheets/${location}/${period}.json`;
 
+          // Track API test start
+          trackEvent(
+            "api_test_start",
+            "API Interaction",
+            `${location}/${period}`,
+            1,
+            {
+              location: location,
+              period: period,
+              endpoint: url,
+            }
+          );
+
           // Show loading state
           this.showResult("loading", `Fetching ${url}...`);
 
+          const startTime = performance.now();
+
           try {
             const response = await fetch(url);
+
+            const endTime = performance.now();
+            const responseTime = Math.round(endTime - startTime);
 
             if (!response.ok) {
               throw new Error(
@@ -2477,9 +2609,41 @@
 
             const data = await response.json();
             this.showResult("success", data, response.status);
+
+            // Track successful API test
+            trackEvent(
+              "api_test_success",
+              "API Interaction",
+              `${location}/${period}`,
+              1,
+              {
+                location: location,
+                period: period,
+                response_time_ms: responseTime,
+                status_code: response.status,
+                data_size: JSON.stringify(data).length,
+              }
+            );
           } catch (error) {
+            const endTime = performance.now();
+            const responseTime = Math.round(endTime - startTime);
+
             console.error("API request failed:", error);
             this.showResult("error", `❌ Request Failed: ${error.message}`);
+
+            // Track failed API test
+            trackEvent(
+              "api_test_error",
+              "API Interaction",
+              `${location}/${period}`,
+              0,
+              {
+                location: location,
+                period: period,
+                error_message: error.message,
+                response_time_ms: responseTime,
+              }
+            );
           }
         }
 
@@ -2618,11 +2782,100 @@
         new ScrollAnimationManager();
         new SmoothScrollManager();
 
+        // Track page initialization
+        trackEvent(
+          "page_initialized",
+          "User Engagement",
+          "Documentation Page",
+          1,
+          {
+            page_type: "api_documentation",
+            user_agent: navigator.userAgent,
+            screen_resolution: `${screen.width}x${screen.height}`,
+            viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+          }
+        );
+
+        // Add navigation tracking
+        document
+          .querySelectorAll(".nav-link, .mobile-nav-link")
+          .forEach((link) => {
+            link.addEventListener("click", (e) => {
+              const href = link.getAttribute("href");
+              const linkText = link.textContent.trim();
+              const isMobile = link.classList.contains("mobile-nav-link");
+
+              trackEvent("navigation_click", "Navigation", linkText, 1, {
+                destination: href,
+                navigation_type: isMobile ? "mobile_menu" : "desktop_nav",
+                link_text: linkText,
+              });
+            });
+          });
+
+        // Add CTA button tracking
+        document.querySelectorAll(".btn, .nav-cta").forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const buttonText = button.textContent.trim();
+            const buttonClass = button.className;
+            const href = button.getAttribute("href");
+
+            // Special tracking for dashboard navigation
+            if (href && href.includes("/dashboard/")) {
+              trackEvent(
+                "dashboard_navigation",
+                "User Journey",
+                "Dashboard Access",
+                1,
+                {
+                  source_page: "api_documentation",
+                  navigation_method: buttonClass.includes("nav-cta")
+                    ? "header_cta"
+                    : "inline_button",
+                }
+              );
+            }
+
+            trackEvent("cta_click", "User Engagement", buttonText, 1, {
+              button_text: buttonText,
+              button_type: buttonClass.includes("btn-primary")
+                ? "primary"
+                : buttonClass.includes("nav-cta")
+                ? "navigation_cta"
+                : "secondary",
+              button_location: button.closest("section")?.id || "unknown",
+              destination: href || "none",
+            });
+          });
+        });
+
+        // Track mobile menu usage
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const closeMenuBtn = document.getElementById("close-menu");
+
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener("click", () => {
+            trackEvent("mobile_menu_open", "User Interface", "Mobile Menu", 1);
+          });
+        }
+
+        if (closeMenuBtn) {
+          closeMenuBtn.addEventListener("click", () => {
+            trackEvent("mobile_menu_close", "User Interface", "Mobile Menu", 1);
+          });
+        }
+
         // Add keyboard shortcuts
         document.addEventListener("keydown", (e) => {
           // Ctrl/Cmd + Enter to test API
           if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
             testAPI();
+            trackEvent(
+              "keyboard_shortcut",
+              "User Interface",
+              "Ctrl+Enter API Test",
+              1
+            );
           }
         });
 
@@ -2654,7 +2907,282 @@
           });
         });
 
+        // Add scroll tracking and engagement metrics
+        let scrollMilestones = {
+          25: false,
+          50: false,
+          75: false,
+          100: false,
+        };
+
+        let maxScroll = 0;
+        let startTime = Date.now();
+        let lastActiveTime = Date.now();
+
+        function trackScrollDepth() {
+          const scrollTop =
+            window.pageYOffset || document.documentElement.scrollTop;
+          const docHeight =
+            document.documentElement.scrollHeight - window.innerHeight;
+          const scrollPercent = Math.min(
+            100,
+            Math.round((scrollTop / docHeight) * 100)
+          );
+
+          maxScroll = Math.max(maxScroll, scrollPercent);
+
+          // Track milestone achievements
+          Object.keys(scrollMilestones).forEach((milestone) => {
+            if (scrollPercent >= milestone && !scrollMilestones[milestone]) {
+              scrollMilestones[milestone] = true;
+              trackEvent(
+                "scroll_depth",
+                "User Engagement",
+                `${milestone}% Scrolled`,
+                parseInt(milestone),
+                {
+                  scroll_percentage: scrollPercent,
+                  time_to_milestone: Date.now() - startTime,
+                }
+              );
+            }
+          });
+        }
+
+        // Throttled scroll tracking
+        let scrollTimeout;
+        window.addEventListener("scroll", () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(trackScrollDepth, 100);
+          lastActiveTime = Date.now();
+        });
+
+        // Track time on page and engagement
+        window.addEventListener("beforeunload", () => {
+          const timeOnPage = Date.now() - startTime;
+          trackEvent("page_exit", "User Engagement", "Page Unload", 1, {
+            time_on_page_ms: timeOnPage,
+            max_scroll_percentage: maxScroll,
+            engagement_score: Math.min(
+              10,
+              Math.round(timeOnPage / 1000 + maxScroll / 10)
+            ),
+          });
+        });
+
+        // Track user activity and idle time
+        let idleTimer;
+        function resetIdleTimer() {
+          clearTimeout(idleTimer);
+          idleTimer = setTimeout(() => {
+            const idleTime = Date.now() - lastActiveTime;
+            if (idleTime > 30000) {
+              // 30 seconds idle
+              trackEvent("user_idle", "User Engagement", "Idle State", 1, {
+                idle_duration_ms: idleTime,
+                current_scroll_percentage: Math.round(
+                  (window.pageYOffset /
+                    (document.documentElement.scrollHeight -
+                      window.innerHeight)) *
+                    100
+                ),
+              });
+            }
+          }, 30000);
+        }
+
+        // Reset idle timer on user activity
+        [
+          "mousedown",
+          "mousemove",
+          "keypress",
+          "scroll",
+          "touchstart",
+          "click",
+        ].forEach((event) => {
+          document.addEventListener(
+            event,
+            () => {
+              lastActiveTime = Date.now();
+              resetIdleTimer();
+            },
+            { passive: true }
+          );
+        });
+
+        resetIdleTimer();
+
+        // Add copy-to-clipboard functionality for code blocks
+        document.querySelectorAll(".code-block").forEach((codeBlock, index) => {
+          // Create copy button
+          const copyButton = document.createElement("button");
+          copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+          copyButton.className = "copy-btn";
+          copyButton.style.cssText = `
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+          `;
+
+          // Make code block relative for absolute positioning
+          codeBlock.style.position = "relative";
+          codeBlock.appendChild(copyButton);
+
+          copyButton.addEventListener("click", async () => {
+            const code = codeBlock.textContent.replace("", "").trim();
+
+            try {
+              await navigator.clipboard.writeText(code);
+
+              // Visual feedback
+              const originalContent = copyButton.innerHTML;
+              copyButton.innerHTML = '<i class="fas fa-check"></i>';
+              copyButton.style.background = "var(--success-color)";
+
+              setTimeout(() => {
+                copyButton.innerHTML = originalContent;
+                copyButton.style.background = "var(--primary-green)";
+              }, 2000);
+
+              // Track code copy
+              trackEvent(
+                "code_copied",
+                "Content Interaction",
+                `Code Block ${index + 1}`,
+                1,
+                {
+                  code_type: codeBlock.closest("section")?.id || "unknown",
+                  code_length: code.length,
+                  code_snippet:
+                    code.substring(0, 50) + (code.length > 50 ? "..." : ""),
+                }
+              );
+            } catch (err) {
+              console.error("Failed to copy code:", err);
+
+              // Fallback for older browsers
+              const textArea = document.createElement("textarea");
+              textArea.value = code;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand("copy");
+              document.body.removeChild(textArea);
+
+              trackEvent(
+                "code_copied_fallback",
+                "Content Interaction",
+                `Code Block ${index + 1}`,
+                1
+              );
+            }
+          });
+
+          // Hover effects
+          copyButton.addEventListener("mouseenter", () => {
+            copyButton.style.transform = "scale(1.1)";
+          });
+
+          copyButton.addEventListener("mouseleave", () => {
+            copyButton.style.transform = "scale(1)";
+          });
+        });
+
+        // Track section visibility using Intersection Observer
+        const sectionObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const sectionId = entry.target.id || "unnamed-section";
+                const sectionTitle =
+                  entry.target.querySelector("h2, h3")?.textContent ||
+                  sectionId;
+
+                trackEvent(
+                  "section_viewed",
+                  "Content Engagement",
+                  sectionTitle,
+                  1,
+                  {
+                    section_id: sectionId,
+                    section_title: sectionTitle,
+                    viewport_percentage: Math.round(
+                      entry.intersectionRatio * 100
+                    ),
+                  }
+                );
+              }
+            });
+          },
+          {
+            threshold: 0.5, // Trigger when 50% of section is visible
+            rootMargin: "0px 0px -10% 0px", // Account for header
+          }
+        );
+
+        // Observe all sections
+        document.querySelectorAll("section[id]").forEach((section) => {
+          sectionObserver.observe(section);
+        });
+
+        // Track outbound links
+        document.querySelectorAll('a[href^="http"]').forEach((link) => {
+          link.addEventListener("click", (e) => {
+            const url = link.href;
+            const linkText = link.textContent.trim();
+
+            trackEvent("outbound_link_click", "External Navigation", url, 1, {
+              destination_url: url,
+              link_text: linkText,
+              link_context: link.closest("section")?.id || "unknown",
+            });
+          });
+        });
+
+        // Track error states
+        window.addEventListener("error", (e) => {
+          trackEvent("javascript_error", "Error Tracking", e.message, 0, {
+            error_message: e.message,
+            error_filename: e.filename,
+            error_line: e.lineno,
+            error_column: e.colno,
+          });
+        });
+
+        // Track API documentation specific events
+        const playgroundSection = document.getElementById("playground");
+        if (playgroundSection) {
+          // Track when user interacts with playground
+          playgroundSection.addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON" || e.target.closest("button")) {
+              const buttonText = (
+                e.target.textContent ||
+                e.target.closest("button")?.textContent ||
+                ""
+              ).trim();
+
+              if (buttonText.toLowerCase().includes("test")) {
+                trackEvent(
+                  "playground_interaction",
+                  "API Testing",
+                  "Test Button Click",
+                  1
+                );
+              }
+            }
+          });
+        }
+
         console.log("🕌 Prayer Times API Documentation loaded successfully!");
+        console.log("📊 Enhanced Analytics tracking enabled");
       });
 
       // Handle page visibility changes
