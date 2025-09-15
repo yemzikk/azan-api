@@ -4306,6 +4306,228 @@
             cardObserver.observe(card);
           });
         });
+
+        function trackEvent(action, category, label, value) {
+          gtag("event", action, {
+            event_category: category,
+            event_label: label,
+            value: value,
+          });
+        }
+
+        // Track key user interactions when DOM is ready
+        document.addEventListener("DOMContentLoaded", function () {
+          // Track location selection changes
+          const locationSelect = document.getElementById("location");
+          if (locationSelect) {
+            locationSelect.addEventListener("change", function () {
+              const selectedLocation = this.value;
+              const locationText = this.options[this.selectedIndex].text;
+              trackEvent("location_selected", "Prayer Times", locationText, 1);
+
+              // Track if auto-detect was chosen
+              if (selectedLocation === "auto-detect") {
+                trackEvent(
+                  "auto_detect_triggered",
+                  "Location Services",
+                  "Auto Detect Selected",
+                  1
+                );
+              }
+            });
+          }
+
+          // Track period button clicks
+          function setupPeriodTracking() {
+            const periodButtons = document.querySelectorAll(".period-btn");
+            periodButtons.forEach((button) => {
+              if (!button.hasAttribute("data-tracked")) {
+                button.addEventListener("click", function () {
+                  const period = this.textContent.trim();
+                  trackEvent("period_selected", "Prayer Times", period, 1);
+                });
+                button.setAttribute("data-tracked", "true");
+              }
+            });
+          }
+
+          // Setup period tracking initially and after any DOM updates
+          setupPeriodTracking();
+
+          // Re-setup when period buttons are dynamically created
+          const observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+              if (mutation.type === "childList") {
+                setupPeriodTracking();
+              }
+            });
+          });
+
+          const periodContainer = document.getElementById("period-buttons");
+          if (periodContainer) {
+            observer.observe(periodContainer, {
+              childList: true,
+              subtree: true,
+            });
+          }
+
+          // Track prayer card interactions
+          function setupPrayerCardTracking() {
+            const prayerCards = document.querySelectorAll(".prayer-card");
+            prayerCards.forEach((card) => {
+              if (!card.hasAttribute("data-tracked")) {
+                card.addEventListener("click", function () {
+                  const prayerName =
+                    this.querySelector(".prayer-name")?.textContent ||
+                    "Unknown Prayer";
+                  trackEvent(
+                    "prayer_card_clicked",
+                    "Prayer Times",
+                    prayerName,
+                    1
+                  );
+                });
+                card.setAttribute("data-tracked", "true");
+              }
+            });
+          }
+
+          // Setup prayer card tracking with observer for dynamic content
+          const prayerObserver = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+              if (mutation.type === "childList") {
+                setupPrayerCardTracking();
+              }
+            });
+          });
+
+          const prayerDataDiv = document.getElementById("prayer-data");
+          if (prayerDataDiv) {
+            prayerObserver.observe(prayerDataDiv, {
+              childList: true,
+              subtree: true,
+            });
+          }
+
+          // Track share button clicks
+          document.addEventListener("click", function (e) {
+            if (
+              e.target.closest(".share-btn") ||
+              e.target.textContent.includes("Share")
+            ) {
+              trackEvent("share_clicked", "Social Sharing", "Share Button", 1);
+            }
+
+            // Track nearby location clicks
+            if (e.target.closest(".nearby-location-card")) {
+              const locationName = e.target
+                .closest(".nearby-location-card")
+                .textContent.trim();
+              trackEvent(
+                "nearby_location_selected",
+                "Location Services",
+                locationName,
+                1
+              );
+            }
+          });
+
+          // Track scroll depth (simple version)
+          let maxScroll = 0;
+          let scrollTracked = { 25: false, 50: false, 75: false, 100: false };
+
+          window.addEventListener("scroll", function () {
+            const scrollTop = window.pageYOffset;
+            const docHeight =
+              document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = Math.round((scrollTop / docHeight) * 100);
+
+            if (scrollPercent > maxScroll) {
+              maxScroll = scrollPercent;
+
+              // Track scroll milestones
+              Object.keys(scrollTracked).forEach((milestone) => {
+                if (scrollPercent >= milestone && !scrollTracked[milestone]) {
+                  scrollTracked[milestone] = true;
+                  trackEvent(
+                    "scroll_depth",
+                    "User Engagement",
+                    milestone + "% scrolled",
+                    parseInt(milestone)
+                  );
+                }
+              });
+            }
+          });
+
+          // Track page load time
+          window.addEventListener("load", function () {
+            const loadTime =
+              performance.timing.loadEventEnd -
+              performance.timing.navigationStart;
+            trackEvent(
+              "page_load",
+              "Performance",
+              "Dashboard Load Time",
+              loadTime
+            );
+          });
+
+          // Track errors
+          window.addEventListener("error", function (e) {
+            trackEvent(
+              "javascript_error",
+              "Errors",
+              e.message.substring(0, 100),
+              1
+            );
+          });
+
+          // Track geolocation usage
+          if (navigator.geolocation) {
+            const originalGetCurrentPosition =
+              navigator.geolocation.getCurrentPosition;
+            navigator.geolocation.getCurrentPosition = function (
+              success,
+              error,
+              options
+            ) {
+              trackEvent(
+                "geolocation_requested",
+                "Location Services",
+                "GPS Access Requested",
+                1
+              );
+
+              const wrappedSuccess = function (position) {
+                trackEvent(
+                  "geolocation_success",
+                  "Location Services",
+                  "GPS Access Granted",
+                  1
+                );
+                success(position);
+              };
+
+              const wrappedError = function (err) {
+                trackEvent(
+                  "geolocation_error",
+                  "Location Services",
+                  "GPS Access Failed: " + err.message,
+                  1
+                );
+                if (error) error(err);
+              };
+
+              originalGetCurrentPosition.call(
+                this,
+                wrappedSuccess,
+                wrappedError,
+                options
+              );
+            };
+          }
+        });
       </script>
     </div>
     <!-- Close dark horizon glow container -->
