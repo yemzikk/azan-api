@@ -3828,7 +3828,18 @@
             html += `</div>`;
             prayerDataDiv.innerHTML = html;
           }
-          prayerDataDiv.scrollIntoView({ behavior: "smooth" });
+            prayerDataDiv.scrollIntoView({ 
+            behavior: "smooth", 
+            block: "start" 
+            });
+            
+            // Add small space above by scrolling up a bit
+            setTimeout(() => {
+            window.scrollBy({
+              top: -10,
+              behavior: "smooth"
+            });
+            }, 300);
         }
 
         // 🎨 ENHANCED UI & LOADING OPTIMIZATIONS
