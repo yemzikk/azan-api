@@ -3828,17 +3828,22 @@
             html += `</div>`;
             prayerDataDiv.innerHTML = html;
           }
-            prayerDataDiv.scrollIntoView({ 
-            behavior: "smooth", 
-            block: "start" 
-            });
-            
-            // Add small space above by scrolling up a bit
-            setTimeout(() => {
-            window.scrollBy({
-              behavior: "smooth"
-            });
-            }, 300);
+            // Scroll to the current highlighted prayer time card
+            const activePrayerCard = document.querySelector('.prayer-card.active');
+            if (activePrayerCard) {
+              setTimeout(() => {
+                activePrayerCard.scrollIntoView({ 
+                  behavior: "smooth", 
+                  block: "center" 
+                });
+              }, 500);
+            } else {
+              // Fallback: scroll to prayer data container
+              prayerDataDiv.scrollIntoView({ 
+                behavior: "smooth", 
+                block: "start" 
+              });
+            }
         }
 
         // 🎨 ENHANCED UI & LOADING OPTIMIZATIONS
