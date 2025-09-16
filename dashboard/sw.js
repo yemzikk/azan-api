@@ -352,7 +352,7 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   if (event.action === "view") {
-    event.waitUntil(clients.openWindow("/dashboard/"));
+    event.waitUntil(clients.openWindow("https://azantimes.in/"));
   }
 });
 
