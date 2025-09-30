@@ -1,272 +1,281 @@
 [
   {
-    "date": "01-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:29 PM",
-    "asar": "3:35 PM",
-    "maghrib": "6:39 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "02-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:29 PM",
-    "asar": "3:35 PM",
-    "maghrib": "6:38 PM",
-    "isha": "7:48 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "03-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:28 PM",
-    "asar": "3:35 PM",
-    "maghrib": "6:37 PM",
-    "isha": "7:47 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "04-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:28 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:37 PM",
-    "isha": "7:46 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "05-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:28 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:36 PM",
-    "isha": "7:46 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "06-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:36 PM",
-    "isha": "7:45 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "07-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:35 PM",
-    "isha": "7:44 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "08-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:27 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:34 PM",
-    "isha": "7:44 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "09-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:26 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:34 PM",
-    "isha": "7:43 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "10-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:26 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:33 PM",
-    "isha": "7:42 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "11-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:26 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:32 PM",
-    "isha": "7:42 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "12-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:25 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:32 PM",
-    "isha": "7:41 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "13-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:25 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:31 PM",
-    "isha": "7:40 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "14-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:25 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:31 PM",
-    "isha": "7:40 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "15-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:24 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:30 PM",
-    "isha": "7:39 PM",
-    "sunrise": "6:16 AM"
-  },
-  {
-    "date": "16-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:24 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:29 PM",
-    "isha": "7:38 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "17-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:23 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:29 PM",
-    "isha": "7:38 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "18-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:23 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:28 PM",
-    "isha": "7:37 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "19-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:23 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:27 PM",
-    "isha": "7:36 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "20-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:22 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:27 PM",
-    "isha": "7:36 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "21-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:22 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:26 PM",
-    "isha": "7:35 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "22-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:22 PM",
-    "asar": "3:37 PM",
-    "maghrib": "6:25 PM",
-    "isha": "7:34 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "23-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:21 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:25 PM",
-    "isha": "7:34 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "24-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:21 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:24 PM",
-    "isha": "7:33 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "25-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:21 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:23 PM",
-    "isha": "7:32 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "26-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:20 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:23 PM",
-    "isha": "7:32 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "27-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:20 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:22 PM",
-    "isha": "7:31 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "28-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:20 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:22 PM",
-    "isha": "7:30 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "29-09-2025",
-    "subh": "4:57 AM",
-    "duhr": "12:19 PM",
-    "asar": "3:36 PM",
-    "maghrib": "6:21 PM",
-    "isha": "7:30 PM",
-    "sunrise": "6:15 AM"
-  },
-  {
-    "date": "30-09-2025",
+    "date": "01-10-2025",
     "subh": "4:57 AM",
     "duhr": "12:19 PM",
     "asar": "3:36 PM",
     "maghrib": "6:20 PM",
     "isha": "7:29 PM",
     "sunrise": "6:15 AM"
+  },
+  {
+    "date": "02-10-2025",
+    "subh": "4:57 AM",
+    "duhr": "12:18 PM",
+    "asar": "3:36 PM",
+    "maghrib": "6:19 PM",
+    "isha": "7:28 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "03-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:18 PM",
+    "asar": "3:36 PM",
+    "maghrib": "6:18 PM",
+    "isha": "7:27 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "04-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:18 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:18 PM",
+    "isha": "7:27 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "05-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:17 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:17 PM",
+    "isha": "7:26 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "06-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:17 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:17 PM",
+    "isha": "7:26 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "07-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:17 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:16 PM",
+    "isha": "7:25 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "08-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:16 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:16 PM",
+    "isha": "7:25 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "09-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:16 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:15 PM",
+    "isha": "7:24 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "10-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:16 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:14 PM",
+    "isha": "7:23 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "11-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:16 PM",
+    "asar": "3:35 PM",
+    "maghrib": "6:14 PM",
+    "isha": "7:23 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "12-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:15 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:13 PM",
+    "isha": "7:22 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "13-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:15 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:13 PM",
+    "isha": "7:22 PM",
+    "sunrise": "6:14 AM"
+  },
+  {
+    "date": "14-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:15 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:12 PM",
+    "isha": "7:22 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "15-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:15 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:12 PM",
+    "isha": "7:21 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "16-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:14 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:11 PM",
+    "isha": "7:21 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "17-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:14 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:11 PM",
+    "isha": "7:20 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "18-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:14 PM",
+    "asar": "3:34 PM",
+    "maghrib": "6:10 PM",
+    "isha": "7:20 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "19-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:14 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:10 PM",
+    "isha": "7:19 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "20-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:14 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:09 PM",
+    "isha": "7:19 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "21-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:09 PM",
+    "isha": "7:19 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "22-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:09 PM",
+    "isha": "7:18 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "23-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:08 PM",
+    "isha": "7:18 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "24-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:08 PM",
+    "isha": "7:18 PM",
+    "sunrise": "6:15 AM"
+  },
+  {
+    "date": "25-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:07 PM",
+    "isha": "7:17 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "26-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:07 PM",
+    "isha": "7:17 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "27-10-2025",
+    "subh": "4:56 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:07 PM",
+    "isha": "7:17 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "28-10-2025",
+    "subh": "4:57 AM",
+    "duhr": "12:13 PM",
+    "asar": "3:33 PM",
+    "maghrib": "6:06 PM",
+    "isha": "7:16 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "29-10-2025",
+    "subh": "4:57 AM",
+    "duhr": "12:12 PM",
+    "asar": "3:32 PM",
+    "maghrib": "6:06 PM",
+    "isha": "7:16 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "30-10-2025",
+    "subh": "4:57 AM",
+    "duhr": "12:12 PM",
+    "asar": "3:32 PM",
+    "maghrib": "6:06 PM",
+    "isha": "7:16 PM",
+    "sunrise": "6:16 AM"
+  },
+  {
+    "date": "31-10-2025",
+    "subh": "4:57 AM",
+    "duhr": "12:12 PM",
+    "asar": "3:32 PM",
+    "maghrib": "6:05 PM",
+    "isha": "7:16 PM",
+    "sunrise": "6:17 AM"
   }
 ]
