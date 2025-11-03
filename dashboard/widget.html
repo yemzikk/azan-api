@@ -230,39 +230,34 @@
       function formatDate(dateString) {
         if (!dateString) return "Invalid Date";
 
-        // Handle both ISO format and other date formats
-        const date = new Date(dateString);
-
-        // Check if date is valid
-        if (isNaN(date.getTime())) {
-          // Try parsing as YYYY-MM-DD format manually
-          const parts = dateString.split("-");
+        try {
+          // Parse DD-MM-YYYY format from API
+          const parts = dateString.toString().split("-");
           if (parts.length === 3) {
-            const [year, month, day] = parts.map(Number);
-            const parsedDate = new Date(year, month - 1, day);
-            if (!isNaN(parsedDate.getTime())) {
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+            const year = parseInt(parts[2], 10);
+
+            // Create date at noon to avoid timezone issues
+            const date = new Date(year, month, day, 12, 0, 0);
+
+            if (!isNaN(date.getTime())) {
               const options = {
                 weekday: "long",
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               };
-              return parsedDate.toLocaleDateString("en-US", options);
+              return date.toLocaleDateString("en-US", options);
             }
           }
+
+          return "Invalid Date";
+        } catch (error) {
+          console.error("Date parsing error:", error);
           return "Invalid Date";
         }
-
-        const options = {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        };
-        return date.toLocaleDateString("en-US", options);
-      }
-
-      // Format time to 12-hour format
+      } // Format time to 12-hour format
       function formatTime(time) {
         if (!time) return "";
         // If already in 12-hour format, return as is
