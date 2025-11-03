@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Prayer Times Widget | AzanTimes.in</title>
+
+    <!-- Stylesheets -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .widget-container {
+        background: linear-gradient(
+          135deg,
+          rgba(31, 75, 62, 0.95),
+          rgba(26, 95, 74, 0.95)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        padding: 20px 24px;
+        max-width: 400px;
+        max-height: 200px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.6s ease-out;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .icon-wrapper {
+        display: none;
+      }
+
+      .date-display {
+        font-size: 18px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+
+      .location-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 12px;
+        opacity: 0.95;
+      }
+
+      .location-display i {
+        font-size: 12px;
+      }
+
+      .next-prayer {
+        background: rgba(255, 255, 255, 0.95);
+        color: #1a5f4a;
+        padding: 10px 16px;
+        border-radius: 16px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .next-prayer .label {
+        font-size: 11px;
+        font-weight: 600;
+        opacity: 0.7;
+        margin-bottom: 2px;
+      }
+
+      .next-prayer .time {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f4c3a;
+      }
+
+      .loading {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .loading-dots {
+        display: inline-block;
+        margin-left: 4px;
+      }
+
+      .loading-dots span {
+        animation: dotBlink 1.4s infinite;
+        opacity: 0;
+      }
+
+      .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .loading-dots span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes dotBlink {
+        0%,
+        20% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .widget-container {
+          padding: 16px 20px;
+          max-width: 360px;
+        }
+
+        .date-display {
+          font-size: 16px;
+        }
+
+        .location-display {
+          font-size: 12px;
+        }
+
+        .next-prayer .time {
+          font-size: 15px;
+        }
+
+        .icon-wrapper {
+          width: 45px;
+          height: 45px;
+          margin-bottom: 10px;
+        }
+
+        .icon-wrapper i {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="widget-container">
+      <div class="icon-wrapper">
+        <i class="fas fa-calendar-day"></i>
+      </div>
+
+      <div id="date-display" class="date-display">
+        <div class="loading">
+          Loading<span class="loading-dots"
+            ><span>.</span><span>.</span><span>.</span></span
+          >
+        </div>
+      </div>
+
+      <div id="location-display" class="location-display" style="display: none">
+        <i class="fas fa-map-marker-alt"></i>
+        <span id="location-name">Ernakulam Shafi</span>
+      </div>
+
+      <div id="next-prayer" class="next-prayer" style="display: none">
+        <div class="label">Next Prayer</div>
+        <div class="time">
+          <span id="prayer-name">Asr</span> at
+          <span id="prayer-time">3:33 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Get query parameter from URL
+      function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+      }
+
+      // Format date to "Monday, November 3, 2025"
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+        return date.toLocaleDateString("en-US", options);
+      }
+
+      // Format time to 12-hour format
+      function formatTime(time) {
+        if (!time) return "";
+        // If already in 12-hour format, return as is
+        if (time.includes("AM") || time.includes("PM")) {
+          return time;
+        }
+        // Parse 24-hour format
+        const [hours, minutes] = time.split(":").map(Number);
+        const period = hours >= 12 ? "PM" : "AM";
+        const displayHours = hours % 12 || 12;
+        return `${displayHours}:${minutes
+          .toString()
+          .padStart(2, "0")} ${period}`;
+      }
+
+      // Parse time string to minutes
+      function timeToMinutes(timeString) {
+        const [time, period] = timeString.split(" ");
+        const [hours, minutes] = time.split(":").map(Number);
+        let totalMinutes = hours * 60 + minutes;
+
+        if (period === "PM" && hours !== 12) totalMinutes += 12 * 60;
+        if (period === "AM" && hours === 12) totalMinutes -= 12 * 60;
+
+        return totalMinutes;
+      }
+
+      // Find next prayer from prayer times
+      function findNextPrayer(prayerData) {
+        const now = new Date();
+        const currentTime = now.getHours() * 60 + now.getMinutes();
+
+        const prayers = [
+          { name: "Fajr", time: formatTime(prayerData.subh) },
+          { name: "Sunrise", time: formatTime(prayerData.sunrise) },
+          { name: "Dhuhr", time: formatTime(prayerData.duhr) },
+          { name: "Asr", time: formatTime(prayerData.asar) },
+          { name: "Maghrib", time: formatTime(prayerData.maghrib) },
+          { name: "Isha", time: formatTime(prayerData.isha) },
+        ];
+
+        // Find the next upcoming prayer
+        for (let prayer of prayers) {
+          const prayerMinutes = timeToMinutes(prayer.time);
+
+          if (prayerMinutes > currentTime) {
+            document.getElementById("prayer-name").textContent = prayer.name;
+            document.getElementById("prayer-time").textContent = prayer.time;
+            return;
+          }
+        }
+
+        // If no prayer found today, show Fajr for tomorrow
+        document.getElementById("prayer-name").textContent = prayers[0].name;
+        document.getElementById("prayer-time").textContent =
+          prayers[0].time + " (Tomorrow)";
+      }
+
+      // Fetch prayer times from API
+      async function loadPrayerTimes() {
+        try {
+          // Get location from query parameter - required
+          const location = getQueryParam("q");
+
+          if (!location) {
+            throw new Error("Location parameter (?q=) is required");
+          }
+
+          // Update location display
+          const locationName = location.replace(/_/g, " ");
+          document.getElementById("location-name").textContent = locationName;
+
+          // Fetch today's prayer times
+          const response = await fetch(
+            `https://api.azantimes.in/v1/timesheets/${location}/today.json`
+          );
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch prayer times: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // Update date display
+          document.getElementById("date-display").textContent = formatDate(
+            data.date
+          );
+
+          // Show location and prayer info
+          document.getElementById("location-display").style.display = "flex";
+          document.getElementById("next-prayer").style.display = "block";
+
+          // Find and display next prayer
+          findNextPrayer(data);
+
+          console.log("✅ Prayer times loaded successfully");
+        } catch (error) {
+          console.error("Error loading prayer times:", error);
+
+          // Show error state
+          document.getElementById("date-display").innerHTML =
+            '<div style="color: #ffcccc; font-size: 15px;">Please add ?q=Location_Name to URL</div>';
+        }
+      }
+
+      // Initialize widget
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          loadPrayerTimes();
+        }, 500);
+      });
+    </script>
+  </body>
+</html>
