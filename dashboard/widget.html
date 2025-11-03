@@ -40,7 +40,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 16px;
       }
 
       .widget-container {
@@ -51,16 +51,25 @@
         );
         backdrop-filter: blur(20px);
         border-radius: 24px;
-        padding: 20px 24px;
-        max-width: 400px;
-        max-height: 200px;
+        padding: 28px 32px;
         width: 100%;
+        max-width: 420px;
+        min-height: 220px;
         text-align: center;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         animation: fadeIn 0.6s ease-out;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      /* Desktop Widget Mode */
+      @media (min-width: 641px) and (max-width: 500px) {
+        .widget-container {
+          max-width: 400px;
+          max-height: 200px;
+        }
       }
 
       @keyframes fadeIn {
@@ -79,55 +88,303 @@
       }
 
       .date-display {
-        font-size: 18px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 8px;
-        line-height: 1.2;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.3;
+        letter-spacing: -0.2px;
       }
 
       .location-display {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
-        color: #ffffff;
+        gap: 6px;
+        color: rgba(255, 255, 255, 0.8);
         font-size: 13px;
         font-weight: 500;
-        margin-bottom: 12px;
-        opacity: 0.95;
+        margin-top: -8px;
       }
 
       .location-display i {
-        font-size: 12px;
+        font-size: 11px;
+        opacity: 0.9;
       }
 
       .next-prayer {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         color: #1a5f4a;
-        padding: 10px 16px;
-        border-radius: 16px;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        padding: 20px 24px;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        margin-top: auto;
       }
 
       .next-prayer .label {
         font-size: 11px;
-        font-weight: 600;
-        opacity: 0.7;
-        margin-bottom: 2px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.6;
+        margin-bottom: 8px;
       }
 
-      .next-prayer .time {
-        font-size: 16px;
-        font-weight: 700;
+      .prayer-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .prayer-name {
+        font-size: 24px;
+        font-weight: 800;
         color: #0f4c3a;
+        letter-spacing: -0.5px;
+      }
+
+      .prayer-time {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a5f4a;
+      }
+
+      .countdown {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        color: #92400e;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
+
+      .countdown i {
+        font-size: 12px;
+      }
+
+      .countdown-time {
+        font-weight: 800;
+        color: #b45309;
+      }
+
+      /* Azan Animation Overlay */
+      .azan-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          #0f4c3a 0%,
+          #1a5f4a 50%,
+          #2d8659 100%
+        );
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        animation: fadeIn 1s ease-out;
+      }
+
+      .azan-overlay.active {
+        display: flex;
+      }
+
+      .azan-content {
+        text-align: center;
+        color: white;
+        animation: scaleIn 1s ease-out;
+      }
+
+      .mosque-icon {
+        font-size: 120px;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 30px;
+        animation: pulse 2s ease-in-out infinite;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+      }
+
+      .azan-text {
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(45deg, #ffffff, #fbbf24, #ffffff);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease infinite;
+        text-shadow: 0 0 40px rgba(251, 191, 36, 0.5);
+      }
+
+      .prayer-name-large {
+        font-size: 64px;
+        font-weight: 900;
+        margin-bottom: 30px;
+        color: #fbbf24;
+        letter-spacing: 3px;
+        animation: glow 2s ease-in-out infinite;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .azan-time {
+        font-size: 32px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 40px;
+      }
+
+      .rings {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .ring {
+        position: absolute;
+        border: 3px solid rgba(251, 191, 36, 0.3);
+        border-radius: 50%;
+        animation: ripple 3s ease-out infinite;
+      }
+
+      .ring:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        animation-delay: 0s;
+      }
+
+      .ring:nth-child(2) {
+        width: 300px;
+        height: 300px;
+        animation-delay: 1s;
+      }
+
+      .ring:nth-child(3) {
+        width: 400px;
+        height: 400px;
+        animation-delay: 2s;
+      }
+
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(251, 191, 36, 0.8);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+        box-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+      }
+
+      @keyframes scaleIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes ripple {
+        0% {
+          transform: scale(0.8);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) translateX(50px);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .mosque-icon {
+          font-size: 80px;
+        }
+
+        .azan-text {
+          font-size: 32px;
+        }
+
+        .prayer-name-large {
+          font-size: 48px;
+        }
+
+        .azan-time {
+          font-size: 24px;
+        }
       }
 
       .loading {
         color: #ffffff;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
       }
 
@@ -162,36 +419,101 @@
       }
 
       @media (max-width: 640px) {
+        body {
+          padding: 12px;
+        }
+
         .widget-container {
-          padding: 16px 20px;
-          max-width: 360px;
+          padding: 24px;
+          max-width: 100%;
+          border-radius: 20px;
+          min-height: 200px;
         }
 
         .date-display {
-          font-size: 16px;
+          font-size: 15px;
         }
 
         .location-display {
           font-size: 12px;
+          gap: 5px;
         }
 
-        .next-prayer .time {
-          font-size: 15px;
+        .next-prayer {
+          padding: 18px 20px;
         }
 
-        .icon-wrapper {
-          width: 45px;
-          height: 45px;
-          margin-bottom: 10px;
-        }
-
-        .icon-wrapper i {
+        .prayer-name,
+        .prayer-time {
           font-size: 20px;
+        }
+
+        .countdown {
+          font-size: 12px;
+          padding: 7px 14px;
+        }
+      }
+
+      /* Small mobile devices */
+      @media (max-width: 380px) {
+        .widget-container {
+          padding: 20px;
+          border-radius: 18px;
+        }
+
+        .date-display {
+          font-size: 14px;
+        }
+
+        .location-display {
+          font-size: 11px;
+        }
+
+        .prayer-name,
+        .prayer-time {
+          font-size: 18px;
+        }
+
+        .countdown {
+          font-size: 11px;
+          padding: 6px 12px;
+        }
+      }
+
+      /* Tablet landscape and desktop widget mode */
+      @media (min-width: 641px) and (max-width: 1024px) {
+        .widget-container {
+          max-width: 450px;
+        }
+      }
+
+      /* Large screens */
+      @media (min-width: 1025px) {
+        .widget-container {
+          max-width: 480px;
         }
       }
     </style>
   </head>
   <body>
+    <!-- Azan Animation Overlay -->
+    <div id="azan-overlay" class="azan-overlay">
+      <div class="rings">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+      </div>
+      <div class="particles" id="particles"></div>
+      <div class="azan-content">
+        <div class="mosque-icon">
+          <i class="fas fa-mosque"></i>
+        </div>
+        <div class="azan-text">It's Time for</div>
+        <div class="prayer-name-large" id="azan-prayer-name">Asr</div>
+        <div class="azan-time" id="azan-prayer-time">3:33 PM</div>
+      </div>
+    </div>
+
     <div class="widget-container">
       <div class="icon-wrapper">
         <i class="fas fa-calendar-day"></i>
@@ -212,9 +534,13 @@
 
       <div id="next-prayer" class="next-prayer" style="display: none">
         <div class="label">Next Prayer</div>
-        <div class="time">
-          <span id="prayer-name">Asr</span> at
-          <span id="prayer-time">3:33 PM</span>
+        <div class="prayer-info">
+          <span class="prayer-name" id="prayer-name">Asr</span>
+          <span class="prayer-time" id="prayer-time">3:33 PM</span>
+        </div>
+        <div id="countdown" class="countdown">
+          <i class="fas fa-clock"></i>
+          <span class="countdown-time" id="countdown-time">2h 15m</span>
         </div>
       </div>
     </div>
@@ -306,6 +632,9 @@
           if (prayerMinutes > currentTime) {
             document.getElementById("prayer-name").textContent = prayer.name;
             document.getElementById("prayer-time").textContent = prayer.time;
+
+            // Start countdown
+            startCountdown(prayerMinutes);
             return;
           }
         }
@@ -314,6 +643,105 @@
         document.getElementById("prayer-name").textContent = prayers[0].name;
         document.getElementById("prayer-time").textContent =
           prayers[0].time + " (Tomorrow)";
+
+        // Calculate minutes until tomorrow's Fajr
+        const tomorrowFajr = timeToMinutes(prayers[0].time) + 24 * 60;
+        startCountdown(tomorrowFajr);
+      }
+
+      // Countdown timer
+      let countdownInterval;
+      let azanTimeout;
+
+      function startCountdown(targetMinutes) {
+        // Clear any existing countdown
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+        }
+
+        function updateCountdown() {
+          const now = new Date();
+          const currentMinutes = now.getHours() * 60 + now.getMinutes();
+          let remainingMinutes = targetMinutes - currentMinutes;
+
+          // Handle tomorrow's prayer
+          if (remainingMinutes < 0) {
+            remainingMinutes += 24 * 60;
+          }
+
+          const hours = Math.floor(remainingMinutes / 60);
+          const minutes = remainingMinutes % 60;
+
+          let countdownText = "";
+          if (hours > 0) {
+            countdownText = `${hours}h ${minutes}m`;
+          } else if (minutes > 0) {
+            countdownText = `${minutes}m`;
+          } else {
+            countdownText = "Now";
+            // Show azan animation when countdown reaches zero
+            showAzanAnimation();
+            // Reload prayer times after animation
+            setTimeout(() => loadPrayerTimes(), 62000); // 1 minute + 2 seconds
+          }
+
+          document.getElementById("countdown-time").textContent = countdownText;
+        }
+
+        // Update immediately
+        updateCountdown();
+
+        // Update every minute
+        countdownInterval = setInterval(updateCountdown, 60000);
+      }
+
+      // Show azan animation
+      function showAzanAnimation() {
+        const overlay = document.getElementById("azan-overlay");
+        const prayerName = document.getElementById("prayer-name").textContent;
+        const prayerTime = document.getElementById("prayer-time").textContent;
+
+        // Update animation content
+        document.getElementById("azan-prayer-name").textContent = prayerName;
+        document.getElementById("azan-prayer-time").textContent = prayerTime;
+
+        // Create floating particles
+        createParticles();
+
+        // Show overlay
+        overlay.classList.add("active");
+
+        // Play sound if available
+        try {
+          const audio = new Audio(
+            "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE"
+          );
+          audio.volume = 0.3;
+          audio.play().catch(() => {});
+        } catch (e) {}
+
+        // Hide after 1 minute
+        if (azanTimeout) {
+          clearTimeout(azanTimeout);
+        }
+        azanTimeout = setTimeout(() => {
+          overlay.classList.remove("active");
+        }, 60000); // 60 seconds
+      }
+
+      // Create floating particles
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        particlesContainer.innerHTML = ""; // Clear existing particles
+
+        for (let i = 0; i < 50; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 6 + "s";
+          particle.style.animationDuration = Math.random() * 3 + 4 + "s";
+          particlesContainer.appendChild(particle);
+        }
       }
 
       // Fetch prayer times from API
