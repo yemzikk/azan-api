@@ -228,7 +228,31 @@
 
       // Format date to "Monday, November 3, 2025"
       function formatDate(dateString) {
+        if (!dateString) return "Invalid Date";
+
+        // Handle both ISO format and other date formats
         const date = new Date(dateString);
+
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+          // Try parsing as YYYY-MM-DD format manually
+          const parts = dateString.split("-");
+          if (parts.length === 3) {
+            const [year, month, day] = parts.map(Number);
+            const parsedDate = new Date(year, month - 1, day);
+            if (!isNaN(parsedDate.getTime())) {
+              const options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              };
+              return parsedDate.toLocaleDateString("en-US", options);
+            }
+          }
+          return "Invalid Date";
+        }
+
         const options = {
           weekday: "long",
           year: "numeric",
