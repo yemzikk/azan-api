@@ -1,5 +1,9 @@
 # URL Redirects for Cloudflare Pages
 
+# Social media redirects
+/whatsapp  https://chat.whatsapp.com/Gh4oCXcdIbAEfvfd55Op53  301
+/telegram  https://t.me/azantimes_in  301
+
 # API routes - serve as static files
 /v1/*  /v1/:splat  200
 
