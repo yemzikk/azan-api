@@ -2,6 +2,7 @@ User-agent: *
 Allow: /
 
 # XML Sitemap
+Sitemap: https://azantimes.in/sitemap.xml
 Sitemap: https://api.azantimes.in/sitemap.xml
 
 # API endpoints

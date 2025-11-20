@@ -6,7 +6,7 @@
     <!-- Main API Documentation -->
     <url>
         <loc>https://api.azantimes.in/</loc>
-        <lastmod>2025-08-30</lastmod>
+        <lastmod>2025-11-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -14,7 +14,7 @@
     <!-- Prayer Times Dashboard -->
     <url>
         <loc>https://azantimes.in/</loc>
-        <lastmod>2025-08-30</lastmod>
+        <lastmod>2025-11-20</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
@@ -22,8 +22,8 @@
     <!-- API Endpoints -->
     <url>
         <loc>https://api.azantimes.in/v1/timesheets/index.json</loc>
-        <lastmod>2025-08-30</lastmod>
-        <changefreq>monthly</changefreq>
+        <lastmod>2025-11-20</lastmod>
+        <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
 
