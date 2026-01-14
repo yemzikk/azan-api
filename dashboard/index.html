@@ -3652,6 +3652,11 @@
             selectedLocation = e.target.value;
             hideNearbyLocations(); // Hide nearby locations when manually selecting
 
+            // Update URL query parameter
+            const url = new URL(window.location);
+            url.searchParams.set('q', e.target.value);
+            window.history.pushState({}, '', url);
+
             // Automatically save the selected location as default
             preferencesManager.saveDefaultLocation();
 
@@ -4247,12 +4252,14 @@
           if (queryLocation) {
             const locationSelect = document.getElementById("location");
 
+            // Normalize function to handle case, spaces, hyphens, and underscores
+            const normalize = (str) => {
+              return str.toLowerCase().replace(/[\s\-_]/g, '');
+            };
+
             const selectedOption = Array.from(locationSelect.options).find(
               (opt) => {
-                return (
-                  opt.value.replace(/ /g, "_") ===
-                  queryLocation.replace(/ /g, "_")
-                );
+                return normalize(opt.value) === normalize(queryLocation);
               }
             );
 
