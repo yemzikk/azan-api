@@ -1712,7 +1712,7 @@
   {
     "date": "10-07-2026",
     "subh": "4:50 AM",
-    "duhr": null,
+    "duhr": NaN,
     "asar": "3:57 PM",
     "maghrib": "6:52 PM",
     "isha": "8:08 PM",
