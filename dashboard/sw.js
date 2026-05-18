@@ -17,7 +17,7 @@ const CORE_ASSETS = [
   "/favicon/favicon-16x16.png",
   "/favicon/favicon.ico",
   "/favicon/site.webmanifest",
-  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
 ];
 
@@ -275,61 +275,55 @@ async function checkAndShowNotifications() {
   }
 }
 
-async function showPrayerNotification(prayer, timeStr) {
-  const message = PRAYER_MESSAGES[prayer];
-  if (!message) return;
-
-  // Get location name from stored prayer times
-  const prayerTimes = await getPrayerTimes();
-  const locationName = prayerTimes?.location || "your area";
-
-  // Format the title and body with actual values
-  const title = message.title
-    .replace("{time}", timeStr || "Now");
-
-  const body = message.body
-    .replace("{location}", locationName)
-    .replace("{time}", timeStr || "Now");
-
-  const options = {
-    body: body,
+function buildNotificationOptions({ body, prayer, timeStr, locationName }) {
+  // Unsupported keys are silently ignored on platforms that don't honor them
+  // (iOS Safari ignores actions/vibrate/requireInteraction; that's fine).
+  return {
+    body,
     icon: "/favicon/android-chrome-192x192.png",
     badge: "/favicon/favicon-32x32.png",
     tag: `prayer-${prayer}`,
     vibrate: [200, 100, 200, 100, 200],
-    requireInteraction: true,
     renotify: true,
+    requireInteraction: false,
     data: {
-      prayer: prayer,
+      prayer,
       time: timeStr,
       location: locationName,
-      url: "/"
+      url: "/",
     },
     actions: [
-      {
-        action: "view",
-        title: "View Times",
-        icon: "/favicon/favicon-32x32.png"
-      },
-      {
-        action: "dismiss",
-        title: "Dismiss"
-      }
-    ]
+      { action: "view", title: "View Times" },
+      { action: "dismiss", title: "Dismiss" },
+    ],
   };
+}
+
+async function showPrayerNotification(prayer, timeStr) {
+  const message = PRAYER_MESSAGES[prayer];
+  if (!message) return;
+
+  const prayerTimes = await getPrayerTimes();
+  const locationName = prayerTimes?.location || "your area";
+
+  const title = message.title.replace("{time}", timeStr || "Now");
+  const body = message.body
+    .replace("{location}", locationName)
+    .replace("{time}", timeStr || "Now");
+
+  const options = buildNotificationOptions({ body, prayer, timeStr, locationName });
 
   try {
     await self.registration.showNotification(title, options);
     console.log(`SW: Showed notification for ${prayer} at ${timeStr} in ${locationName}`);
 
-    // Notify all clients
     const clients = await self.clients.matchAll({ type: "window" });
-    clients.forEach(client => {
+    clients.forEach((client) => {
       client.postMessage({
         type: "PRAYER_NOTIFICATION_SHOWN",
-        prayer: prayer,
+        prayer,
         time: timeStr,
-        location: locationName
+        location: locationName,
       });
     });
   } catch (error) {
@@ -455,42 +449,48 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+// Stale-while-revalidate for the prayer-times API: serve the cached response
+// immediately (if any) and refresh the cache in the background. Falls back to
+// the network when there's no cache, and to the offline response when both fail.
 async function handleApiRequest(request) {
-  try {
-    const networkResponse = await fetch(request);
+  const cache = await caches.open(API_CACHE);
+  const cachedResponse = await cache.match(request);
 
-    if (networkResponse.ok) {
-      const cache = await caches.open(API_CACHE);
-      const responseClone = networkResponse.clone();
-
-      const headers = new Headers(responseClone.headers);
-      headers.set("sw-cached-at", new Date().toISOString());
-
-      const modifiedResponse = new Response(responseClone.body, {
-        status: responseClone.status,
-        statusText: responseClone.statusText,
-        headers: headers,
-      });
-
-      cache.put(request, modifiedResponse);
+  const networkPromise = fetch(request)
+    .then((networkResponse) => {
+      if (networkResponse && networkResponse.ok) {
+        const responseClone = networkResponse.clone();
+        const headers = new Headers(responseClone.headers);
+        headers.set("sw-cached-at", new Date().toISOString());
+        const stored = new Response(responseClone.body, {
+          status: responseClone.status,
+          statusText: responseClone.statusText,
+          headers,
+        });
+        cache.put(request, stored);
+      }
       return networkResponse;
-    }
-  } catch (error) {
-    console.log("Service Worker: Network failed for API request, trying cache");
-  }
+    })
+    .catch((err) => {
+      console.log("SW: API network refresh failed:", err.message);
+      return null;
+    });
 
-  const cachedResponse = await caches.match(request);
   if (cachedResponse) {
+    // Don't await the refresh — let it run in the background.
     const headers = new Headers(cachedResponse.headers);
     headers.set("sw-from-cache", "true");
-
     return new Response(cachedResponse.body, {
       status: cachedResponse.status,
       statusText: cachedResponse.statusText,
-      headers: headers,
+      headers,
     });
   }
 
+  const networkResponse = await networkPromise;
+  if (networkResponse && networkResponse.ok) {
+    return networkResponse;
+  }
   return createOfflineResponse();
 }
 
@@ -663,7 +663,7 @@ self.addEventListener("push", (event) => {
   let data = {
     title: "Prayer Times",
     body: "Prayer time reminder",
-    prayer: "general"
+    prayer: "general",
   };
 
   if (event.data) {
@@ -674,33 +674,16 @@ self.addEventListener("push", (event) => {
     }
   }
 
-  const options = {
+  const options = buildNotificationOptions({
     body: data.body,
-    icon: "/favicon/android-chrome-192x192.png",
-    badge: "/favicon/favicon-32x32.png",
-    tag: `prayer-${data.prayer}`,
-    vibrate: [200, 100, 200, 100, 200],
-    requireInteraction: true,
-    data: {
-      prayer: data.prayer,
-      url: data.url || "/"
-    },
-    actions: [
-      {
-        action: "view",
-        title: "View Times",
-        icon: "/favicon/favicon-32x32.png"
-      },
-      {
-        action: "dismiss",
-        title: "Dismiss"
-      }
-    ]
-  };
+    prayer: data.prayer,
+    timeStr: data.time || "",
+    locationName: data.location || "your area",
+  });
+  // Push payload may include a custom URL.
+  options.data.url = data.url || "/";
 
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
 // ==========================================
@@ -744,31 +727,18 @@ self.addEventListener("notificationclose", (event) => {
 });
 
 // ==========================================
-// Startup: Check notifications periodically
+// Notes on background notifications across platforms
 // ==========================================
-
-// Set up interval to check notifications (runs when SW is active)
-let notificationCheckInterval = null;
-
-function startNotificationChecker() {
-  if (notificationCheckInterval) {
-    clearInterval(notificationCheckInterval);
-  }
-
-  // Check every 30 seconds
-  notificationCheckInterval = setInterval(() => {
-    checkAndShowNotifications();
-  }, 30000);
-
-  // Also check immediately
-  checkAndShowNotifications();
-
-  console.log("SW: Notification checker started");
-}
-
-// Start checker when SW activates
-self.addEventListener("activate", () => {
-  startNotificationChecker();
-});
+// Web platform reality: service workers go to sleep after ~30s idle, so a
+// setInterval in the SW global scope does not reliably fire timed notifications.
+// We rely on three mechanisms instead, layered:
+//   1. The open page polls (NotificationManager.startNotificationChecker) and
+//      asks the SW to check via the CHECK_NOTIFICATIONS message.
+//   2. periodicsync ("prayer-notification-check") fires every ~1min on
+//      Chrome/Edge Android + desktop when installed as a PWA.
+//   3. Server-sent push messages (push event handler below) — not currently
+//      enabled, but supported when a backend is added.
+// iOS Safari (iOS 16.4+) needs the site installed as a PWA on the home screen
+// for any notifications to work, and only via ServiceWorkerRegistration.showNotification.
 
 console.log("Service Worker v2.1.0: Loaded successfully with Push Notification support");

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Analytics: external loader deferred so it doesn't block parsing.
+         The inline queue runs synchronously to set up `gtag` before the
+         deferred loader executes after parsing. -->
     <script
-      async
+      defer
       src="https://www.googletagmanager.com/gtag/js?id=G-6BNGK9FJY7"
     ></script>
     <script>
@@ -11,7 +14,6 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
       gtag("config", "G-6BNGK9FJY7");
     </script>
     <meta charset="UTF-8" />
@@ -155,11 +157,12 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="msapplication-TileColor" content="#1a5f4a" />
     <meta name="msapplication-config" content="favicon/browserconfig.xml" />
-    <meta name="msapplication-navbutton-color" content="#1a5f4a" />
+    <meta name="msapplication-navbutton-color" content="#0b1018" />
     <meta name="msapplication-starturl" content="/" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="theme-color" content="#1a5f4a" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#0b1018" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#eef2f9" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light dark" />
 
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telephone=no" />
@@ -419,7 +422,7 @@
 
     <link rel="stylesheet" href="css/styles.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -435,787 +438,18 @@
     <meta name="availability" content="in stock" />
 
     <link rel="preload" href="css/styles.css" as="style" />
+    <link rel="preload" href="css/dashboard.css" as="style" />
     <link
       rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       as="style"
     />
 
-    <style>
-      * {
-        font-family: "Inter", sans-serif;
-      }
-
-      body {
-        background: linear-gradient(
-          135deg,
-          #0f4c3a 0%,
-          #1a5f4a 50%,
-          #2d8659 100%
-        );
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
-      }
-
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(
-            circle at 20% 20%,
-            rgba(255, 255, 255, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 80% 80%,
-            rgba(255, 255, 255, 0.08) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(255, 255, 255, 0.04) 0%,
-            transparent 50%
-          ),
-          radial-gradient(
-            circle at 60% 20%,
-            rgba(255, 255, 255, 0.06) 0%,
-            transparent 40%
-          ),
-          radial-gradient(
-            circle at 10% 70%,
-            rgba(255, 255, 255, 0.06) 0%,
-            transparent 40%
-          );
-        pointer-events: none;
-        animation: backgroundShift 20s ease-in-out infinite;
-      }
-
-      @keyframes backgroundShift {
-        0%,
-        100% {
-          opacity: 0.8;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      .glass-morphism {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(15, 76, 58, 0.2);
-      }
-
-      .glass-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(25px);
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        box-shadow: 0 20px 40px rgba(15, 76, 58, 0.15);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .glass-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(15, 76, 58, 0.2);
-        background: rgba(255, 255, 255, 1);
-        border-color: rgba(212, 175, 55, 0.4);
-      }
-
-      .prayer-card {
-        background: linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.92),
-          rgba(255, 255, 255, 0.75)
-        );
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .prayer-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, #d4af37, #f4d03f);
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-      }
-
-      .prayer-card:hover::before {
-        transform: scaleX(1);
-      }
-
-      .prayer-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 25px 50px rgba(15, 76, 58, 0.15);
-        background: linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 1),
-          rgba(255, 255, 255, 0.95)
-        );
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      .prayer-card.active {
-        background: linear-gradient(145deg, #1a5f4a, #2d8659);
-        color: white;
-        transform: translateY(-2px) scale(1.05);
-        box-shadow: 0 20px 40px rgba(26, 95, 74, 0.4);
-        border-color: rgba(212, 175, 55, 0.6);
-      }
-
-      .prayer-card.active::before {
-        background: rgba(212, 175, 55, 0.8);
-        transform: scaleX(1);
-      }
-
-      .period-btn {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-        color: rgba(255, 255, 255, 0.9);
-        font-weight: 600;
-      }
-
-      .period-btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(212, 175, 55, 0.2),
-          transparent
-        );
-        transition: left 0.5s;
-      }
-
-      .period-btn:hover::before {
-        left: 100%;
-      }
-
-      .period-btn:hover {
-        transform: translateY(-2px);
-        background: rgba(212, 175, 55, 0.2);
-        box-shadow: 0 10px 25px rgba(15, 76, 58, 0.2);
-        color: white;
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      .period-btn.active {
-        background: rgba(212, 175, 55, 0.9);
-        color: #0f4c3a;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
-        border-color: rgba(212, 175, 55, 0.8);
-        font-weight: 700;
-      }
-
-      .floating-element {
-        animation: float 8s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px) translateX(0px) rotate(0deg);
-          opacity: 0.6;
-        }
-        25% {
-          transform: translateY(-15px) translateX(5px) rotate(90deg);
-          opacity: 0.8;
-        }
-        50% {
-          transform: translateY(-25px) translateX(-5px) rotate(180deg);
-          opacity: 0.4;
-        }
-        75% {
-          transform: translateY(-10px) translateX(8px) rotate(270deg);
-          opacity: 0.7;
-        }
-      }
-
-      .fade-in {
-        animation: fadeIn 0.8s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .slide-in {
-        animation: slideIn 0.6s ease-out;
-      }
-
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      .prayer-glow {
-        animation: prayerPulse 4s ease-in-out infinite;
-      }
-
-      @keyframes prayerPulse {
-        0%,
-        100% {
-          box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
-        50% {
-          box-shadow: 0 0 30px rgba(212, 175, 55, 0.4),
-            0 0 40px rgba(26, 95, 74, 0.2);
-        }
-      }
-
-      .prayer-time-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 1rem;
-      }
-
-      @media (min-width: 640px) {
-        .prayer-time-grid {
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.5rem;
-        }
-      }
-
-      @media (min-width: 1024px) {
-        .prayer-time-grid {
-          grid-template-columns: repeat(6, 1fr);
-          gap: 1.5rem;
-        }
-      }
-
-      .select-wrapper {
-        position: relative;
-      }
-
-      .select-wrapper::after {
-        content: "\f107";
-        font-family: "Font Awesome 6 Free";
-        font-weight: 900;
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-        color: #1a5f4a;
-        transition: transform 0.3s ease;
-      }
-
-      .select-wrapper:hover::after {
-        transform: translateY(-50%) scale(1.1);
-      }
-
-      select {
-        appearance: none;
-        background: rgba(255, 255, 255, 0.92);
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        transition: all 0.3s ease;
-      }
-
-      select:focus {
-        background: rgba(255, 255, 255, 1);
-        border-color: #1a5f4a;
-        box-shadow: 0 0 0 3px rgba(26, 95, 74, 0.15);
-        outline: none;
-      }
-
-      /* Select option styling */
-      select option[value="auto-detect"] {
-        background: linear-gradient(135deg, #d4af37, #f4d03f);
-        color: #0f4c3a;
-        font-weight: bold;
-      }
-
-      select option:disabled {
-        color: rgba(128, 128, 128, 0.6);
-        font-style: italic;
-      }
-
-      .time-highlight {
-        background: linear-gradient(135deg, #1a5f4a, #124a39);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-      }
-
-      .pulse-ring {
-        animation: pulse-ring 2s infinite;
-      }
-
-      @keyframes pulse-ring {
-        0% {
-          transform: scale(0.33);
-        }
-        40%,
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-          transform: scale(1.2);
-        }
-      }
-
-      .loading-dots {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-      }
-
-      .loading-dots div {
-        position: absolute;
-        top: 33px;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #d4af37;
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
-      }
-
-      .loading-dots div:nth-child(1) {
-        left: 8px;
-        animation: loading1 0.6s infinite;
-      }
-
-      .loading-dots div:nth-child(2) {
-        left: 8px;
-        animation: loading2 0.6s infinite;
-      }
-
-      .loading-dots div:nth-child(3) {
-        left: 32px;
-        animation: loading2 0.6s infinite;
-      }
-
-      .loading-dots div:nth-child(4) {
-        left: 56px;
-        animation: loading3 0.6s infinite;
-      }
-
-      @keyframes loading1 {
-        0% {
-          transform: scale(0);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      @keyframes loading3 {
-        0% {
-          transform: scale(1);
-        }
-        100% {
-          transform: scale(0);
-        }
-      }
-
-      @keyframes loading2 {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(24px, 0);
-        }
-      }
-
-      .moroccan-pattern {
-        background: linear-gradient(
-          135deg,
-          #0f4c3a 0%,
-          #1a5f4a 50%,
-          #2d8659 100%
-        );
-        background-image: 
-          /* Islamic Star Pattern */ radial-gradient(
-            circle at 25px 25px,
-            rgba(212, 175, 55, 0.08) 2px,
-            transparent 2px
-          ),
-          radial-gradient(
-            circle at 75px 75px,
-            rgba(212, 175, 55, 0.06) 2px,
-            transparent 2px
-          ),
-          /* Geometric Grid */
-            repeating-linear-gradient(
-              45deg,
-              rgba(212, 175, 55, 0.02) 0px,
-              rgba(212, 175, 55, 0.02) 1px,
-              transparent 1px,
-              transparent 12px
-            ),
-          repeating-linear-gradient(
-            -45deg,
-            rgba(212, 175, 55, 0.02) 0px,
-            rgba(212, 175, 55, 0.02) 1px,
-            transparent 1px,
-            transparent 12px
-          ),
-          /* Hexagonal Pattern */
-            linear-gradient(
-              60deg,
-              rgba(212, 175, 55, 0.01) 25%,
-              transparent 25.5%,
-              transparent 75%,
-              rgba(212, 175, 55, 0.01) 75.5%,
-              rgba(212, 175, 55, 0.01)
-            ),
-          linear-gradient(
-            -60deg,
-            rgba(212, 175, 55, 0.01) 25%,
-            transparent 25.5%,
-            transparent 75%,
-            rgba(212, 175, 55, 0.01) 75.5%,
-            rgba(212, 175, 55, 0.01)
-          );
-        background-size: 50px 50px, 100px 100px, 24px 24px, 24px 24px, 60px 36px,
-          60px 36px;
-        background-position: 0 0, 25px 25px, 0 0, 12px 12px, 0 0, 30px 18px;
-      }
-
-      /* Mobile optimizations */
-      @media (max-width: 640px) {
-        .prayer-time-grid {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-        }
-
-        .glass-card {
-          padding: 1rem;
-        }
-
-        .floating-element {
-          display: none;
-        }
-      }
-
-      /* Smooth scrolling */
-      html {
-        scroll-behavior: smooth;
-      }
-
-      /* Focus states for accessibility */
-      button:focus,
-      select:focus {
-        outline: 2px solid rgba(212, 175, 55, 0.6);
-        outline-offset: 2px;
-      }
-
-      /* Loading animation enhancement */
-      .pulse-ring {
-        position: relative;
-      }
-
-      .pulse-ring::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background: rgba(212, 175, 55, 0.4);
-        transform: translate(-50%, -50%);
-        animation: pulse-ring 2s infinite;
-      }
-
-      /* Enhanced hover effects */
-      .glass-card:hover {
-        background: rgba(255, 255, 255, 0.98);
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      .prayer-card.active:hover {
-        background: linear-gradient(145deg, #1a5f4a, #2d8659);
-      }
-
-      /* Nearby Locations Panel Styles */
-      .custom-scrollbar {
-        scrollbar-width: thin;
-        scrollbar-color: rgba(212, 175, 55, 0.6) rgba(255, 255, 255, 0.1);
-      }
-
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
-      }
-
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-      }
-
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: rgba(212, 175, 55, 0.6);
-        border-radius: 3px;
-      }
-
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: rgba(212, 175, 55, 0.8);
-      }
-
-      .nearby-location-card {
-        backdrop-filter: blur(10px);
-        animation: slideInUp 0.3s ease-out;
-      }
-
-      .nearby-location-card:nth-child(odd) {
-        animation-delay: 0.05s;
-      }
-
-      .nearby-location-card:nth-child(even) {
-        animation-delay: 0.1s;
-      }
-
-      @keyframes slideInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .nearby-location-card:hover {
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      }
-
-      /* Auto-detection success animation */
-      .detection-success {
-        animation: successPulse 0.6s ease-out;
-      }
-
-      @keyframes successPulse {
-        0% {
-          transform: scale(1);
-          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-        }
-        50% {
-          transform: scale(1.05);
-          box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-        }
-        100% {
-          transform: scale(1);
-          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-        }
-      }
-
-      /* PWA Install Banner */
-      .pwa-banner {
-        background: linear-gradient(135deg, #1a5f4a, #2d8659);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(212, 175, 55, 0.3);
-        box-shadow: 0 10px 30px rgba(15, 76, 58, 0.2);
-        transform: translateY(-100%);
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .pwa-banner.show {
-        transform: translateY(0);
-      }
-
-      .pwa-banner-slide-out {
-        transform: translateY(-100%);
-      }
-
-      @keyframes sparkle {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.8;
-          transform: scale(1.05);
-        }
-      }
-
-      /* PWA Update Available */
-      .update-banner {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(59, 130, 246, 0.3);
-        box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
-      }
-
-      /* Notification Toggle Switch Styles */
-      .toggle-switch {
-        position: relative;
-        width: 52px;
-        height: 28px;
-        flex-shrink: 0;
-      }
-
-      .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      .toggle-slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 28px;
-      }
-
-      .toggle-slider:before {
-        position: absolute;
-        content: "";
-        height: 20px;
-        width: 20px;
-        left: 3px;
-        bottom: 3px;
-        background: white;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 50%;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .toggle-switch input:checked + .toggle-slider {
-        background: linear-gradient(135deg, #d4af37, #f4d03f);
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-
-      .toggle-switch input:checked + .toggle-slider:before {
-        transform: translateX(24px);
-        background: #0f4c3a;
-      }
-
-      .toggle-switch input:focus + .toggle-slider {
-        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
-      }
-
-      /* Notification Modal Styles */
-      .notification-modal {
-        backdrop-filter: blur(10px);
-        background: rgba(0, 0, 0, 0.6);
-        animation: fadeInModal 0.3s ease-out;
-      }
-
-      @keyframes fadeInModal {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      .notification-modal-content {
-        background: linear-gradient(145deg, #1a5f4a, #0f4c3a);
-        animation: slideUpModal 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      @keyframes slideUpModal {
-        from {
-          opacity: 0;
-          transform: translateY(30px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      .prayer-notification-item {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .prayer-notification-item:hover {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(212, 175, 55, 0.3);
-      }
-
-      .prayer-notification-item.enabled {
-        background: rgba(212, 175, 55, 0.15);
-        border-color: rgba(212, 175, 55, 0.4);
-      }
-
-      /* Notification button pulse animation */
-      .notification-btn-pulse {
-        animation: notificationPulse 2s ease-in-out infinite;
-      }
-
-      @keyframes notificationPulse {
-        0%, 100% {
-          box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
-        }
-        50% {
-          box-shadow: 0 0 0 8px rgba(212, 175, 55, 0);
-        }
-      }
-
-      /* Master toggle styles */
-      .master-toggle {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
-        border: 1px solid rgba(212, 175, 55, 0.3);
-      }
-
-      .master-toggle.enabled {
-        background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.2));
-        border-color: rgba(212, 175, 55, 0.5);
-      }
-    </style>
+    <link rel="stylesheet" href="css/dashboard.css" />
   </head>
-  <body class="min-h-screen moroccan-pattern">
-    <!-- Dark Horizon Glow Background -->
+  <body class="min-h-screen">
+    <!-- Background painted via CSS (body::before aurora + body::after grain). -->
     <div class="min-h-screen w-full relative">
-      <div
-        class="absolute inset-0 z-0"
-        style="
-          background: radial-gradient(
-            125% 125% at 50% 90%,
-            #0a2e1f 40%,
-            #1a5f4a 100%
-          );
-        "
-      ></div>
-
       <div
         class="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12"
       >
@@ -1288,32 +522,24 @@
           id="notification-modal"
           class="notification-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4"
         >
-          <div class="notification-modal-content w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
+          <div class="notification-modal-content w-full max-w-md rounded-2xl shadow-2xl overflow-hidden">
             <!-- Modal Header -->
             <div class="p-6 border-b border-white border-opacity-10">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                  <div
-                    class="flex items-center justify-center rounded-2xl"
-                    style="background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%); width: 48px; height: 48px; min-width: 48px;"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="#0f4c3a">
-                      <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 336 112 289.3 112 241.4V208c0-61.9 50.1-112 112-112zm64 352H160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/>
-                    </svg>
+                  <div class="modal-icon flex items-center justify-center rounded-lg">
+                    <i class="fas fa-bell" style="color: #0d4a38;"></i>
                   </div>
                   <div>
-                    <h2 class="text-xl font-bold text-white">Notification Settings</h2>
+                    <h2 class="text-xl font-semibold text-white">Notification settings</h2>
                     <p class="text-white text-opacity-70 text-sm">Customize prayer alerts</p>
                   </div>
                 </div>
                 <button
                   id="close-notification-modal"
-                  class="flex items-center justify-center rounded-xl bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors"
-                  style="width: 40px; height: 40px; min-width: 40px;"
+                  class="close-btn flex items-center justify-center rounded-lg bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="16" height="16" fill="white">
-                    <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
-                  </svg>
+                  <i class="fas fa-times text-white text-sm"></i>
                 </button>
               </div>
             </div>
@@ -1332,17 +558,15 @@
               </div>
 
               <!-- Master Toggle -->
-              <div class="master-toggle rounded-2xl p-4">
+              <div class="master-toggle rounded-lg p-4">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-3">
-                    <div class="flex items-center justify-center bg-white bg-opacity-10 rounded-xl" id="master-toggle-icon-container" style="width: 40px; height: 40px; min-width: 40px;">
-                      <svg id="master-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="20" fill="white">
-                        <path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L542.6 400c2.7-7.8 4.3-16.2 4.3-24.9V233.4c0-44.4-14.8-87.5-42-122.4l-4.1-5.3c-11.8-15-30.3-23.7-49.7-23.7H192c-12.1 0-23.2 6.8-28.6 17.7L38.8 5.1zM528 233.4V375.1L195.2 115.2C208.4 104.6 224.7 99 241.4 99H451.1c9.9 0 19.3 4.5 25.6 12.2l4.1 5.3c20.7 26.5 31.9 59.1 31.9 92.9zM96 233.4c0-33.8 11.2-66.4 31.9-92.9l4.1-5.3c6.2-7.8 15.6-12.2 25.6-12.2H177L64 43.7V200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H294.5l-64-50.3H87.1c19.1-29.7 30.7-63.4 35-98.4L96 267V233.4zM448 480a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
-                      </svg>
+                    <div class="master-toggle-icon flex items-center justify-center bg-white bg-opacity-10 rounded-lg" id="master-toggle-icon-container">
+                      <i id="master-toggle-icon" class="fas fa-bell-slash text-white"></i>
                     </div>
                     <div>
-                      <p class="text-white font-semibold">All Notifications</p>
-                      <p class="text-white text-opacity-60 text-xs">Enable or disable all at once</p>
+                      <p class="text-white font-medium">All notifications</p>
+                      <p class="text-white text-opacity-60 text-xs">Enable or disable every alert</p>
                     </div>
                   </div>
                   <label class="toggle-switch">
@@ -1358,7 +582,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="fajr">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-indigo-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-indigo-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-moon text-indigo-300"></i>
                       </div>
                       <div>
@@ -1377,7 +601,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="sunrise">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-orange-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-orange-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-sun text-orange-300"></i>
                       </div>
                       <div>
@@ -1396,7 +620,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="dhuhr">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-yellow-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-yellow-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-sun text-yellow-300"></i>
                       </div>
                       <div>
@@ -1415,7 +639,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="asr">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-amber-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-amber-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-cloud-sun text-amber-300"></i>
                       </div>
                       <div>
@@ -1434,7 +658,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="maghrib">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-red-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-red-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-cloud-sun text-red-300"></i>
                       </div>
                       <div>
@@ -1453,7 +677,7 @@
                 <div class="prayer-notification-item rounded-2xl p-4" data-prayer="isha">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                      <div class="flex items-center justify-center w-10 h-10 bg-purple-500 bg-opacity-20 rounded-xl">
+                      <div class="flex items-center justify-center w-10 h-10 bg-purple-500 bg-opacity-20 rounded-lg">
                         <i class="fas fa-moon text-purple-300"></i>
                       </div>
                       <div>
@@ -1479,7 +703,7 @@
                 </p>
                 <button
                   id="save-notification-settings"
-                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-900 font-semibold rounded-xl hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 shadow-lg flex-shrink-0"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-900 font-semibold rounded-lg hover:from-yellow-300 hover:to-yellow-400 transition-all duration-300 shadow-lg flex-shrink-0"
                 >
                   <i class="fas fa-check text-sm"></i>
                   <span>Done</span>
@@ -1489,110 +713,62 @@
           </div>
         </div>
 
-        <!-- Header -->
-        <div class="text-center mb-8 sm:mb-12 fade-in">
-          <div class="mb-6">
-            <div
-              class="inline-flex items-center justify-center w-20 h-20 sm:w-24 sm:h-24 glass-morphism rounded-full mb-6"
-            >
-              <i class="fas fa-mosque text-3xl sm:text-4xl text-white"></i>
-            </div>
+        <!-- Page header -->
+        <header class="page-header fade-in">
+          <div class="page-header__brand">
+            <i class="fas fa-mosque page-header__brand-icon"></i>
+            <span class="page-header__brand-text">AzanTimes</span>
           </div>
-          <h1
-            class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
-          >
-            Prayer Times
-            <span
-              class="block text-2xl sm:text-3xl lg:text-4xl font-light text-white text-opacity-90 mt-2"
-              >Dashboard</span
-            >
-          </h1>
-          <p
-            class="text-lg sm:text-xl text-white text-opacity-80 max-w-2xl mx-auto leading-relaxed"
-          >
-            Track Islamic prayer schedules with precision and beauty across
-            locations and time periods
+          <h1 class="page-header__title">Prayer Times</h1>
+          <p class="page-header__subtitle">
+            Accurate daily salah times for over 500 locations across Kerala.
           </p>
-        </div>
+        </header>
 
         <!-- Controls -->
-        <div
-          class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 mb-8 sm:mb-12 slide-in"
-        >
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div class="controls-card glass-morphism rounded-2xl slide-in">
+          <div class="controls-card__grid">
             <!-- Location Selector -->
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <label
-                  class="flex items-center gap-3 text-white font-semibold text-sm sm:text-base"
-                >
-                  <div
-                    class="flex items-center justify-center w-8 h-8 bg-white bg-opacity-20 rounded-lg"
-                  >
-                    <i class="fas fa-map-marker-alt text-white text-sm"></i>
-                  </div>
-                  Select Location
-                </label>
-              </div>
+            <div class="control-field">
+              <label class="control-field__label" for="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Location</span>
+              </label>
               <div class="select-wrapper">
-                <select
-                  id="location"
-                  class="w-full px-4 sm:px-6 py-3 sm:py-4 rounded-2xl text-gray-800 font-medium text-sm sm:text-base cursor-pointer focus:ring-4 focus:ring-white focus:ring-opacity-20"
-                ></select>
+                <select id="location" class="control-field__select"></select>
               </div>
             </div>
 
             <!-- Period Selector -->
-            <div class="space-y-3">
-              <label
-                class="flex items-center gap-3 text-white font-semibold text-sm sm:text-base"
-              >
-                <div
-                  class="flex items-center justify-center w-8 h-8 bg-white bg-opacity-20 rounded-lg"
-                >
-                  <i class="fas fa-calendar-alt text-white text-sm"></i>
-                </div>
-                Select Time Period
+            <div class="control-field">
+              <label class="control-field__label">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Time period</span>
               </label>
-              <div class="flex gap-3" id="period-buttons"></div>
+              <div class="period-btn-group" id="period-buttons"></div>
             </div>
           </div>
 
-          <!-- Notification Settings Row -->
+          <!-- Notification settings: single entry point. Master toggle lives
+               inside the modal — keeps the main row uncluttered. -->
           <div class="mt-6 pt-6 border-t border-white border-opacity-20">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div class="flex items-center gap-4">
-                <div
-                  class="flex items-center justify-center rounded-2xl shadow-lg"
-                  style="background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%); width: 48px; height: 48px; min-width: 48px;"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="#0f4c3a">
-                    <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 336 112 289.3 112 241.4V208c0-61.9 50.1-112 112-112zm64 352H160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/>
-                  </svg>
+                <div class="settings-row-icon flex items-center justify-center rounded-lg">
+                  <i class="fas fa-bell text-white"></i>
                 </div>
                 <div>
-                  <h3 class="text-white font-semibold text-base">Prayer Notifications</h3>
+                  <h3 class="text-white font-medium text-base">Prayer notifications</h3>
                   <p class="text-white text-opacity-60 text-sm">Get notified at prayer times</p>
                 </div>
               </div>
-              <div class="flex items-center gap-4 w-full sm:w-auto">
-                <button
-                  id="notification-settings-btn"
-                  class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105"
-                  style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);"
-                  onmouseover="this.style.background='rgba(255,255,255,0.2)'"
-                  onmouseout="this.style.background='rgba(255,255,255,0.1)'"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" fill="currentColor">
-                    <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
-                  </svg>
-                  <span>Settings</span>
-                </button>
-                <label class="toggle-switch" title="Enable/Disable all notifications">
-                  <input type="checkbox" id="master-notification-toggle">
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
+              <button
+                id="notification-settings-btn"
+                class="settings-btn"
+              >
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+              </button>
             </div>
           </div>
         </div>
@@ -1600,7 +776,7 @@
         <!-- Loader -->
         <div
           id="loading"
-          class="hidden glass-morphism rounded-3xl shadow-2xl p-8 sm:p-12"
+          class="hidden glass-morphism rounded-2xl shadow-2xl p-8 sm:p-12"
         >
           <div class="flex flex-col items-center justify-center space-y-6">
             <div class="loading-dots">
@@ -1618,7 +794,7 @@
         <!-- Error -->
         <div
           id="error"
-          class="hidden glass-morphism rounded-3xl p-6 sm:p-8 border border-red-200"
+          class="hidden glass-morphism rounded-2xl p-6 sm:p-8 border border-red-200"
         >
           <div class="flex items-center gap-4">
             <div
@@ -1720,31 +896,58 @@
             // Setup PWA install prompt
             this.setupInstallPrompt();
 
-            // Setup date change detection for PWA auto-refresh
-            this.setupDateChecker();
-
-            // Setup auto-refresh for today's data
-            this.setupAutoRefresh();
+            // Single scheduler for periodic PWA tasks (date change + SW update
+            // checks). Replaces three independent setInterval calls.
+            this.setupPeriodicTasks();
 
             // Load user preferences
             this.loadUserPreferences();
           }
 
           setupUpdateChecker() {
-            // Check for updates when page becomes visible
+            // Re-check for SW updates whenever the tab becomes visible.
             document.addEventListener("visibilitychange", () => {
               if (!document.hidden && this.swRegistration) {
-                console.log("🔍 Checking for service worker updates");
                 this.swRegistration.update();
               }
             });
+          }
 
-            // Periodic update check (every 30 seconds when active)
-            setInterval(() => {
-              if (!document.hidden && this.swRegistration) {
+          // Centralized 60s tick. Runs only while the tab is visible — there's
+          // no point spending CPU when the user can't see the page. Date-change
+          // and SW-update checks are batched here instead of having three
+          // independent timers fight for the event loop.
+          setupPeriodicTasks() {
+            const loadDate = new Date().toDateString();
+            let tickCount = 0;
+            const TICK_MS = 60_000;
+            const SW_UPDATE_EVERY_N_TICKS = 5; // ~5 minutes
+
+            const tick = () => {
+              if (document.hidden) return;
+              tickCount++;
+
+              // Date rolled over while the page was open: reload to get fresh data.
+              if (new Date().toDateString() !== loadDate) {
+                console.log("📅 Date change detected, reloading for fresh data");
+                this.showDateChangeReload();
+                setTimeout(() => window.location.reload(), 1500);
+                return;
+              }
+
+              // Periodically prompt the SW to check for updates.
+              if (tickCount % SW_UPDATE_EVERY_N_TICKS === 0 && this.swRegistration) {
                 this.swRegistration.update();
               }
-            }, 30000);
+            };
+
+            this.periodicTaskTimer = setInterval(tick, TICK_MS);
+            // Run an immediate sanity check on visibility regain.
+            document.addEventListener("visibilitychange", () => {
+              if (!document.hidden) tick();
+            });
+
+            console.log("⏰ Periodic PWA tasks scheduled (visibility-aware, 60s tick)");
           }
 
           handleServiceWorkerUpdate() {
@@ -2178,7 +1381,7 @@
               "fixed inset-0 z-50 flex items-center justify-center p-4";
             modal.style.background = "rgba(0, 0, 0, 0.8)";
             modal.innerHTML = `
-              <div class="glass-morphism rounded-3xl p-6 max-w-md w-full text-white">
+              <div class="glass-morphism rounded-2xl p-6 max-w-md w-full text-white">
                 <div class="text-center mb-6">
                   <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-full mb-4">
                     <i class="fas fa-mobile-alt text-2xl text-white"></i>
@@ -2233,41 +1436,6 @@
               Date.now().toString()
             );
             this.hideInstallBanner();
-          }
-
-          setupDateChecker() {
-            // Store the current date when the page loads
-            const loadDate = new Date().toDateString();
-            console.log("📅 PWA loaded on:", loadDate);
-
-            // Check every 30 seconds if the date has changed
-            setInterval(() => {
-              const currentDate = new Date().toDateString();
-
-              if (currentDate !== loadDate) {
-                console.log(
-                  "📅 Date changed detected! Reloading page for fresh data..."
-                );
-                console.log(
-                  "🔄 Old date:",
-                  loadDate,
-                  "→ New date:",
-                  currentDate
-                );
-
-                // Show a brief notification before reload
-                this.showDateChangeReload();
-
-                // Reload after a short delay to show the notification
-                setTimeout(() => {
-                  window.location.reload();
-                }, 1500);
-              }
-            }, 30000); // Check every 30 seconds
-
-            console.log(
-              "⏰ Date change monitoring enabled for PWA auto-refresh"
-            );
           }
 
           showDateChangeReload() {
@@ -2413,44 +1581,6 @@
               "pwa-installed-date",
               new Date().toISOString()
             );
-          }
-
-          setupAutoRefresh() {
-            // Store the current date to detect day changes
-            let currentDate = new Date().toDateString();
-
-            // Check every minute if the day has changed
-            setInterval(() => {
-              const newDate = new Date().toDateString();
-
-              if (newDate !== currentDate) {
-                currentDate = newDate;
-                console.log("📅 Day changed, refreshing today's prayer times");
-
-                // If user is currently viewing "today", refresh the data
-                const periodSelect = document.getElementById("period-select");
-                if (periodSelect && periodSelect.value === "today") {
-                  // Clear cache for today's data to force fresh fetch
-                  if (window.azanCache) {
-                    const locationSelect =
-                      document.getElementById("location-select");
-                    if (locationSelect && locationSelect.value) {
-                      const cacheKey = `${locationSelect.value}/today.json`;
-                      window.azanCache.cache.delete(cacheKey);
-                      console.log("🗑️ Cleared today's cache for fresh data");
-                    }
-                  }
-
-                  // Trigger refresh by dispatching change event
-                  periodSelect.dispatchEvent(new Event("change"));
-
-                  // Show subtle notification
-                  this.showDayChangeNotification();
-                }
-              }
-            }, 60000); // Check every minute
-
-            console.log("⏰ Auto-refresh for today's data enabled");
           }
 
           showDayChangeNotification() {
@@ -2650,11 +1780,23 @@
             this.setupServiceWorkerMessaging();
             this.updateUI();
 
-            // Auto-start notification checker if previously enabled
-            if (this.settings.enabled && "Notification" in window && Notification.permission === "granted") {
+            // Auto-start notification checker if previously enabled.
+            // Guard each API access; on platforms where Notification is undefined
+            // (older Safari, locked-down WebViews) reading `Notification.permission`
+            // would throw.
+            const caps = NotificationManager.getPlatformCapabilities();
+            if (
+              this.settings.enabled &&
+              caps.canNotify &&
+              Notification.permission === "granted"
+            ) {
               this.startNotificationChecker();
               this.registerPeriodicSync();
               console.log("🔔 Auto-started notification checker from saved settings");
+            } else if (this.settings.enabled && caps.isIOS && !caps.isStandalone) {
+              // Settings say enabled but iOS user is in browser, not PWA.
+              // Show a non-blocking hint so they know what to do.
+              console.log("ℹ️ Notifications enabled in settings but iOS browser context — install as PWA for delivery.");
             }
           }
 
@@ -2668,6 +1810,23 @@
             } catch (error) {
               console.error("Failed to load notification settings:", error);
             }
+          }
+
+          // Per-platform capability detection. Used to decide whether to even try
+          // requesting permission, and to surface install hints (iOS).
+          static getPlatformCapabilities() {
+            const ua = navigator.userAgent || "";
+            const isIOS = /iPhone|iPad|iPod/.test(ua) ||
+              (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+            const isStandalone =
+              (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+              window.navigator.standalone === true;
+            const hasNotificationAPI = "Notification" in window;
+            const hasServiceWorker = "serviceWorker" in navigator;
+            // iOS 16.4+ allows web push, but ONLY for sites installed as PWAs.
+            const iosCanNotify = isIOS && isStandalone && hasNotificationAPI && hasServiceWorker;
+            const canNotify = hasNotificationAPI && hasServiceWorker && (!isIOS || iosCanNotify);
+            return { isIOS, isStandalone, hasNotificationAPI, hasServiceWorker, canNotify };
           }
 
           saveSettings() {
@@ -2839,8 +1998,17 @@
           }
 
           async requestPermission() {
-            if (!("Notification" in window)) {
+            const caps = NotificationManager.getPlatformCapabilities();
+
+            if (!caps.hasNotificationAPI) {
               this.showMessage("Notifications not supported in this browser", "warning");
+              return false;
+            }
+
+            // iOS Safari requires the site to be installed as a PWA before it
+            // will surface a permission prompt or deliver notifications.
+            if (caps.isIOS && !caps.isStandalone) {
+              this.showIOSInstallHint();
               return false;
             }
 
@@ -2854,17 +2022,37 @@
             }
 
             try {
-              const permission = await Notification.requestPermission();
-              if (permission === "granted") {
+              // Safari historically used the callback form. Wrap to handle both.
+              const result = await new Promise((resolve) => {
+                const maybePromise = Notification.requestPermission(resolve);
+                if (maybePromise && typeof maybePromise.then === "function") {
+                  maybePromise.then(resolve).catch(() => resolve("denied"));
+                }
+              });
+              if (result === "granted") {
                 this.hidePermissionBlockedStatus();
                 return true;
-              } else {
-                this.showPermissionBlockedStatus();
-                return false;
               }
+              this.showPermissionBlockedStatus();
+              return false;
             } catch (error) {
               console.error("Failed to request notification permission:", error);
               return false;
+            }
+          }
+
+          showIOSInstallHint() {
+            this.showMessage(
+              "On iOS: tap Share → Add to Home Screen, then open from the home screen to enable notifications.",
+              "info"
+            );
+            const statusEl = document.getElementById("notification-permission-status");
+            if (statusEl) {
+              const text = statusEl.querySelector("p.text-white");
+              const sub = statusEl.querySelector("p.text-xs");
+              if (text) text.textContent = "Add to Home Screen to enable notifications";
+              if (sub) sub.textContent = "iOS only delivers prayer alerts when this app is installed as a PWA.";
+              statusEl.classList.remove("hidden");
             }
           }
 
@@ -2930,16 +2118,13 @@
               this.updatePrayerItemUI(prayer, enabled);
             });
 
-            // Update master toggle icon (SVG)
-            const iconContainer = document.getElementById("master-toggle-icon-container");
-            if (iconContainer) {
-              const bellOnSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="#f4d03f">
-                <path d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96c61.9 0 112 50.1 112 112v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 336 112 289.3 112 241.4V208c0-61.9 50.1-112 112-112zm64 352H160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z"/>
-              </svg>`;
-              const bellOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="20" height="20" fill="white">
-                <path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L542.6 400c2.7-7.8 4.3-16.2 4.3-24.9V233.4c0-44.4-14.8-87.5-42-122.4l-4.1-5.3c-11.8-15-30.3-23.7-49.7-23.7H192c-12.1 0-23.2 6.8-28.6 17.7L38.8 5.1zM528 233.4V375.1L195.2 115.2C208.4 104.6 224.7 99 241.4 99H451.1c9.9 0 19.3 4.5 25.6 12.2l4.1 5.3c20.7 26.5 31.9 59.1 31.9 92.9zM96 233.4c0-33.8 11.2-66.4 31.9-92.9l4.1-5.3c6.2-7.8 15.6-12.2 25.6-12.2H177L64 43.7V200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H294.5l-64-50.3H87.1c19.1-29.7 30.7-63.4 35-98.4L96 267V233.4zM448 480a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
-              </svg>`;
-              iconContainer.innerHTML = this.settings.enabled ? bellOnSVG : bellOffSVG;
+            // Update master toggle icon: swap FontAwesome classes rather than
+            // rewriting an SVG. Cheaper and matches the rest of the icon system.
+            const iconEl = document.getElementById("master-toggle-icon");
+            if (iconEl) {
+              iconEl.className = this.settings.enabled
+                ? "fas fa-bell text-yellow-300"
+                : "fas fa-bell-slash text-white";
             }
 
             // Update master toggle container
@@ -2952,8 +2137,13 @@
               }
             }
 
-            // Check permission status
-            if ("Notification" in window && Notification.permission === "denied") {
+            // Check permission status. Also surface the iOS-install hint when
+            // running in iOS Safari but not yet installed as a PWA — that's the
+            // only way notifications can be delivered on iOS.
+            const caps = NotificationManager.getPlatformCapabilities();
+            if (caps.isIOS && !caps.isStandalone) {
+              this.showIOSInstallHint();
+            } else if (caps.hasNotificationAPI && Notification.permission === "denied") {
               this.showPermissionBlockedStatus();
             } else {
               this.hidePermissionBlockedStatus();
@@ -3029,13 +2219,15 @@
             });
           }
 
-          setPrayerTimes(prayerData, locationName = "your area") {
+          async setPrayerTimes(prayerData, locationName = "your area") {
             this.currentPrayerTimes = prayerData;
             this.currentLocation = locationName;
             this.updatePrayerTimesInModal();
 
-            // Sync with service worker for background notifications
-            this.syncPrayerTimesWithServiceWorker();
+            // Sync with service worker first, then schedule. The SW already
+            // re-schedules on UPDATE_PRAYER_TIMES, but we keep the local
+            // in-page scheduler in sync so the polling check fires correctly.
+            await this.syncPrayerTimesWithServiceWorker();
 
             if (this.settings.enabled) {
               this.scheduleNotifications();
@@ -3043,7 +2235,7 @@
           }
 
           scheduleNotifications() {
-            // Clear existing scheduled notifications
+            // Clear existing scheduled notifications.
             this.scheduledNotifications.clear();
 
             if (!this.currentPrayerTimes || !this.settings.enabled) return;
@@ -3054,11 +2246,10 @@
               dhuhr: "duhr",
               asr: "asar",
               maghrib: "maghrib",
-              isha: "isha"
+              isha: "isha",
             };
 
             const now = new Date();
-            const today = now.toDateString();
 
             Object.entries(timeMapping).forEach(([prayer, apiKey]) => {
               if (this.settings.prayers[prayer] && this.currentPrayerTimes[apiKey]) {
@@ -3068,19 +2259,14 @@
                 if (prayerTime && prayerTime > now) {
                   this.scheduledNotifications.set(prayer, {
                     time: prayerTime,
-                    notified: false
+                    notified: false,
                   });
                 }
               }
             });
 
-            // Tell service worker to schedule notifications too
-            if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-              navigator.serviceWorker.controller.postMessage({
-                type: "SCHEDULE_NOTIFICATIONS"
-              });
-            }
-
+            // SW handles its own scheduling on UPDATE_PRAYER_TIMES; we don't
+            // need to send SCHEDULE_NOTIFICATIONS here.
             console.log("📅 Scheduled notifications:", this.scheduledNotifications);
           }
 
@@ -3112,25 +2298,41 @@
           }
 
           startNotificationChecker() {
-            if (this.checkInterval) {
-              clearInterval(this.checkInterval);
-            }
+            this.stopNotificationChecker();
 
-            // Check every 30 seconds
-            this.checkInterval = setInterval(() => {
-              this.checkAndNotify();
-            }, 30000);
+            // Only poll while the tab is visible. The SW's periodicsync handles
+            // background firing on supported platforms; running a 30s timer on
+            // a hidden tab just drains battery for no benefit (notifications
+            // would just duplicate what the SW already does).
+            const tick = () => {
+              if (document.visibilityState === "visible") {
+                this.checkAndNotify();
+              }
+            };
 
-            // Also check immediately
-            this.checkAndNotify();
+            this.checkInterval = setInterval(tick, 30000);
+            tick();
 
-            console.log("🔔 Notification checker started");
+            // When the tab regains focus, run an immediate check — the user
+            // may have missed a prayer time while hidden.
+            this.visibilityHandler = () => {
+              if (document.visibilityState === "visible") {
+                this.checkAndNotify();
+              }
+            };
+            document.addEventListener("visibilitychange", this.visibilityHandler);
+
+            console.log("🔔 Notification checker started (visibility-aware)");
           }
 
           stopNotificationChecker() {
             if (this.checkInterval) {
               clearInterval(this.checkInterval);
               this.checkInterval = null;
+            }
+            if (this.visibilityHandler) {
+              document.removeEventListener("visibilitychange", this.visibilityHandler);
+              this.visibilityHandler = null;
             }
             console.log("🔕 Notification checker stopped");
           }
@@ -3139,19 +2341,30 @@
             if (!this.settings.enabled) return;
 
             const now = new Date();
+            let anyFiredThisTick = false;
 
             this.scheduledNotifications.forEach((data, prayer) => {
               if (data.notified) return;
 
               const timeDiff = data.time - now;
 
-              // Notify if within 1 minute window (before or after)
+              // Notify if within 1 minute window (before or after).
               if (timeDiff <= 60000 && timeDiff >= -60000) {
                 const timeStr = this.getPrayerTimeString(prayer);
                 this.showNotification(prayer, timeStr);
                 data.notified = true;
+                anyFiredThisTick = true;
               }
             });
+
+            // Also ask the SW to check its own queue. Same `tag` per prayer
+            // means duplicate notifications are coalesced visually, so this is
+            // safe and helps when the SW's periodic sync hasn't fired.
+            if (anyFiredThisTick && navigator.serviceWorker && navigator.serviceWorker.controller) {
+              navigator.serviceWorker.controller.postMessage({
+                type: "CHECK_NOTIFICATIONS",
+              });
+            }
           }
 
           getPrayerTimeString(prayer) {
@@ -3167,7 +2380,7 @@
             return this.currentPrayerTimes?.[apiKey] || "";
           }
 
-          showNotification(prayer, timeStr = "") {
+          async showNotification(prayer, timeStr = "") {
             if (!("Notification" in window)) return;
             if (Notification.permission !== "granted") return;
 
@@ -3182,6 +2395,7 @@
 
             const location = this.currentLocation || "your area";
             const timeDisplay = timeStr ? ` · ${timeStr}` : "";
+            const title = `${prayerNames[prayer]}${timeDisplay}`;
 
             const prayerMessages = {
               fajr: `Time for Fajr prayer in ${location}. Start your day with blessings.`,
@@ -3192,21 +2406,48 @@
               isha: `Time for Isha prayer in ${location}. End your day in remembrance.`
             };
 
-            const notification = new Notification(`${prayerNames[prayer]}${timeDisplay}`, {
+            const options = {
               body: prayerMessages[prayer],
               icon: "/favicon/android-chrome-192x192.png",
               badge: "/favicon/favicon-32x32.png",
               tag: `prayer-${prayer}`,
-              requireInteraction: false,
-              silent: false
-            });
+              renotify: true,
+              vibrate: [200, 100, 200, 100, 200],
+              data: { prayer, time: timeStr, location, url: "/" }
+            };
 
-            // Auto close after 10 seconds
-            setTimeout(() => {
-              notification.close();
-            }, 10000);
+            // iOS Safari (and iOS PWAs) only allow notifications via
+            // ServiceWorkerRegistration.showNotification — never the Notification
+            // constructor. Prefer the SW path on every platform; fall back to the
+            // constructor only when no SW registration is available.
+            try {
+              const reg = this.swRegistration || (("serviceWorker" in navigator)
+                ? await navigator.serviceWorker.ready
+                : null);
+              if (reg && typeof reg.showNotification === "function") {
+                // Actions are only honored by SW-shown notifications on Chromium.
+                reg.showNotification(title, {
+                  ...options,
+                  actions: [
+                    { action: "view", title: "View Times" },
+                    { action: "dismiss", title: "Dismiss" }
+                  ]
+                });
+              } else {
+                const notification = new Notification(title, options);
+                setTimeout(() => notification.close(), 10000);
+              }
+            } catch (err) {
+              console.warn("Notification display failed, falling back:", err);
+              try {
+                const notification = new Notification(title, options);
+                setTimeout(() => notification.close(), 10000);
+              } catch (fallbackErr) {
+                console.error("Notification fallback also failed:", fallbackErr);
+              }
+            }
 
-            // Also show in-app toast
+            // Also show in-app toast.
             this.showMessage(`Time for ${prayerNames[prayer]} prayer in ${location}`, "success");
 
             console.log(`🔔 Notification sent for ${prayer} at ${timeStr} in ${location}`);
@@ -3214,7 +2455,7 @@
 
           showMessage(message, type = "info") {
             const messageDiv = document.createElement("div");
-            messageDiv.className = `fixed top-20 right-4 z-50 px-4 py-3 rounded-xl text-white text-sm font-medium shadow-lg transition-all duration-300 transform translate-x-full flex items-center gap-2`;
+            messageDiv.className = `fixed top-20 right-4 z-50 px-4 py-3 rounded-lg text-white text-sm font-medium shadow-lg transition-all duration-300 transform translate-x-full flex items-center gap-2`;
 
             const icons = {
               success: "fas fa-check-circle",
@@ -4254,10 +3495,10 @@
           const progress = Math.min(processed, total);
           const percentage = Math.round((progress / total) * 100);
 
-          let message = `🔍 Searching locations... ${progress}/${total} (${percentage}%)`;
+          let message = `Searching locations… ${progress}/${total} (${percentage}%)`;
 
           if (nearest) {
-            message += `\n🎯 Current best: ${
+            message += `\nCurrent best: ${
               nearest.display
             } (${nearest.dist.toFixed(1)}km)`;
           }
@@ -4276,6 +3517,7 @@
 
           selectedLocation = location.name;
           locationSelect.value = location.name;
+          updateLocationUrl(location.name);
 
           // Automatically save the auto-detected location as default
           preferencesManager.saveDefaultLocation();
@@ -4292,7 +3534,7 @@
                 ? `${Math.round(location.dist * 1000)}m`
                 : `${location.dist.toFixed(1)}km`;
 
-            option.textContent = `🎯 ${location.display} (${distanceText} away, ${confidence}% confidence)`;
+            option.textContent = `${location.display} · ${distanceText} away · ${confidence}% confidence`;
           }
 
           // Load prayer data
@@ -4313,20 +3555,20 @@
           const nearbyPanel = document.createElement("div");
           nearbyPanel.id = "nearby-locations-panel";
           nearbyPanel.className =
-            "glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 mt-6 fade-in";
+            "glass-morphism rounded-2xl shadow-2xl p-6 sm:p-8 mt-6 fade-in";
 
           const nearbyLocationsHtml = `
             <div class="text-center mb-6">
-              <div class="inline-flex items-center justify-center w-12 h-12 glass-morphism rounded-xl mb-4">
+              <div class="inline-flex items-center justify-center w-12 h-12 glass-morphism rounded-lg mb-4">
                 <i class="fas fa-map-marker-alt text-xl text-white"></i>
               </div>
-              <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">📍 Nearby Prayer Locations</h3>
+              <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Nearby prayer locations</h3>
               <p class="text-white text-opacity-80 text-sm sm:text-base">Found ${
                 nearbyLocations.length
               } locations within 50km of your position</p>
             </div>
             
-            <div class="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
+            <div class="nearby-list space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
               ${nearbyLocations
                 .map((loc, index) => {
                   const isSelected = loc.name === selectedLocation.name;
@@ -4335,61 +3577,26 @@
                       ? `${Math.round(loc.dist * 1000)}m`
                       : `${loc.dist.toFixed(1)}km`;
 
-                  const cardClass = isSelected
-                    ? "bg-gradient-to-r from-[#1a5f4a] to-[#2d8659] text-white border-[#2d8659]"
-                    : "bg-white bg-opacity-95 hover:bg-opacity-100 text-gray-800 border-gray-200 hover:border-[#2d8659]";
-
-                  const iconClass = isSelected
-                    ? "text-white"
-                    : "text-[#1a5f4a]";
-                  const badgeClass = isSelected
-                    ? "bg-white bg-opacity-20 text-white"
-                    : "bg-[#e6f2ed] text-[#1a5f4a]"; // subtle badge for unselected
-
                   return `
-                    <div class="nearby-location-card ${cardClass} border-2 rounded-xl p-4 transition-all duration-300 cursor-pointer transform hover:scale-[1.02] hover:shadow-lg"
-                        data-location="${loc.name}" 
+                    <div class="nearby-location-card${isSelected ? " is-selected" : ""} p-4 cursor-pointer"
+                        data-location="${loc.name}"
                         data-display="${loc.display}">
-                      <div class="flex items-center justify-between">
+                      <div class="flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3 flex-1 min-w-0">
-                          <div class="flex items-center justify-center w-8 h-8 rounded-lg ${
-                            isSelected
-                              ? "bg-white bg-opacity-20"
-                              : "bg-[#e6f2ed]"
-                          }">
-                            <i class="fas fa-${
-                              isSelected ? "check-circle" : "mosque"
-                            } ${iconClass} text-sm"></i>
+                          <div class="nl-icon flex items-center justify-center w-9 h-9 rounded-lg">
+                            <i class="fas fa-${isSelected ? "check-circle" : "mosque"} text-sm"></i>
                           </div>
                           <div class="flex-1 min-w-0">
-                            <p class="font-semibold text-sm sm:text-base truncate">${
-                              loc.display
-                            }</p>
-                            <div class="flex items-center gap-2 mt-1">
-                              <span class="text-xs ${
-                                isSelected
-                                  ? "text-white text-opacity-80"
-                                  : "text-gray-600"
-                              }">
-                                ${distanceText} away
-                              </span>
-                              ${
-                                isSelected
-                                  ? '<span class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">Current Selection</span>'
-                                  : ""
-                              }
+                            <p class="nl-title font-semibold text-sm sm:text-base truncate">${loc.display}</p>
+                            <div class="flex items-center gap-2 mt-0.5">
+                              <span class="nl-distance text-xs">${distanceText} away</span>
+                              ${isSelected ? '<span class="nl-pill text-xs px-2 py-0.5 rounded-full">Current</span>' : ""}
                             </div>
                           </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                          <span class="text-xs ${badgeClass} px-2 py-1 rounded-full font-medium">
-                            #${index + 1}
-                          </span>
-                          ${
-                            !isSelected
-                              ? '<i class="fas fa-chevron-right text-gray-400 text-xs"></i>'
-                              : ""
-                          }
+                        <div class="flex items-center gap-2 flex-shrink-0">
+                          <span class="nl-index text-xs px-2 py-0.5 rounded-full font-medium">#${index + 1}</span>
+                          ${!isSelected ? '<i class="fas fa-chevron-right nl-chev text-xs"></i>' : ""}
                         </div>
                       </div>
                     </div>
@@ -4397,12 +3604,10 @@
                 })
                 .join("")}
             </div>
-            
-            <div class="mt-6 p-4 bg-white bg-opacity-10 rounded-xl">
-              <div class="flex items-center gap-2 text-white text-opacity-80 text-sm">
-                <i class="fas fa-info-circle"></i>
-                <span>Click on any location above to switch to it and view its prayer times</span>
-              </div>
+
+            <div class="nearby-hint mt-5 p-3 rounded-xl flex items-center gap-2 text-sm">
+              <i class="fas fa-info-circle"></i>
+              <span>Tap a location to switch and view its prayer times.</span>
             </div>
           `;
 
@@ -4435,6 +3640,7 @@
                   // Update selection
                   selectedLocation = locationName;
                   locationSelect.value = locationName;
+                  updateLocationUrl(locationName);
 
                   // Automatically save the selected location as default
                   preferencesManager.saveDefaultLocation();
@@ -4451,7 +3657,7 @@
                       clickedLocation.dist < 1
                         ? `${Math.round(clickedLocation.dist * 1000)}m`
                         : `${clickedLocation.dist.toFixed(1)}km`;
-                    option.textContent = `🎯 ${locationDisplay} (${distanceText} away)`;
+                    option.textContent = `${locationDisplay} · ${distanceText} away`;
                   }
 
                   // Show loading and reload prayer data
@@ -4535,7 +3741,7 @@
         function showAutoDetectionSuccess(location, confidence) {
           // Flash success message
           const originalTitle = document.title;
-          document.title = `📍 Found: ${location.display}`;
+          document.title = `Found: ${location.display}`;
 
           setTimeout(() => {
             document.title = originalTitle;
@@ -4571,28 +3777,27 @@
 
             locationSelect.innerHTML = "";
             const defaultOption = document.createElement("option");
-            defaultOption.textContent = "🕌 Select Your Location";
+            defaultOption.textContent = "Select your location";
             defaultOption.value = "";
             defaultOption.disabled = true;
             defaultOption.selected = true;
             locationSelect.appendChild(defaultOption);
 
-            // Add auto-detect option with enhanced styling
+            // Auto-detect option (preferred path for first-time users).
             const autoDetectOption = document.createElement("option");
-            autoDetectOption.textContent =
-              "🎯 Auto-detect My Location (Recommended)";
+            autoDetectOption.textContent = "Auto-detect my location";
             autoDetectOption.value = "auto-detect";
             locationSelect.appendChild(autoDetectOption);
 
-            // Add separator
+            // Visual separator between the recommended option and the full list.
             const separatorOption = document.createElement("option");
-            separatorOption.textContent = "━━━━━━━━━━━━━━━━━━━━━━━━━";
+            separatorOption.textContent = "──────────";
             separatorOption.disabled = true;
             locationSelect.appendChild(separatorOption);
 
             locations.forEach((loc) => {
               const option = document.createElement("option");
-              option.textContent = `📍 ${loc}`;
+              option.textContent = loc;
               option.value = loc.replace(/ /g, "_");
               locationSelect.appendChild(option);
             });
@@ -4616,7 +3821,8 @@
 
         periods.forEach((period, index) => {
           const btn = document.createElement("button");
-          btn.className = `period-btn px-4 py-3 sm:px-6 sm:py-4 rounded-2xl font-semibold flex-1 flex items-center justify-center gap-2 text-white text-sm sm:text-base transition-all duration-300`;
+          // Styling lives entirely in dashboard.css under .period-btn-group .period-btn
+          btn.className = "period-btn";
           btn.dataset.value = period.value;
 
           const icons = {
@@ -4626,7 +3832,7 @@
           };
 
           btn.innerHTML = `
-          <i class="${icons[period.value]} text-sm"></i>
+          <i class="${icons[period.value]}"></i>
           <span>${period.label}</span>
         `;
 
@@ -4652,10 +3858,7 @@
             selectedLocation = e.target.value;
             hideNearbyLocations(); // Hide nearby locations when manually selecting
 
-            // Update URL query parameter
-            const url = new URL(window.location);
-            url.searchParams.set('q', e.target.value);
-            window.history.pushState({}, '', url);
+            updateLocationUrl(e.target.value);
 
             // Automatically save the selected location as default
             preferencesManager.saveDefaultLocation();
@@ -4685,10 +3888,15 @@
               data,
             });
 
-            // Update notification manager with today's prayer times and location
+            const locationName = selectedLocation.replace(/_/g, " ");
+            // Always make today's prayer times available to the notification
+            // manager — otherwise alerts break when the user is on a month/year
+            // view. If we just fetched a single day, reuse it; otherwise fetch
+            // today's timesheet in the background.
             if (selectedPeriod === "today" && !Array.isArray(data)) {
-              const locationName = selectedLocation.replace(/_/g, " ");
               notificationManager.setPrayerTimes(data, locationName);
+            } else {
+              fetchTodayForNotifications(selectedLocation, locationName);
             }
           } catch (err) {
             console.error("⚠️ Could not load prayer data:", err);
@@ -4698,6 +3906,24 @@
             prayerDataDiv.classList.add("hidden");
           }
           hideLoading();
+        }
+
+        // Side-effect fetch: load today's prayer times so that notification
+        // scheduling works even when the user is viewing month/year periods.
+        // Fails silently — only affects notifications, not the main display.
+        async function fetchTodayForNotifications(location, locationDisplay) {
+          try {
+            const res = await fetch(
+              `https://api.azantimes.in/v1/timesheets/${location}/today.json`
+            );
+            if (!res.ok) return;
+            const today = await res.json();
+            if (!Array.isArray(today)) {
+              notificationManager.setPrayerTimes(today, locationDisplay);
+            }
+          } catch (err) {
+            console.warn("Could not fetch today's data for notifications:", err);
+          }
         }
 
         function renderPrayerData({ location, period, data }) {
@@ -4721,73 +3947,70 @@
             let nextPrayer = getNextPrayer(prayers);
             const gregDate = formatDate(date);
 
+            const shareData = JSON.stringify(prayers).replace(/"/g, "&quot;");
+            const nextIso = nextPrayer.date ? nextPrayer.date.toISOString() : "";
             let html = `
-            <div class="glass-morphism rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10">
+            <div class="day-view glass-morphism rounded-2xl">
               <!-- Header -->
-              <div class="text-center mb-8 sm:mb-12">
-                <div class="inline-flex items-center justify-center w-16 h-16 glass-morphism rounded-2xl mb-6">
-                  <i class="fas fa-calendar-day text-2xl text-white"></i>
-                </div>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">${gregDate}</h2>
-                <div class="flex items-center justify-center gap-2 text-white">
-                  <i class="fas fa-map-marker-alt text-sm"></i>
-                  <p id="locationName" class="text-sm sm:text-base font-medium">${location}</p>
-                </div>
-                <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-yellow-50 rounded-full">
-                  <div class="w-2 h-2 bg-yellow-500 rounded-full pulse-ring"></div>
-                  <span class="text-sm font-medium text-white-700">Next: ${
-                    nextPrayer.name
-                  } at ${formatTime(nextPrayer.time)}</span>
-                </div>
-                
-                <!-- Share Button -->
-                <div class="mt-6">
-                  <button 
+              <div class="day-view__header">
+                <div class="day-view__share-row">
+                  <button
                     id="share-prayer-times"
-                    class="inline-flex items-center gap-3 px-6 py-3 bg-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-green-900 font-semibold rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-                    onclick="sharePrayerTimes('${location}', '${gregDate}', ${JSON.stringify(
-              prayers
-            ).replace(/"/g, "&quot;")})"
+                    class="share-btn"
+                    onclick="sharePrayerTimes('${location}', '${gregDate}', ${shareData})"
+                    aria-label="Share prayer times"
                   >
-                    <i class="fas fa-share-alt text-sm"></i>
+                    <i class="fas fa-share-alt"></i>
                     <span>Share</span>
                   </button>
                 </div>
+                <div class="hero">
+                  <div class="hero-eyebrow">
+                    <span class="dot" aria-hidden="true"></span>
+                    <span>Next prayer</span>
+                  </div>
+                  <h2 class="hero-name">${nextPrayer.name}</h2>
+                  <p
+                    class="hero-countdown"
+                    id="hero-countdown"
+                    data-next-iso="${nextIso}"
+                  >
+                    <span data-countdown>at ${formatTime(nextPrayer.time)}</span>
+                  </p>
+                  <div class="hero-meta">
+                    <span class="hero-meta__item">
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span id="locationName">${location}</span>
+                    </span>
+                    <span class="hero-meta__sep" aria-hidden="true"></span>
+                    <span class="hero-meta__item">
+                      <i class="fas fa-calendar-day"></i>
+                      <span>${gregDate}</span>
+                    </span>
+                  </div>
+                </div>
               </div>
-              
+
               <!-- Prayer Times Grid -->
               <div class="prayer-time-grid">
           `;
 
             prayers.forEach((p) => {
               const isNext = p.name === nextPrayer.name;
-              const cardClass = isNext
-                ? "prayer-card active prayer-glow"
-                : "prayer-card";
+              const cardClass = isNext ? "prayer-card active" : "prayer-card";
 
               html += `
-              <div class="${cardClass} rounded-2xl p-4 sm:p-6 text-center">
-                <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 ${
-                  isNext
-                    ? "bg-white bg-opacity-25"
-                    : "bg-gradient-to-br from-green-50 to-yellow-50"
-                } rounded-xl">
-                  <i class="${p.icon} text-lg ${
-                isNext ? "text-white" : "text-gray-700"
-              }"></i>
-                </div>
-                <p class="text-xs sm:text-sm uppercase font-bold ${
-                  isNext ? "text-white text-opacity-90" : "text-gray-600"
-                } mb-2 tracking-wider">${p.name}</p>
-                <p class="text-lg sm:text-xl lg:text-2xl font-bold ${
-                  isNext ? "text-white" : "time-highlight"
-                }">${formatTime(p.time)}</p>
+              <div class="${cardClass}">
+                <i class="${p.icon} prayer-card__icon"></i>
+                <span class="prayer-card__name">${p.name}</span>
+                <span class="prayer-card__time">${formatTime(p.time)}</span>
               </div>
             `;
             });
 
             html += `</div></div>`;
             prayerDataDiv.innerHTML = html;
+            startCountdown();
           } else if (Array.isArray(data)) {
             let days = data.map((row) => ({
               date: row.date,
@@ -4807,19 +4030,13 @@
               },
             }));
 
+            const periodLabel = period === "month" ? "Month view" : "Year view";
             let html = `
-            <div class="text-center mb-8 sm:mb-12">
-              <div class="inline-flex items-center justify-center w-16 h-16 glass-morphism rounded-2xl mb-6">
-                <i class="fas fa-${
-                  period === "month" ? "calendar-week" : "calendar"
-                } text-2xl text-white"></i>
-              </div>
-              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">${location}</h2>
-              <p class="text-lg sm:text-xl text-white text-opacity-80 capitalize">${
-                period === "month" ? "This Month" : "This Year"
-              }</p>
+            <div class="period-view__header">
+              <h2 class="period-view__title">${location}</h2>
+              <p class="period-view__subtitle">${periodLabel}</p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            <div class="period-grid">
           `;
 
             days.forEach((day) => {
@@ -4828,24 +4045,18 @@
               const isToday = dayDate.toDateString() === today.toDateString();
 
               html += `
-              <div class="glass-morphism rounded-2xl p-5 sm:p-6 ${
-                isToday ? "ring-2 ring-yellow-400 ring-opacity-60" : ""
-              }">
-                <div class="text-center mb-5">
-                  <h3 class="text-base sm:text-lg font-bold mb-2 text-white">
-                    ${formatDateShort(day.date)}
-                  </h3>
-                </div>
-                <div class="space-y-3">
+              <div class="day-card${isToday ? " day-card--today" : ""}">
+                <div class="day-card__date">${formatDateShort(day.date)}${isToday ? "<span class=\"day-card__today-pill\">Today</span>" : ""}</div>
+                <div class="day-card__rows">
                   ${Object.entries(day.times)
                     .map(
                       ([name, prayer]) => `
-                      <div class="flex justify-between items-center p-2 rounded-lg bg-white bg-opacity-100">
-                        <div class="flex items-center gap-2">
-                          <i class="${prayer.icon} text-xs text-gray-700"></i>
-                          <span class="font-medium text-gray-800 text-sm">${name}</span>
+                      <div class="day-row">
+                        <div class="day-row__label">
+                          <i class="${prayer.icon} day-row__icon"></i>
+                          <span>${name}</span>
                         </div>
-                        <span class="font-bold text-gray-900 text-sm">${prayer.time}</span>
+                        <span class="day-row__time">${prayer.time}</span>
                       </div>
                     `
                     )
@@ -5112,8 +4323,80 @@
 
           // Find the first prayer after now
           const next = times.find((p) => p.date > now);
+          if (next) return next;
 
-          return next || times[0]; // default to last prayer if past Isha
+          // Past Isha — the next prayer is tomorrow's Fajr. Bump the date so
+          // the countdown shows the real time-until, not "Now".
+          const tomorrowFajr = { ...times[0] };
+          tomorrowFajr.date = new Date(
+            times[0].date.getTime() + 24 * 60 * 60 * 1000
+          );
+          return tomorrowFajr;
+        }
+
+        // Live countdown for the hero block. Updates every 30s; redrawing
+        // the day view replaces the node and clears the previous interval.
+        function startCountdown() {
+          if (window.__countdownInterval) {
+            clearInterval(window.__countdownInterval);
+            window.__countdownInterval = null;
+          }
+
+          const tick = () => {
+            const el = document.getElementById("hero-countdown");
+            if (!el) {
+              if (window.__countdownInterval) {
+                clearInterval(window.__countdownInterval);
+                window.__countdownInterval = null;
+              }
+              return;
+            }
+
+            const target = el.dataset.nextIso ? new Date(el.dataset.nextIso) : null;
+            const slot = el.querySelector("[data-countdown]");
+            if (!target || !slot || isNaN(target.getTime())) return;
+
+            const now = new Date();
+            const diffMs = target.getTime() - now.getTime();
+            const at = target.toLocaleTimeString("en-US", {
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            });
+
+            if (diffMs <= 0) {
+              slot.textContent = `Now · ${at}`;
+              return;
+            }
+
+            // Cross-midnight: say "tomorrow at 4:41 AM" — clearer than "in 6h 12m"
+            // for a delta most people will read as "next day."
+            const isTomorrow = target.toDateString() !== now.toDateString();
+            if (isTomorrow) {
+              slot.textContent = `Tomorrow at ${at}`;
+              return;
+            }
+
+            const totalMins = Math.floor(diffMs / 60000);
+            const hours = Math.floor(totalMins / 60);
+            const mins = totalMins % 60;
+
+            let phrase;
+            if (hours === 0 && mins === 0) {
+              phrase = "in less than a minute";
+            } else if (hours === 0) {
+              phrase = `in ${mins} ${mins === 1 ? "minute" : "minutes"}`;
+            } else if (mins === 0) {
+              phrase = `in ${hours} ${hours === 1 ? "hour" : "hours"}`;
+            } else {
+              phrase = `in ${hours}h ${mins}m`;
+            }
+
+            slot.innerHTML = `${phrase}<span class="sep">·</span>${at}`;
+          };
+
+          tick();
+          window.__countdownInterval = setInterval(tick, 30000);
         }
 
         function formatDate(dateStr) {
@@ -5140,6 +4423,8 @@
         // 📤 SHARE PRAYER TIMES FUNCTIONALITY
         async function sharePrayerTimes(location, date, prayers) {
           const locationName = location.replace(/_/g, " ");
+          // Deep-link the share URL using the clean path form.
+          const shareUrl = `https://azantimes.in/${toLocationSlug(location)}`;
 
           // Create share text
           const shareText = `🕌 Prayer Times for ${locationName}
@@ -5152,7 +4437,7 @@
 🌅 Maghrib: ${prayers[4].time}
 🌙 Isha: ${prayers[5].time}
 
-📱 Get prayer times for your location: https://azantimes.in/`;
+📱 ${shareUrl}`;
 
           try {
             // Try Web Share API (mobile/modern browsers)
@@ -5160,7 +4445,7 @@
               await navigator.share({
                 title: `Prayer Times - ${locationName}`,
                 text: shareText,
-                url: "https://azantimes.in/",
+                url: shareUrl,
               });
               console.log("✅ Shared successfully");
             } else {
@@ -5252,30 +4537,83 @@
           return urlParams.get(param);
         }
 
-        function setLocationFromQuery() {
-          let queryLocation = getQueryParam("q");
+        // The internal location ID uses underscores ("Dharmadom_Assembly_Constituency")
+        // because that's the API's filesystem format. URLs are user-visible so
+        // we expose a clean slug form ("dharmadom-assembly-constituency"). The
+        // Cloudflare Pages _redirects file rewrites /<slug> → /index.html with
+        // a 200 status, so the URL stays clean in the address bar.
+        function toLocationSlug(internalName) {
+          return internalName.toLowerCase().replace(/[_\s]+/g, "-");
+        }
 
-          if (queryLocation) {
-            const locationSelect = document.getElementById("location");
+        // Resolve a dropdown option from any URL shape we accept:
+        //   /dharmadom-assembly-constituency         (canonical clean path)
+        //   /Dharmadom_Assembly_Constituency         (legacy underscore path)
+        //   /?q=dharmadom-assembly-constituency      (legacy query string)
+        // Returns the matching <option> element or null.
+        function findLocationFromUrl() {
+          const locationSelect = document.getElementById("location");
+          if (!locationSelect || !locationSelect.options.length) return null;
 
-            // Normalize function to handle case, spaces, hyphens, and underscores
-            const normalize = (str) => {
-              return str.toLowerCase().replace(/[\s\-_]/g, '');
-            };
+          const pathSegment = window.location.pathname
+            .replace(/^\/+|\/+$/g, "")
+            .split("/")[0];
+          const candidate = pathSegment || getQueryParam("q") || "";
+          if (!candidate) return null;
 
-            const selectedOption = Array.from(locationSelect.options).find(
-              (opt) => {
-                return normalize(opt.value) === normalize(queryLocation);
-              }
-            );
+          // Match ignoring case/spaces/hyphens/underscores.
+          const normalize = (s) => s.toLowerCase().replace(/[\s\-_]/g, "");
+          const target = normalize(decodeURIComponent(candidate));
+          return (
+            Array.from(locationSelect.options).find(
+              (opt) => opt.value && normalize(opt.value) === target
+            ) || null
+          );
+        }
 
-            if (selectedOption) {
-              locationSelect.value = selectedOption.value;
-              selectedLocation = selectedOption.value;
-              loadPrayerData();
-            }
+        // Push (or replace) a clean path-based URL. We deliberately drop the
+        // legacy ?q= form — _redirects handles /<slug> → /index.html so the
+        // browser shows the clean path while the page is the same SPA.
+        function updateLocationUrl(internalName, { push = true } = {}) {
+          const newPath = "/" + toLocationSlug(internalName);
+          const newUrl = newPath + window.location.hash;
+          // Skip the history entry if the URL hasn't actually changed.
+          if (window.location.pathname + window.location.hash === newUrl) {
+            return;
+          }
+          const state = { slug: toLocationSlug(internalName) };
+          if (push) {
+            window.history.pushState(state, "", newUrl);
+          } else {
+            window.history.replaceState(state, "", newUrl);
           }
         }
+
+        function setLocationFromQuery() {
+          const locationSelect = document.getElementById("location");
+          const selectedOption = findLocationFromUrl();
+          if (!selectedOption) return;
+
+          locationSelect.value = selectedOption.value;
+          selectedLocation = selectedOption.value;
+          // Canonicalize on first load: legacy ?q= or underscore paths get
+          // rewritten in place to the clean slug path (no history entry).
+          updateLocationUrl(selectedOption.value, { push: false });
+          loadPrayerData();
+        }
+
+        // Handle browser back/forward. With pushState we own the URL, so we
+        // must manually re-sync the dropdown + data when popstate fires.
+        window.addEventListener("popstate", () => {
+          const selectedOption = findLocationFromUrl();
+          if (!selectedOption) return;
+          if (selectedOption.value !== selectedLocation) {
+            const locationSelect = document.getElementById("location");
+            locationSelect.value = selectedOption.value;
+            selectedLocation = selectedOption.value;
+            loadPrayerData();
+          }
+        });
 
         // Initialize the dashboard
         document.addEventListener("DOMContentLoaded", () => {
@@ -5310,25 +4648,8 @@
             }
           });
 
-          // Parallax effect for floating elements
-          let scrollY = 0;
-
-          function updateParallax() {
-            scrollY = window.scrollY;
-            const floatingElements =
-              document.querySelectorAll(".floating-element");
-
-            floatingElements.forEach((element, index) => {
-              const speed = ((index % 3) + 1) * 0.5; // Different speeds for different elements
-              const yPos = -(scrollY * speed);
-              element.style.transform = `translateY(${yPos}px)`;
-            });
-
-            requestAnimationFrame(updateParallax);
-          }
-
-          // Start parallax effect
-          updateParallax();
+          // Parallax floating elements were removed during the UI polish pass;
+          // the page intentionally has no continuous background animation now.
 
           // Smooth entrance animations for cards
           const observerOptions = {

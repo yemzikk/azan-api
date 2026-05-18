@@ -1,0 +1,1479 @@
+/* =========================================================================
+   AzanTimes — macOS-style frosted dashboard
+
+   System: Sequoia-inspired glass surfaces over an aurora background.
+     - Adaptive light / dark via `prefers-color-scheme`.
+     - System font stack (SF Pro on Apple, Inter elsewhere).
+     - One accent — warm gold — reserved for the next prayer.
+   ========================================================================= */
+
+:root {
+  /* Brand accent (warm gold) -------------------------------------------- */
+  --accent: #f0c14b;
+  --accent-rgb: 240, 193, 75;
+  --accent-soft: rgba(240, 193, 75, 0.34);
+  --accent-glow: rgba(240, 193, 75, 0.18);
+
+  /* Dark theme (default) ------------------------------------------------ */
+  --bg-base: #0b1018;
+  --aurora-1: 18, 110, 88;   /* emerald */
+  --aurora-2: 240, 193, 75;  /* amber kiss */
+  --aurora-3: 38, 60, 120;   /* deep ink blue */
+
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-strong: rgba(255, 255, 255, 0.09);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+  --surface-deep: rgba(14, 20, 32, 0.7);
+
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --text: rgba(255, 255, 255, 0.96);
+  --text-muted: rgba(255, 255, 255, 0.62);
+  --text-faint: rgba(255, 255, 255, 0.4);
+  --text-inverse: #0b1018;
+
+  --shadow-card: 0 16px 48px rgba(0, 0, 0, 0.45),
+                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-hero: 0 30px 80px rgba(0, 0, 0, 0.55),
+                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  /* Layout */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --accent: #b07c0a;
+    --accent-rgb: 176, 124, 10;
+    --accent-soft: rgba(176, 124, 10, 0.25);
+    --accent-glow: rgba(176, 124, 10, 0.12);
+
+    --bg-base: #eef2f9;
+    --aurora-1: 174, 222, 200;   /* mint */
+    --aurora-2: 255, 200, 168;   /* peach */
+    --aurora-3: 200, 218, 248;   /* sky */
+
+    --surface: rgba(255, 255, 255, 0.6);
+    --surface-strong: rgba(255, 255, 255, 0.78);
+    --surface-hover: rgba(255, 255, 255, 0.9);
+    --surface-deep: rgba(255, 255, 255, 0.92);
+
+    --border: rgba(10, 20, 30, 0.08);
+    --border-strong: rgba(10, 20, 30, 0.16);
+
+    --text: rgba(15, 24, 40, 0.92);
+    --text-muted: rgba(15, 24, 40, 0.62);
+    --text-faint: rgba(15, 24, 40, 0.4);
+    --text-inverse: #ffffff;
+
+    --shadow-card: 0 14px 40px rgba(10, 20, 30, 0.09),
+                   inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --shadow-hero: 0 24px 64px rgba(10, 20, 30, 0.12),
+                   inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------- */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+               "Inter", system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text);
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Aurora — soft radial blobs painted behind everything, fixed so they
+   don't scroll with content (more macOS-like). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10vmax;
+  background:
+    radial-gradient(45% 35% at 16% 20%, rgba(var(--aurora-1), 0.55), transparent 70%),
+    radial-gradient(38% 28% at 84% 12%, rgba(var(--aurora-2), 0.30), transparent 70%),
+    radial-gradient(70% 55% at 55% 100%, rgba(var(--aurora-3), 0.45), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Faint film grain — kills banding on the gradients. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* App content sits above the painted background layers. */
+body > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Touch targets ≥ 44px on small touch devices. */
+@media (max-width: 640px) and (pointer: coarse) {
+  button,
+  .period-btn,
+  .share-btn,
+  .settings-btn,
+  .nearby-location-card {
+    min-height: 44px;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Surfaces — universal frosted glass
+   ------------------------------------------------------------------------- */
+.glass-morphism {
+  background: var(--surface);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-lg);
+}
+
+.glass-card {
+  background: var(--surface-strong);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-md);
+  color: var(--text);
+}
+
+/* -------------------------------------------------------------------------
+   Page header — small brand chip, lean title
+   ------------------------------------------------------------------------- */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 1.25rem 0 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .page-header { padding: 2rem 0 2.5rem; }
+}
+
+.page-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  background: var(--surface);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  margin-bottom: 0.5rem;
+}
+
+.page-header__brand-icon {
+  color: var(--accent);
+  font-size: 0.8125rem;
+}
+
+.page-header__title {
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.05;
+}
+
+.page-header__subtitle {
+  font-size: clamp(0.875rem, 2.4vw, 1rem);
+  color: var(--text-muted);
+  max-width: 36rem;
+  margin: 0 auto;
+  line-height: 1.5;
+  padding: 0 1rem;
+  font-weight: 400;
+}
+
+/* -------------------------------------------------------------------------
+   Controls card
+   ------------------------------------------------------------------------- */
+.controls-card {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .controls-card { padding: 1.75rem; margin-bottom: 2.25rem; }
+}
+
+.controls-card__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .controls-card__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem;
+  }
+}
+
+.control-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-field__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.control-field__label i {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.control-field__select {
+  width: 100%;
+  padding: 0.875rem 2.5rem 0.875rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface-strong);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  appearance: none;
+  min-height: 48px;
+  transition: border-color 0.15s var(--ease-out), background 0.15s var(--ease-out);
+}
+
+.control-field__select:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.control-field__select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
+.control-field__select option {
+  background: var(--bg-base);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: light) {
+  .control-field__select option {
+    background: #ffffff;
+    color: var(--text);
+  }
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "\f107";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Period selector — segmented control, macOS-style */
+.period-btn-group {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.period-btn-group .period-btn {
+  flex: 1;
+  padding: 0.7rem 0.75rem;
+  border-radius: calc(var(--radius-sm) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out);
+  min-height: 40px;
+}
+
+.period-btn-group .period-btn:hover:not(.active) {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.period-btn-group .period-btn.active {
+  background: var(--surface-deep);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15),
+              inset 0 0 0 1px var(--border);
+}
+
+@media (prefers-color-scheme: light) {
+  .period-btn-group .period-btn.active {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(10, 20, 30, 0.1);
+  }
+}
+
+@media (max-width: 380px) {
+  .period-btn-group .period-btn {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .period-btn-group .period-btn i {
+    display: none;
+  }
+}
+
+/* The "Prayer notifications" row sits below a Tailwind `border-t` divider.
+   Without its own surface the blur looks invisible (nothing colorful behind
+   it to refract). Wrap it as a sub-glass pill so it reads as part of the
+   glass family rather than bare text on the card. */
+.controls-card .border-t {
+  margin-top: 1.25rem !important;
+  padding: 0.875rem 1rem !important;
+  border-top: 0 !important;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+}
+
+/* -------------------------------------------------------------------------
+   Day view — hero block + 6-card row
+   ------------------------------------------------------------------------- */
+.day-view {
+  padding: 1.5rem 1.25rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .day-view { padding: 2.25rem; }
+}
+
+@media (min-width: 1024px) {
+  .day-view { padding: 2.75rem; }
+}
+
+.day-view__header {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .day-view__header { margin-bottom: 2.25rem; }
+}
+
+.day-view__share-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.share-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.share-btn i {
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+/* ---------- Hero next-prayer block ---------- */
+.hero {
+  text-align: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.hero-eyebrow .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-glow);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.15); }
+}
+
+.hero-name {
+  font-size: clamp(2.75rem, 10vw, 5.5rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  line-height: 1;
+  margin: 0;
+}
+
+.hero-countdown {
+  font-size: clamp(1rem, 3.2vw, 1.375rem);
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+  margin: 0.875rem 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-countdown .sep {
+  margin: 0 0.5rem;
+  color: var(--text-faint);
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem 0.875rem;
+  margin-top: 1.125rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  padding: 0.4rem 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.hero-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero-meta__item i {
+  font-size: 0.7rem;
+  opacity: 0.75;
+  color: var(--accent);
+}
+
+.hero-meta__sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  flex-shrink: 0;
+}
+
+/* Legacy day-view chips — still styled in case older JS branches use them. */
+.day-view__date {
+  font-size: clamp(1.375rem, 4.5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.day-view__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.day-view__location i {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.day-view__location p { margin: 0; }
+
+.day-view__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-soft);
+  border-radius: var(--radius-pill);
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.day-view__next strong {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.day-view__next-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Prayer cards
+   ------------------------------------------------------------------------- */
+.prayer-time-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.625rem;
+}
+
+@media (min-width: 480px) {
+  .prayer-time-grid { gap: 0.75rem; }
+}
+
+@media (min-width: 640px) {
+  .prayer-time-grid { gap: 1rem; }
+}
+
+@media (min-width: 1024px) {
+  .prayer-time-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.875rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .prayer-time-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.prayer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.125rem 0.5rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transition: transform 0.2s var(--ease-out),
+              background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out);
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .prayer-card { padding: 1.375rem 0.75rem 1.5rem; }
+}
+
+@media (hover: hover) {
+  .prayer-card:hover {
+    transform: translateY(-2px);
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+  }
+}
+
+.prayer-card__icon {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 0.625rem;
+}
+
+.prayer-card__name {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.prayer-card__time {
+  font-size: clamp(1.0625rem, 3.5vw, 1.375rem);
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+/* Active card — gold ring + warm wash */
+.prayer-card.active {
+  background: linear-gradient(150deg, var(--accent-glow), var(--surface-strong));
+  border-color: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-soft),
+              0 12px 32px rgba(var(--accent-rgb), 0.18);
+}
+
+.prayer-card.active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 0%, rgba(var(--accent-rgb), 0.18), transparent 60%);
+}
+
+.prayer-card.active .prayer-card__icon { color: var(--accent); }
+.prayer-card.active .prayer-card__name { color: var(--accent); }
+.prayer-card.active .prayer-card__time { color: var(--text); }
+
+/* -------------------------------------------------------------------------
+   Period view (month / year)
+   ------------------------------------------------------------------------- */
+.period-view__header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.period-view__title {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0 0 0.375rem 0;
+}
+
+.period-view__subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin: 0;
+}
+
+.period-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  color: var(--text);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transition: transform 0.2s var(--ease-out),
+              background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out);
+}
+
+.day-card:hover {
+  transform: translateY(-1px);
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.day-card--today {
+  border-color: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-glow),
+              0 12px 32px rgba(var(--accent-rgb), 0.12);
+}
+
+.day-card__date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+
+.day-card__today-pill {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-glow);
+  padding: 0.125rem 0.625rem;
+  border-radius: var(--radius-pill);
+}
+
+.day-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.day-row__label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.day-row__icon {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  color: var(--accent);
+}
+
+.day-row__time {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* -------------------------------------------------------------------------
+   Notification modal
+   ------------------------------------------------------------------------- */
+.notification-modal {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background: rgba(0, 0, 0, 0.45);
+  animation: fadeInModal 0.2s var(--ease-out);
+}
+
+@media (prefers-color-scheme: light) {
+  .notification-modal {
+    background: rgba(15, 24, 40, 0.32);
+  }
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.notification-modal-content {
+  background: var(--surface-deep);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-hero);
+  border-radius: var(--radius-lg) !important;
+  color: var(--text);
+  animation: slideUpModal 0.25s var(--ease-out);
+}
+
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tailwind utility colors used inline inside the modal — re-tint to theme. */
+.notification-modal-content .text-white {
+  color: var(--text) !important;
+}
+
+.notification-modal-content [class*="text-opacity-70"],
+.notification-modal-content [class*="text-opacity-60"],
+.notification-modal-content [class*="text-opacity-50"] {
+  color: var(--text-muted) !important;
+}
+
+.notification-modal-content [class*="border-white"] {
+  border-color: var(--border) !important;
+}
+
+.notification-modal-content [class*="bg-black"] {
+  background: var(--surface) !important;
+}
+
+.notification-modal-content [class*="bg-white"] {
+  background: var(--surface) !important;
+}
+
+@media (max-width: 640px) {
+  .notification-modal {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .notification-modal-content {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    border-bottom: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom);
+    max-height: 92vh;
+    max-height: 92dvh;
+    animation: slideUpSheet 0.3s var(--ease-out);
+  }
+
+  @keyframes slideUpSheet {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .notification-modal-content::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border-strong);
+    margin: 0.625rem auto 0.25rem;
+  }
+}
+
+.prayer-notification-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) !important;
+  transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
+}
+
+.prayer-notification-item:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.prayer-notification-item.enabled {
+  background: var(--accent-glow);
+  border-color: var(--accent-soft);
+}
+
+.master-toggle {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md) !important;
+}
+
+.master-toggle.enabled {
+  background: var(--accent-glow);
+  border-color: var(--accent-soft);
+}
+
+.settings-row-icon,
+.modal-icon {
+  width: 38px;
+  height: 38px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent-soft);
+  border-radius: var(--radius-sm);
+}
+
+.settings-row-icon i,
+.modal-icon i {
+  color: var(--accent) !important;
+  font-size: 0.875rem;
+}
+
+.master-toggle-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--surface) !important;
+  border: 1px solid var(--border);
+}
+
+.master-toggle-icon i {
+  color: var(--text) !important;
+}
+
+.master-toggle.enabled .master-toggle-icon {
+  background: var(--accent-glow) !important;
+  border-color: var(--accent-soft);
+}
+
+.master-toggle.enabled .master-toggle-icon i {
+  color: var(--accent) !important;
+}
+
+/* Tailwind yellow utilities used inside the modal map to our accent. */
+.notification-modal-content .text-yellow-300,
+.notification-modal-content .text-yellow-400,
+.notification-modal-content .text-yellow-500 {
+  color: var(--accent) !important;
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+  background: var(--surface) !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid var(--border);
+}
+
+.close-btn:hover {
+  background: var(--surface-hover) !important;
+}
+
+.close-btn i {
+  color: var(--text) !important;
+}
+
+/* "Done" save button — gold pill */
+#save-notification-settings {
+  background: var(--accent) !important;
+  color: var(--text-inverse) !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  box-shadow: 0 6px 18px rgba(var(--accent-rgb), 0.4) !important;
+  transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out) !important;
+}
+
+#save-notification-settings:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(var(--accent-rgb), 0.5) !important;
+}
+
+/* Settings button on controls card */
+.settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.125rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.settings-btn i {
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
+.settings-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+@media (max-width: 640px) {
+  .settings-btn { width: 100%; }
+}
+
+/* -------------------------------------------------------------------------
+   Toggle switch
+   ------------------------------------------------------------------------- */
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+  border-radius: var(--radius-pill);
+}
+
+.toggle-slider::before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 2px;
+  top: 2px;
+  background: var(--text);
+  transition: transform 0.2s var(--ease-out);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+  background: var(--text-inverse);
+}
+
+.toggle-switch input:focus-visible + .toggle-slider {
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* -------------------------------------------------------------------------
+   Nearby locations panel — cards rendered with Tailwind classes inline,
+   so re-skin via overrides.
+   ------------------------------------------------------------------------- */
+.nearby-location-card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text);
+  transition: background 0.2s var(--ease-out),
+              border-color 0.2s var(--ease-out),
+              transform 0.2s var(--ease-out);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.nearby-location-card:hover {
+  background: var(--surface-hover) !important;
+  border-color: var(--border-strong) !important;
+  transform: translateY(-1px);
+}
+
+.nearby-location-card.is-selected {
+  background: var(--accent-glow) !important;
+  border-color: var(--accent-soft) !important;
+}
+
+.nearby-location-card .nl-title {
+  color: var(--text);
+}
+
+.nearby-location-card .nl-distance {
+  color: var(--text-muted);
+}
+
+.nearby-location-card .nl-icon {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+
+.nearby-location-card.is-selected .nl-icon {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-inverse);
+}
+
+.nearby-location-card .nl-index {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.nearby-location-card.is-selected .nl-index {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.nearby-location-card .nl-pill {
+  background: var(--accent);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+.nearby-location-card .nl-chev {
+  color: var(--text-faint);
+}
+
+.nearby-hint {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.nearby-hint i { color: var(--accent); }
+
+/* -------------------------------------------------------------------------
+   Banners (PWA install, app update)
+   ------------------------------------------------------------------------- */
+.pwa-banner {
+  background: var(--surface-deep);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  transform: translateY(-100%);
+  transition: transform 0.4s var(--ease-out);
+  padding-top: env(safe-area-inset-top);
+}
+
+.pwa-banner.show { transform: translateY(0); }
+
+.update-banner {
+  background: var(--surface-deep);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  padding-top: env(safe-area-inset-top);
+}
+
+/* -------------------------------------------------------------------------
+   Loading + error
+   ------------------------------------------------------------------------- */
+.loading-dots {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loading-dots div {
+  position: absolute;
+  top: 33px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.loading-dots div:nth-child(1) { left: 8px;  animation: dot-grow 0.6s infinite; }
+.loading-dots div:nth-child(2) { left: 8px;  animation: dot-move 0.6s infinite; }
+.loading-dots div:nth-child(3) { left: 32px; animation: dot-move 0.6s infinite; }
+.loading-dots div:nth-child(4) { left: 56px; animation: dot-shrink 0.6s infinite; }
+
+@keyframes dot-grow   { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes dot-shrink { from { transform: scale(1); } to { transform: scale(0); } }
+@keyframes dot-move   { from { transform: translate(0, 0); } to { transform: translate(24px, 0); } }
+
+/* -------------------------------------------------------------------------
+   Animations
+   ------------------------------------------------------------------------- */
+.fade-in  { animation: fadeIn  0.5s var(--ease-out); }
+.slide-in { animation: slideIn 0.45s var(--ease-out); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------------------------------------------------------
+   Scrollbars
+   ------------------------------------------------------------------------- */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Focus / a11y
+   ------------------------------------------------------------------------- */
+button:focus-visible,
+select:focus-visible,
+.share-btn:focus-visible,
+.settings-btn:focus-visible,
+.period-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+select:focus { outline: none; }
+
+/* -------------------------------------------------------------------------
+   Tailwind text-color overrides — keep text legible in both themes.
+   Light-mode pages still render `text-white` from inline utility classes,
+   so re-tint to our theme text in light mode.
+   ------------------------------------------------------------------------- */
+@media (prefers-color-scheme: light) {
+  body .text-white { color: var(--text) !important; }
+  body [class*="text-opacity-90"],
+  body [class*="text-opacity-80"],
+  body [class*="text-opacity-70"],
+  body [class*="text-opacity-60"] { color: var(--text-muted) !important; }
+  body [class*="text-opacity-50"],
+  body [class*="text-opacity-40"] { color: var(--text-faint) !important; }
+  body [class*="border-white"]    { border-color: var(--border) !important; }
+}
+
+/* Legacy aliases (rarely used) */
+.time-highlight {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.prayer-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Mobile refinements — tighten spacing + sizing on phones so the hero
+   doesn't feel oversized and prayer-card times have more room to breathe.
+   ------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .page-header {
+    padding: 1rem 0 1.25rem;
+    gap: 0.375rem;
+  }
+
+  .page-header__brand {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .page-header__title {
+    letter-spacing: -0.04em;
+  }
+
+  .controls-card {
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .controls-card__grid {
+    gap: 1rem;
+  }
+
+  .control-field__select {
+    padding: 0.75rem 2.25rem 0.75rem 0.875rem;
+  }
+
+  .controls-card .border-t {
+    padding: 0.75rem 0.875rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .day-view {
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .day-view__header {
+    margin-bottom: 1.25rem;
+  }
+
+  .day-view__share-row {
+    margin-bottom: 0.625rem;
+  }
+
+  .hero-eyebrow {
+    margin-bottom: 0.625rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 13vw, 4rem);
+    letter-spacing: -0.04em;
+  }
+
+  .hero-countdown {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .hero-meta {
+    margin-top: 0.875rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8125rem;
+    gap: 0.4rem 0.625rem;
+    max-width: 100%;
+  }
+
+  .hero-meta__sep {
+    display: none;
+  }
+
+  .hero-meta__item {
+    flex: 0 1 auto;
+  }
+
+  .prayer-time-grid {
+    gap: 0.5rem;
+  }
+
+  .prayer-card {
+    padding: 0.875rem 0.375rem 1rem;
+  }
+
+  .prayer-card__icon {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .prayer-card__name {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.375rem;
+  }
+
+  .prayer-card__time {
+    font-size: 1.0625rem;
+    letter-spacing: -0.02em;
+  }
+
+  .period-btn-group .period-btn {
+    min-height: 38px;
+  }
+}
+
+/* Very small phones (iPhone SE etc.) — drop to 2 columns and give times
+   plenty of horizontal room. */
+@media (max-width: 380px) {
+  .prayer-time-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem;
+  }
+
+  .prayer-card__time {
+    font-size: 1.125rem;
+  }
+
+  .hero-name {
+    font-size: clamp(2.25rem, 12vw, 3.25rem);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

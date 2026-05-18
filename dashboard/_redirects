@@ -1,4 +1,7 @@
 # URL Redirects for Cloudflare Pages
+# Processed top-to-bottom: first match wins. Static-file matches always take
+# precedence over the catch-all rule at the bottom, so /css/, /favicon/, /sw.js,
+# /widget.html, /prayer-times/* etc. continue to serve as files.
 
 # Social media redirects
 /whatsapp  https://chat.whatsapp.com/Gh4oCXcdIbAEfvfd55Op53  301
@@ -16,3 +19,10 @@
 # Manifest shortcuts
 /manifest.json  /favicon/site.webmanifest  301
 /site.webmanifest  /favicon/site.webmanifest  301
+
+# Pretty URLs for prayer-time locations.
+# Any unmatched single-segment path (e.g. /dharmadom-assembly-constituency, /kochi)
+# is rewritten to /index.html with a 200 status — the URL stays clean in the
+# browser bar, and the JS reads window.location.pathname to load the right
+# location. Place LAST: any specific rule above wins over this catch-all.
+/*  /index.html  200
