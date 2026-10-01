@@ -1,9 +1,9 @@
 // Service Worker for Prayer Times Kerala PWA
-// Version 2.1.0 - With Push Notification Support
+// Version 2.1.2 - With Push Notification Support
 
-const CACHE_NAME = "prayer-times-kerala-v2.1.0";
-const API_CACHE = "prayer-times-api-v2.1.0";
-const OFFLINE_CACHE = "prayer-times-offline-v2.1.0";
+const CACHE_NAME = "prayer-times-kerala-v2.1.2";
+const API_CACHE = "prayer-times-api-v2.1.2";
+const OFFLINE_CACHE = "prayer-times-offline-v2.1.2";
 const DB_NAME = "PrayerTimesDB";
 const DB_VERSION = 1;
 
@@ -17,6 +17,8 @@ const CORE_ASSETS = [
   "/favicon/favicon-16x16.png",
   "/favicon/favicon.ico",
   "/favicon/site.webmanifest",
+  "/brand/zikklabs-product-badge.svg",
+  "/brand/zikklabs-product-badge-light.svg",
   "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
 ];
@@ -336,7 +338,7 @@ async function showPrayerNotification(prayer, timeStr) {
 // ==========================================
 
 self.addEventListener("install", (event) => {
-  console.log("Service Worker: Installing v2.1.0...");
+  console.log("Service Worker: Installing v2.1.2...");
 
   event.waitUntil(
     Promise.all([
@@ -393,7 +395,7 @@ self.addEventListener("install", (event) => {
 // ==========================================
 
 self.addEventListener("activate", (event) => {
-  console.log("Service Worker: Activating v2.1.0...");
+  console.log("Service Worker: Activating v2.1.2...");
 
   event.waitUntil(
     Promise.all([
@@ -741,4 +743,4 @@ self.addEventListener("notificationclose", (event) => {
 // iOS Safari (iOS 16.4+) needs the site installed as a PWA on the home screen
 // for any notifications to work, and only via ServiceWorkerRegistration.showNotification.
 
-console.log("Service Worker v2.1.0: Loaded successfully with Push Notification support");
+console.log("Service Worker v2.1.2: Loaded successfully with Push Notification support");

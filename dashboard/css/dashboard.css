@@ -1477,3 +1477,42 @@ select:focus { outline: none; }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* -------------------------------------------------------------------------
+   Footer — "A product of ZikkLabs" credit badge (understated)
+   ------------------------------------------------------------------------- */
+.zikklabs-credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.zikklabs-credit > a {
+  display: inline-block;
+  line-height: 0;
+  border-radius: var(--radius-sm);
+  opacity: 0.75;
+  transition: opacity 0.2s var(--ease-out);
+}
+.zikklabs-credit > a:hover,
+.zikklabs-credit > a:focus-visible { opacity: 1; }
+.zikklabs-credit > a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.zikklabs-credit img { display: block; width: 188px; height: 28px; }
+.zikklabs-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  font-size: 0.75rem;
+}
+.zikklabs-legal a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.zikklabs-legal a:hover,
+.zikklabs-legal a:focus-visible { color: var(--text); text-decoration: underline; }

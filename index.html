@@ -1060,6 +1060,62 @@
         border-top: 1px solid var(--border-color);
       }
 
+      .zikklabs-credit {
+        display: inline-block;
+        margin-bottom: 1rem;
+        line-height: 0;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .zikklabs-credit:hover,
+      .zikklabs-credit:focus-visible {
+        opacity: 1;
+      }
+
+      .zikklabs-credit .badge-on-dark {
+        display: none;
+      }
+
+      .zikklabs-legal {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.25rem 1rem;
+        margin-bottom: 1rem;
+        font-size: 0.8125rem;
+      }
+
+      .zikklabs-legal a {
+        color: var(--text-muted);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .zikklabs-legal a:hover,
+      .zikklabs-legal a:focus-visible {
+        color: var(--primary-green);
+        text-decoration: underline;
+      }
+
+      [data-theme="dark"] .zikklabs-credit .badge-on-light {
+        display: none;
+      }
+
+      [data-theme="dark"] .zikklabs-credit .badge-on-dark {
+        display: block;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .zikklabs-credit .badge-on-light {
+          display: none;
+        }
+
+        :root:not([data-theme="light"]) .zikklabs-credit .badge-on-dark {
+          display: block;
+        }
+      }
+
       /* Animations */
       .fade-in {
         opacity: 0;
@@ -2279,10 +2335,53 @@
                 width: 100%;
               "
             >
+              <a
+                href="https://zikklabs.com"
+                target="_blank"
+                rel="noopener"
+                class="zikklabs-credit"
+              >
+                <img
+                  class="badge-on-light"
+                  src="/brand/zikklabs-product-badge.svg"
+                  alt="A product of ZikkLabs"
+                  width="188"
+                  height="28"
+                  loading="lazy"
+                />
+                <img
+                  class="badge-on-dark"
+                  src="/brand/zikklabs-product-badge-light.svg"
+                  alt="A product of ZikkLabs"
+                  width="188"
+                  height="28"
+                  loading="lazy"
+                />
+              </a>
+              <nav class="zikklabs-legal" aria-label="Legal">
+                <a
+                  href="https://zikklabs.com/privacy"
+                  target="_blank"
+                  rel="noopener"
+                  >Privacy</a
+                >
+                <a
+                  href="https://zikklabs.com/terms"
+                  target="_blank"
+                  rel="noopener"
+                  >Terms</a
+                >
+                <a
+                  href="https://zikklabs.com/data-deletion"
+                  target="_blank"
+                  rel="noopener"
+                  >Data deletion</a
+                >
+              </nav>
               <p
                 style="color: var(--text-muted); font-size: 0.875rem; margin: 0"
               >
-                © 2025 api.azantimes.in. Built with ❤️ for the Islamic
+                © 2026 ZikkLabs · api.azantimes.in. Built with ❤️ for the Islamic
                 community.
               </p>
             </div>
