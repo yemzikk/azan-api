@@ -1,0 +1,19 @@
+Atkinson Hyperlegible Next — upright variable Latin webfont
+Downloaded from Google Fonts, 2026-10-26.
+
+Family: Atkinson Hyperlegible Next
+Version: 2.001
+Weight axis: 200–800; default 400
+Style: normal (upright)
+License: SIL Open Font License 1.1; see LICENSE.txt.
+
+Official font service stylesheet:
+https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@200..800&display=swap
+
+Unmodified Latin WOFF2 supplied by Google Fonts:
+https://fonts.gstatic.com/s/atkinsonhyperlegiblenext/v7/NaPNcYPdHfdVxJw0IfIP0lvYFqijb-UxCtm5_wdGseiJn3q0pkZ_.woff2
+
+Official source and license:
+https://github.com/google/fonts/tree/main/ofl/atkinsonhyperlegiblenext
+https://github.com/googlefonts/atkinson-hyperlegible-next
+https://www.brailleinstitute.org/freefont/

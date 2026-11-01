@@ -1,746 +1,153 @@
-// Service Worker for Prayer Times Kerala PWA
-// Version 2.1.2 - With Push Notification Support
-
-const CACHE_NAME = "prayer-times-kerala-v2.1.2";
-const API_CACHE = "prayer-times-api-v2.1.2";
-const OFFLINE_CACHE = "prayer-times-offline-v2.1.2";
-const DB_NAME = "PrayerTimesDB";
-const DB_VERSION = 1;
-
-// Core files to cache for offline functionality
-const CORE_ASSETS = [
-  "/index.html",
-  "/favicon/android-chrome-192x192.png",
-  "/favicon/android-chrome-512x512.png",
-  "/favicon/apple-touch-icon.png",
-  "/favicon/favicon-32x32.png",
-  "/favicon/favicon-16x16.png",
-  "/favicon/favicon.ico",
-  "/favicon/site.webmanifest",
-  "/brand/zikklabs-product-badge.svg",
-  "/brand/zikklabs-product-badge-light.svg",
-  "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
-  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
+/* Azan static PWA. Updates come from the network; cached files are an offline fallback. */
+const VERSION = 'azan-v4';
+const SHELL_CACHE = `${VERSION}-shell`;
+const DATA_CACHE = `${VERSION}-data`;
+const APP_ROOT = new URL('./', self.registration.scope);
+const appUrl = (path) => new URL(path, APP_ROOT).href;
+const SHELL_FILES = [
+  'index.html',
+  'css/dashboard.css',
+  'js/app.js',
+  'js/prayer-data.js',
+  'js/notifications.js',
+  'js/export-image.js',
+  'js/export-data.js',
+  'brand/azantimes-mark.svg',
+  'brand/azantimes-logo.svg',
+  'brand/azantimes-logo-light.svg',
+  'brand/zikklabs-product-badge.svg',
+  'brand/zikklabs-product-badge-light.svg',
+  'fonts/atkinson-hyperlegible-next-latin.woff2',
+  'favicon/site.webmanifest',
+  'favicon/android-chrome-192x192.png',
+  'favicon/android-chrome-512x512.png',
 ];
+const OWN_CACHE = /^(?:azan-|prayer-times-(?:kerala|api|offline)-)/;
 
-// API endpoints to cache
-const API_ENDPOINTS = ["https://api.azantimes.in/v1/timesheets/index.json"];
+self.addEventListener('install', (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(SHELL_CACHE);
+    // A failed install leaves the previous complete worker in place.
+    await cache.addAll(SHELL_FILES.map((file) => new Request(appUrl(file), { cache: 'reload' })));
+    await self.skipWaiting();
+  })());
+});
 
-// Prayer notification messages (templates with placeholders)
-const PRAYER_MESSAGES = {
-  fajr: {
-    title: "Fajr · {time}",
-    body: "Time for Fajr prayer in {location}. Start your day with blessings.",
-    icon: "🌙"
-  },
-  sunrise: {
-    title: "Sunrise · {time}",
-    body: "The sun has risen in {location}. May your day be blessed.",
-    icon: "🌅"
-  },
-  dhuhr: {
-    title: "Dhuhr · {time}",
-    body: "Time for Dhuhr prayer in {location}. Take a moment to connect.",
-    icon: "☀️"
-  },
-  asr: {
-    title: "Asr · {time}",
-    body: "Time for Asr prayer in {location}. Pause and reflect.",
-    icon: "🌤️"
-  },
-  maghrib: {
-    title: "Maghrib · {time}",
-    body: "Time for Maghrib prayer in {location}. The day comes to a close.",
-    icon: "🌇"
-  },
-  isha: {
-    title: "Isha · {time}",
-    body: "Time for Isha prayer in {location}. End your day in remembrance.",
-    icon: "🌙"
-  }
-};
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    const names = await caches.keys();
+    await Promise.all(names.filter((name) => OWN_CACHE.test(name)
+      && ![SHELL_CACHE, DATA_CACHE].includes(name)).map((name) => caches.delete(name)));
+    await self.clients.claim();
+  })());
+});
 
-// ==========================================
-// IndexedDB Helper Functions
-// ==========================================
-
-function openDatabase() {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-
-      // Store for notification settings
-      if (!db.objectStoreNames.contains("settings")) {
-        db.createObjectStore("settings", { keyPath: "id" });
-      }
-
-      // Store for prayer times
-      if (!db.objectStoreNames.contains("prayerTimes")) {
-        db.createObjectStore("prayerTimes", { keyPath: "id" });
-      }
-
-      // Store for scheduled notifications
-      if (!db.objectStoreNames.contains("scheduledNotifications")) {
-        const store = db.createObjectStore("scheduledNotifications", { keyPath: "id" });
-        store.createIndex("time", "time", { unique: false });
-        store.createIndex("notified", "notified", { unique: false });
-      }
-    };
+function unavailable() {
+  return new Response(JSON.stringify({ error: 'offline', message: 'This timetable is not saved on this device yet.' }), {
+    status: 503,
+    headers: { 'Content-Type': 'application/json', 'sw-offline': 'true' },
   });
 }
 
-async function dbGet(storeName, key) {
+async function fetchWithTimeout(request) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
   try {
-    const db = await openDatabase();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readonly");
-      const store = transaction.objectStore(storeName);
-      const request = store.get(key);
-
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
-    });
-  } catch (error) {
-    console.error("DB Get Error:", error);
-    return null;
+    const response = await fetch(request, { signal: controller.signal });
+    // Keep the deadline active until the body arrives too. A stalled transfer
+    // must not block cache.put or prevent an available offline fallback.
+    await response.clone().arrayBuffer();
+    return response;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
-async function dbPut(storeName, data) {
+async function networkFirst(request, cacheName, { navigation = false, data = false } = {}) {
+  let cache;
+  try { cache = await caches.open(cacheName); } catch (_) { /* Online use still works when storage is restricted. */ }
   try {
-    const db = await openDatabase();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readwrite");
-      const store = transaction.objectStore(storeName);
-      const request = store.put(data);
-
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
-    });
-  } catch (error) {
-    console.error("DB Put Error:", error);
-  }
-}
-
-async function dbGetAll(storeName) {
-  try {
-    const db = await openDatabase();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readonly");
-      const store = transaction.objectStore(storeName);
-      const request = store.getAll();
-
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
-    });
-  } catch (error) {
-    console.error("DB GetAll Error:", error);
-    return [];
-  }
-}
-
-async function dbClear(storeName) {
-  try {
-    const db = await openDatabase();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(storeName, "readwrite");
-      const store = transaction.objectStore(storeName);
-      const request = store.clear();
-
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
-    });
-  } catch (error) {
-    console.error("DB Clear Error:", error);
-  }
-}
-
-// ==========================================
-// Notification Functions
-// ==========================================
-
-async function getNotificationSettings() {
-  const settings = await dbGet("settings", "notifications");
-  return settings || {
-    id: "notifications",
-    enabled: false,
-    prayers: {
-      fajr: true,
-      sunrise: false,
-      dhuhr: true,
-      asr: true,
-      maghrib: true,
-      isha: true
+    const response = await fetchWithTimeout(request);
+    if (cache && response.ok && (!data || response.headers.get('Content-Type')?.includes('json'))) {
+      // Await writes so a terminated worker cannot lose the offline copy.
+      try { await cache.put(request, response.clone()); } catch (_) { /* Quota limits must not hide current network data. */ }
     }
-  };
-}
-
-async function getPrayerTimes() {
-  const prayerTimes = await dbGet("prayerTimes", "today");
-  return prayerTimes;
-}
-
-function parseTimeToDate(timeStr) {
-  if (!timeStr) return null;
-
-  try {
-    const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!match) return null;
-
-    let hours = parseInt(match[1], 10);
-    const minutes = parseInt(match[2], 10);
-    const period = match[3].toUpperCase();
-
-    if (period === "PM" && hours !== 12) {
-      hours += 12;
-    } else if (period === "AM" && hours === 12) {
-      hours = 0;
-    }
-
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);
-  } catch (error) {
-    console.error("Failed to parse time:", timeStr, error);
-    return null;
+    // Server errors may use a saved timetable; 404s must stay visible.
+    if (response.status < 500) return response;
+  } catch (_) {
+    // The saved response below is used only when the network is unavailable.
   }
-}
-
-async function scheduleNotifications() {
-  const settings = await getNotificationSettings();
-  const prayerTimes = await getPrayerTimes();
-
-  if (!settings.enabled || !prayerTimes) {
-    console.log("SW: Notifications disabled or no prayer times available");
-    return;
+  let saved;
+  try { saved = await cache?.match(request); } catch (_) { /* Saved data may have been evicted. */ }
+  if (saved) {
+    if (!data) return saved;
+    const headers = new Headers(saved.headers);
+    headers.set('sw-from-cache', 'true');
+    return new Response(saved.body, { status: saved.status, statusText: saved.statusText, headers });
   }
-
-  // Clear existing scheduled notifications
-  await dbClear("scheduledNotifications");
-
-  const timeMapping = {
-    fajr: "subh",
-    sunrise: "sunrise",
-    dhuhr: "duhr",
-    asr: "asar",
-    maghrib: "maghrib",
-    isha: "isha"
-  };
-
-  const now = new Date();
-
-  for (const [prayer, apiKey] of Object.entries(timeMapping)) {
-    if (settings.prayers[prayer] && prayerTimes[apiKey]) {
-      const prayerTime = parseTimeToDate(prayerTimes[apiKey]);
-
-      if (prayerTime && prayerTime > now) {
-        await dbPut("scheduledNotifications", {
-          id: prayer,
-          prayer: prayer,
-          time: prayerTime.getTime(),
-          timeStr: prayerTimes[apiKey],
-          notified: false
-        });
-        console.log(`SW: Scheduled notification for ${prayer} at ${prayerTimes[apiKey]}`);
-      }
-    }
-  }
-}
-
-async function checkAndShowNotifications() {
-  const settings = await getNotificationSettings();
-
-  if (!settings.enabled) {
-    return;
-  }
-
-  const scheduledNotifications = await dbGetAll("scheduledNotifications");
-  const now = Date.now();
-
-  for (const notification of scheduledNotifications) {
-    if (notification.notified) continue;
-
-    const timeDiff = notification.time - now;
-
-    // Show notification if within 1 minute window
-    if (timeDiff <= 60000 && timeDiff >= -60000) {
-      await showPrayerNotification(notification.prayer, notification.timeStr);
-
-      // Mark as notified
-      notification.notified = true;
-      await dbPut("scheduledNotifications", notification);
-    }
-  }
-}
-
-function buildNotificationOptions({ body, prayer, timeStr, locationName }) {
-  // Unsupported keys are silently ignored on platforms that don't honor them
-  // (iOS Safari ignores actions/vibrate/requireInteraction; that's fine).
-  return {
-    body,
-    icon: "/favicon/android-chrome-192x192.png",
-    badge: "/favicon/favicon-32x32.png",
-    tag: `prayer-${prayer}`,
-    vibrate: [200, 100, 200, 100, 200],
-    renotify: true,
-    requireInteraction: false,
-    data: {
-      prayer,
-      time: timeStr,
-      location: locationName,
-      url: "/",
-    },
-    actions: [
-      { action: "view", title: "View Times" },
-      { action: "dismiss", title: "Dismiss" },
-    ],
-  };
-}
-
-async function showPrayerNotification(prayer, timeStr) {
-  const message = PRAYER_MESSAGES[prayer];
-  if (!message) return;
-
-  const prayerTimes = await getPrayerTimes();
-  const locationName = prayerTimes?.location || "your area";
-
-  const title = message.title.replace("{time}", timeStr || "Now");
-  const body = message.body
-    .replace("{location}", locationName)
-    .replace("{time}", timeStr || "Now");
-
-  const options = buildNotificationOptions({ body, prayer, timeStr, locationName });
-
-  try {
-    await self.registration.showNotification(title, options);
-    console.log(`SW: Showed notification for ${prayer} at ${timeStr} in ${locationName}`);
-
-    const clients = await self.clients.matchAll({ type: "window" });
-    clients.forEach((client) => {
-      client.postMessage({
-        type: "PRAYER_NOTIFICATION_SHOWN",
-        prayer,
-        time: timeStr,
-        location: locationName,
-      });
+  if (navigation) {
+    let shell;
+    try { shell = await caches.match(appUrl('index.html')); } catch (_) { /* Storage is optional. */ }
+    if (shell) return shell;
+    return new Response('Azan is offline. Connect once to save this app.', {
+      status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
-  } catch (error) {
-    console.error("SW: Failed to show notification:", error);
   }
+  return data ? unavailable() : Response.error();
 }
 
-// ==========================================
-// Install Event
-// ==========================================
-
-self.addEventListener("install", (event) => {
-  console.log("Service Worker: Installing v2.1.2...");
-
-  event.waitUntil(
-    Promise.all([
-      // Cache core assets
-      caches
-        .open(CACHE_NAME)
-        .then((cache) => {
-          console.log("Service Worker: Caching core assets");
-          return cache.addAll(
-            CORE_ASSETS.map(
-              (url) =>
-                new Request(url, {
-                  mode: "cors",
-                  credentials: "omit",
-                })
-            )
-          );
-        })
-        .catch((error) => {
-          console.warn("Service Worker: Failed to cache some core assets:", error);
-        }),
-
-      // Cache API endpoints
-      caches.open(API_CACHE).then((cache) => {
-        console.log("Service Worker: Caching API endpoints");
-        return Promise.all(
-          API_ENDPOINTS.map((url) =>
-            fetch(url)
-              .then((response) => {
-                if (response.ok) {
-                  return cache.put(url, response);
-                }
-              })
-              .catch((error) => {
-                console.warn(`Service Worker: Failed to cache ${url}:`, error);
-              })
-          )
-        );
-      }),
-
-      // Initialize database
-      openDatabase().then(() => {
-        console.log("Service Worker: Database initialized");
-      })
-    ])
-  );
-
-  // Force activation
-  self.skipWaiting();
-});
-
-// ==========================================
-// Activate Event
-// ==========================================
-
-self.addEventListener("activate", (event) => {
-  console.log("Service Worker: Activating v2.1.2...");
-
-  event.waitUntil(
-    Promise.all([
-      // Clean up old caches
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (
-              cacheName !== CACHE_NAME &&
-              cacheName !== API_CACHE &&
-              cacheName !== OFFLINE_CACHE
-            ) {
-              console.log("Service Worker: Deleting old cache:", cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      }),
-
-      // Take control of all pages
-      self.clients.claim(),
-
-      // Schedule notifications on activation
-      scheduleNotifications()
-    ])
-  );
-});
-
-// ==========================================
-// Fetch Event
-// ==========================================
-
-self.addEventListener("fetch", (event) => {
+self.addEventListener('fetch', (event) => {
   const { request } = event;
+  if (request.method !== 'GET') return;
   const url = new URL(request.url);
-
-  // Skip non-GET requests
-  if (request.method !== "GET") {
-    return;
-  }
-
-  // Handle different types of requests
-  if (url.pathname.startsWith("/v1/")) {
-    event.respondWith(handleApiRequest(request));
-  } else if (
-    CORE_ASSETS.some(
-      (asset) => url.pathname.includes(asset) || url.href.includes(asset)
-    )
-  ) {
-    event.respondWith(handleCoreAssetRequest(request));
-  } else {
-    event.respondWith(handleNetworkRequest(request));
+  const sameOrigin = url.origin === APP_ROOT.origin;
+  const apiRequest = (sameOrigin || url.origin === 'https://api.azantimes.in')
+    && (url.pathname.startsWith('/v1/') || url.pathname.includes('/dashboard/v1/')
+      || url.pathname.endsWith('/districts.json'));
+  if (apiRequest) {
+    event.respondWith(networkFirst(request, DATA_CACHE, { data: true }));
+  } else if (sameOrigin && url.pathname.startsWith(APP_ROOT.pathname)) {
+    if (request.mode === 'navigate') {
+      event.respondWith(networkFirst(request, SHELL_CACHE, { navigation: true }));
+    } else if (['script', 'style', 'image', 'font', 'manifest'].includes(request.destination)) {
+      event.respondWith(networkFirst(request, SHELL_CACHE));
+    }
   }
 });
 
-// Stale-while-revalidate for the prayer-times API: serve the cached response
-// immediately (if any) and refresh the cache in the background. Falls back to
-// the network when there's no cache, and to the offline response when both fail.
-async function handleApiRequest(request) {
-  const cache = await caches.open(API_CACHE);
-  const cachedResponse = await cache.match(request);
-
-  const networkPromise = fetch(request)
-    .then((networkResponse) => {
-      if (networkResponse && networkResponse.ok) {
-        const responseClone = networkResponse.clone();
-        const headers = new Headers(responseClone.headers);
-        headers.set("sw-cached-at", new Date().toISOString());
-        const stored = new Response(responseClone.body, {
-          status: responseClone.status,
-          statusText: responseClone.statusText,
-          headers,
-        });
-        cache.put(request, stored);
-      }
-      return networkResponse;
-    })
-    .catch((err) => {
-      console.log("SW: API network refresh failed:", err.message);
-      return null;
-    });
-
-  if (cachedResponse) {
-    // Don't await the refresh — let it run in the background.
-    const headers = new Headers(cachedResponse.headers);
-    headers.set("sw-from-cache", "true");
-    return new Response(cachedResponse.body, {
-      status: cachedResponse.status,
-      statusText: cachedResponse.statusText,
-      headers,
-    });
-  }
-
-  const networkResponse = await networkPromise;
-  if (networkResponse && networkResponse.ok) {
-    return networkResponse;
-  }
-  return createOfflineResponse();
-}
-
-async function handleCoreAssetRequest(request) {
-  const cachedResponse = await caches.match(request);
-
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  try {
-    const networkResponse = await fetch(request);
-
-    if (networkResponse.ok) {
-      const cache = await caches.open(CACHE_NAME);
-      cache.put(request, networkResponse.clone());
-      return networkResponse;
+self.addEventListener('message', (event) => {
+  const type = event.data?.type;
+  event.waitUntil((async () => {
+    if (type === 'SKIP_WAITING') await self.skipWaiting();
+    if (type === 'GET_VERSION') event.ports[0]?.postMessage({ version: VERSION });
+    if (type === 'CLEAR_CACHE' || type === 'FORCE_UPDATE') {
+      const names = await caches.keys();
+      await Promise.all(names.filter((name) => OWN_CACHE.test(name)).map((name) => caches.delete(name)));
+      event.ports[0]?.postMessage({ success: true });
     }
-  } catch (error) {
-    console.log("Service Worker: Failed to fetch core asset:", request.url);
-  }
-
-  return createOfflineResponse();
-}
-
-async function handleNetworkRequest(request) {
-  try {
-    const networkResponse = await fetch(request);
-
-    if (networkResponse.ok) {
-      const cache = await caches.open(OFFLINE_CACHE);
-      cache.put(request, networkResponse.clone());
-      return networkResponse;
-    }
-  } catch (error) {
-    console.log("Service Worker: Network request failed, trying cache");
-  }
-
-  const cachedResponse = await caches.match(request);
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  return createOfflineResponse();
-}
-
-function createOfflineResponse() {
-  return new Response(
-    JSON.stringify({
-      error: "Offline",
-      message: "You are currently offline. Please check your internet connection.",
-      cached: true,
-    }),
-    {
-      status: 503,
-      statusText: "Service Unavailable",
-      headers: {
-        "Content-Type": "application/json",
-        "sw-offline": "true",
-      },
-    }
-  );
-}
-
-// ==========================================
-// Background Sync
-// ==========================================
-
-self.addEventListener("sync", (event) => {
-  console.log("Service Worker: Background sync triggered:", event.tag);
-
-  if (event.tag === "check-prayer-notifications") {
-    event.waitUntil(checkAndShowNotifications());
-  } else if (event.tag === "schedule-notifications") {
-    event.waitUntil(scheduleNotifications());
-  }
-});
-
-// ==========================================
-// Periodic Background Sync (for supported browsers)
-// ==========================================
-
-self.addEventListener("periodicsync", (event) => {
-  console.log("Service Worker: Periodic sync triggered:", event.tag);
-
-  if (event.tag === "prayer-notification-check") {
-    event.waitUntil(checkAndShowNotifications());
-  }
-});
-
-// ==========================================
-// Message Handling
-// ==========================================
-
-self.addEventListener("message", async (event) => {
-  const { type, data } = event.data;
-
-  switch (type) {
-    case "SKIP_WAITING":
-      self.skipWaiting();
-      break;
-
-    case "GET_VERSION":
-      event.ports[0].postMessage({ version: CACHE_NAME });
-      break;
-
-    case "CLEAR_CACHE":
-      await clearAllCaches();
-      event.ports[0].postMessage({ success: true });
-      break;
-
-    case "FORCE_UPDATE":
-      await forceUpdate();
-      event.ports[0].postMessage({ success: true });
-      break;
-
-    case "UPDATE_NOTIFICATION_SETTINGS":
-      await dbPut("settings", {
-        id: "notifications",
-        ...data
+    if (type === 'TEST_NOTIFICATION') {
+      await self.registration.showNotification('Azan reminder', {
+        body: 'Reminders work while the Azan page is open. Keep this tab open for prayer alerts.',
+        icon: appUrl('favicon/android-chrome-192x192.png'),
+        tag: 'azan-test',
+        data: { url: APP_ROOT.href },
       });
-      await scheduleNotifications();
-      console.log("SW: Notification settings updated");
-      break;
-
-    case "UPDATE_PRAYER_TIMES":
-      await dbPut("prayerTimes", {
-        id: "today",
-        ...data,
-        updatedAt: Date.now()
-      });
-      await scheduleNotifications();
-      console.log("SW: Prayer times updated");
-      break;
-
-    case "CHECK_NOTIFICATIONS":
-      await checkAndShowNotifications();
-      break;
-
-    case "SCHEDULE_NOTIFICATIONS":
-      await scheduleNotifications();
-      break;
-
-    case "TEST_NOTIFICATION":
-      const prayer = data?.prayer || "fajr";
-      await showPrayerNotification(prayer, "Test Time");
-      break;
-  }
-});
-
-async function clearAllCaches() {
-  const cacheNames = await caches.keys();
-  await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
-  console.log("Service Worker: All caches cleared");
-}
-
-async function forceUpdate() {
-  await clearAllCaches();
-  const clients = await self.clients.matchAll();
-  clients.forEach((client) => client.navigate(client.url));
-}
-
-// ==========================================
-// Push Notification Handling
-// ==========================================
-
-self.addEventListener("push", (event) => {
-  console.log("SW: Push event received");
-
-  let data = {
-    title: "Prayer Times",
-    body: "Prayer time reminder",
-    prayer: "general",
-  };
-
-  if (event.data) {
-    try {
-      data = { ...data, ...event.data.json() };
-    } catch (e) {
-      data.body = event.data.text();
     }
-  }
-
-  const options = buildNotificationOptions({
-    body: data.body,
-    prayer: data.prayer,
-    timeStr: data.time || "",
-    locationName: data.location || "your area",
-  });
-  // Push payload may include a custom URL.
-  options.data.url = data.url || "/";
-
-  event.waitUntil(self.registration.showNotification(data.title, options));
+  })());
 });
 
-// ==========================================
-// Notification Click Handling
-// ==========================================
-
-self.addEventListener("notificationclick", (event) => {
-  console.log("SW: Notification clicked:", event.action);
-
+self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-
-  if (event.action === "dismiss") {
-    return;
-  }
-
-  // Open or focus the app
-  event.waitUntil(
-    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      // Check if app is already open
-      for (const client of clientList) {
-        if (client.url.includes("azantimes.in") && "focus" in client) {
-          return client.focus();
-        }
-      }
-
-      // Open new window
-      if (self.clients.openWindow) {
-        const url = event.notification.data?.url || "/";
-        return self.clients.openWindow(url);
-      }
-    })
-  );
+  event.waitUntil((async () => {
+    const requested = new URL(event.notification.data?.url || APP_ROOT.href, APP_ROOT);
+    const target = requested.origin === APP_ROOT.origin && requested.pathname.startsWith(APP_ROOT.pathname)
+      ? requested.href : APP_ROOT.href;
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const existing = windows.find((client) => client.url.startsWith(APP_ROOT.href));
+    if (existing) {
+      if (existing.navigate && existing.url !== target) await existing.navigate(target);
+      return existing.focus();
+    }
+    return self.clients.openWindow(target);
+  })());
 });
-
-// ==========================================
-// Notification Close Handling
-// ==========================================
-
-self.addEventListener("notificationclose", (event) => {
-  console.log("SW: Notification closed:", event.notification.tag);
-});
-
-// ==========================================
-// Notes on background notifications across platforms
-// ==========================================
-// Web platform reality: service workers go to sleep after ~30s idle, so a
-// setInterval in the SW global scope does not reliably fire timed notifications.
-// We rely on three mechanisms instead, layered:
-//   1. The open page polls (NotificationManager.startNotificationChecker) and
-//      asks the SW to check via the CHECK_NOTIFICATIONS message.
-//   2. periodicsync ("prayer-notification-check") fires every ~1min on
-//      Chrome/Edge Android + desktop when installed as a PWA.
-//   3. Server-sent push messages (push event handler below) — not currently
-//      enabled, but supported when a backend is added.
-// iOS Safari (iOS 16.4+) needs the site installed as a PWA on the home screen
-// for any notifications to work, and only via ServiceWorkerRegistration.showNotification.
-
-console.log("Service Worker v2.1.2: Loaded successfully with Push Notification support");

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="104" viewBox="0 0 400 104" role="img" aria-labelledby="title desc">
+  <title id="title">AzanTimes</title>
+  <desc id="desc">AzanTimes. Prayer times for Kerala.</desc>
+  <g transform="translate(0 6) scale(.18)">
+    <rect width="512" height="512" rx="112" fill="#f7f6f2"/>
+    <path transform="translate(0 -32)" d="M276 66c-14 9-22 24-19 40 4 20 23 31 42 27-10 15-30 22-47 15-22-8-33-33-25-55 7-20 27-31 49-27Z" fill="#a98443"/>
+    <path d="M130 404V284c0-63 73-85 126-139 53 54 126 76 126 139v120" fill="none" stroke="#173b33" stroke-width="27"/>
+    <path d="M174 404V285c0-38 44-60 82-94 38 34 82 56 82 94v119" fill="none" stroke="#173b33" stroke-width="14"/>
+    <path d="m256 267 17 27 27 17-27 17-17 27-17-27-27-17 27-17Z" fill="#a98443"/>
+  </g>
+  <text x="112" y="67" fill="#f7f6f2" font-family="'Iowan Old Style', 'Palatino Linotype', Georgia, serif" font-size="55" letter-spacing="-1.6">AzanTimes</text>
+  <text x="115" y="87" fill="#c5a366" font-family="Arial, sans-serif" font-size="9" letter-spacing="2.25">PRAYER TIMES FOR KERALA</text>
+</svg>

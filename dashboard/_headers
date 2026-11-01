@@ -1,27 +1,19 @@
-# Cloudflare Pages Headers Configuration
-
-# Cache static assets
-/css/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/favicon/*
-  Cache-Control: public, max-age=31536000, immutable
+# Filenames are not fingerprinted; require revalidation after every deployment.
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self)
 
 /v1/*
-  Cache-Control: public, max-age=3600
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
 
-# PWA files - Service Worker should not be cached
 /sw.js
-  Cache-Control: public, max-age=0, must-revalidate
   Service-Worker-Allowed: /
 
-/favicon/site.webmanifest
-  Cache-Control: public, max-age=86400
-
-# Security headers for all pages
-/*
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  X-XSS-Protection: 1; mode=block
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(self), interest-cohort=()
+# The widget is designed for embedding in other websites.
+/widget.html
+  ! X-Frame-Options
+  Content-Security-Policy: frame-ancestors *
