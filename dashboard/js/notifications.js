@@ -1,7 +1,7 @@
 import {
   PRAYERS, addDays, getDateKey, getDay, prayerTimestamp, humanizeLocation,
   getStored as readStored, setStored as writeStored, formatTime,
-} from './prayer-data.js';
+} from './prayer-data.js?v=599ae89ab5cf';
 
 const ENABLED_KEY = 'azan-reminders';
 const PRAYERS_KEY = 'azan-reminder-prayers';
@@ -200,7 +200,7 @@ export class PrayerNotifications {
       const method = await this.deliver('AzanTimes · Test reminder', {
         body: 'Prayer reminders are ready while AzanTimes stays open.',
         tag: 'azantimes-test',
-        icon: new URL('favicon/android-chrome-192x192.png', this.appURL).href,
+        icon: new URL('favicon/android-chrome-192x192.png?v=599ae89ab5cf', this.appURL).href,
         data: { url: this.appURL.href },
       });
       this.lastError = null; this.errorCode = null;
@@ -284,7 +284,7 @@ export class PrayerNotifications {
           try {
             const method = await this.deliver(title, {
               body, tag: `azan-${id}`, renotify: false,
-              icon: new URL('favicon/android-chrome-192x192.png', this.appURL).href,
+              icon: new URL('favicon/android-chrome-192x192.png?v=599ae89ab5cf', this.appURL).href,
               data: { url: `${this.appURL.href}?q=${encodeURIComponent(locationId)}`, prayer: prayer.key, date },
             });
             // Failed delivery must remain eligible for a retry during this minute.

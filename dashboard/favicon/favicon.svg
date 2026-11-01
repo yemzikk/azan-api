@@ -1,7 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-  <title>AzanTimes</title>
-  <rect width="16" height="16" rx="3.5" fill="#173b33"/>
-  <path d="M8.6 1.1a1.35 1.35 0 1 0 .7 2.35A1.1 1.1 0 0 1 8.6 1.1Z" fill="#c5a366"/>
-  <path d="M4 12.75V8.7c0-1.9 2.4-2.7 4-4.2 1.6 1.5 4 2.3 4 4.2v4.05" fill="none" stroke="#f7f6f2" stroke-width="1.5"/>
-  <path d="m8 8.55 1.2 1.2L8 10.95l-1.2-1.2Z" fill="#c5a366"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AzanTimes</title>
+  <desc id="desc">An ivory pointed arch, a gold crescent and a guiding diamond on deep green.</desc>
+  <rect width="512" height="512" rx="112" fill="#173b33"/>
+  <path transform="translate(0 -32)" d="M276 66c-14 9-22 24-19 40 4 20 23 31 42 27-10 15-30 22-47 15-22-8-33-33-25-55 7-20 27-31 49-27Z" fill="#c5a366"/>
+  <path d="M130 404V284c0-63 73-85 126-139 53 54 126 76 126 139v120" fill="none" stroke="#f7f6f2" stroke-width="27"/>
+  <path d="M174 404V285c0-38 44-60 82-94 38 34 82 56 82 94v119" fill="none" stroke="#f7f6f2" stroke-width="14"/>
+  <path d="m256 267 17 27 27 17-27 17-17 27-17-27-27-17 27-17Z" fill="#c5a366"/>
 </svg>
