@@ -18,3 +18,7 @@
 /dashboard/widget.html
   ! X-Frame-Options
   Content-Security-Policy: frame-ancestors *
+
+# Calculation review page: shared by direct link only, never indexed.
+/dashboard/calculation/*
+  X-Robots-Tag: noindex, nofollow

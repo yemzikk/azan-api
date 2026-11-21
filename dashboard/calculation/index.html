@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>How AzanTimes prayer times are calculated — review page</title>
+  <meta name="description" content="Every step of the prayer-time calculation for any AzanTimes timetable, compared day by day with the published times. For review by scholars and developers.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f8f9f5">
+  <meta name="application-name" content="AzanTimes">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="AzanTimes">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="How AzanTimes prayer times are calculated">
+  <meta property="og:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
+  <meta property="og:url" content="https://azantimes.in/calculation/">
+  <meta property="og:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=415cd1c796fa">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AzanTimes: how prayer times are calculated. A sun-path diagram marking Subh, sunrise, Dhuhr, Asr, Maghrib and Isha.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How AzanTimes prayer times are calculated">
+  <meta name="twitter:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
+  <meta name="twitter:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=415cd1c796fa">
+  <meta name="twitter:image:alt" content="AzanTimes: how prayer times are calculated. A sun-path diagram marking Subh, sunrise, Dhuhr, Asr, Maghrib and Isha.">
+  <link rel="icon" href="../favicon/favicon.ico?v=415cd1c796fa" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="../favicon/favicon.svg?v=415cd1c796fa" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png?v=415cd1c796fa" sizes="180x180">
+  <link rel="stylesheet" href="./calculation.css?v=415cd1c796fa">
+  <script>try{var t=JSON.parse(localStorage.getItem('azan-theme'));document.documentElement.dataset.theme=t==='dark'||(t==null&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}catch(e){}</script>
+  <script type="module" src="./calculation.js?v=415cd1c796fa"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the calculation</a>
+<header class="masthead">
+  <a class="brand" href="../" aria-label="AzanTimes home">
+    <img class="logo logo-light" src="../brand/azantimes-logo.svg?v=415cd1c796fa" alt="AzanTimes" width="170" height="44">
+    <img class="logo logo-dark" src="../brand/azantimes-logo-light.svg?v=415cd1c796fa" alt="" width="170" height="44" aria-hidden="true">
+  </a>
+  <span class="review-tag">Review page · not linked from the app</span>
+</header>
+
+<main id="main" tabindex="-1">
+<section class="intro">
+  <h1>How these prayer times are calculated</h1>
+  <p class="lede">This page recomputes each AzanTimes timetable from the position of the sun and shows every step, beside the times AzanTimes publishes. It is for scholars and developers who want to check the method and the data.</p>
+  <ul class="facts">
+    <li><strong>The published timetables are unchanged.</strong> Nothing on this page alters what the app shows.</li>
+    <li><strong>The calculation runs in your browser.</strong> Choose a timetable and a date; every number below updates.</li>
+    <li><strong>Corrections are welcome.</strong> The questions we most want checked are listed <a href="#questions">near the end</a>.</li>
+  </ul>
+</section>
+
+<section class="controls" aria-label="Choose a timetable and date">
+  <label class="field field-wide"><span>Timetable</span><select id="location"></select></label>
+  <label class="field"><span>Date</span><input type="date" id="date"></label>
+  <fieldset class="field mode"><legend>Calculate</legend>
+    <label><input type="radio" name="mode" value="table" checked> <span>The table value <small>same every year</small></span></label>
+    <label><input type="radio" name="mode" value="date"> <span>This exact date <small>that year only</small></span></label>
+  </fieldset>
+  <button class="button" id="copy-link" type="button">Copy link to this view</button>
+</section>
+<div id="status" class="notice" role="status" hidden></div>
+
+<nav class="toc" aria-label="On this page">
+  <a href="#verdict">Result</a><a href="#reference">Place and rule</a><a href="#working">Working</a><a href="#sunpath">Sun path</a><a href="#days">Day by day</a><a href="#methods">Other methods</a><a href="#rule">The rule explained</a><a href="#all">All timetables</a><a href="#questions">Open questions</a>
+</nav>
+
+<section id="verdict" aria-labelledby="verdict-title">
+  <h2 id="verdict-title">1. Published and calculated, side by side</h2>
+  <p class="section-note" id="verdict-note"></p>
+  <div id="verdict-cards" class="cards"></div>
+  <div id="verdict-year" class="panel"></div>
+</section>
+
+<section id="reference" aria-labelledby="reference-title">
+  <h2 id="reference-title">2. The place and the rule</h2>
+  <div class="two-col">
+    <div class="panel" id="reference-place"></div>
+    <div class="panel" id="reference-method"></div>
+  </div>
+</section>
+
+<section id="working" aria-labelledby="working-title">
+  <h2 id="working-title">3. The working, step by step</h2>
+  <p class="section-note">Angles are in degrees. Clock times are India Standard Time, shown to the second before rounding.</p>
+  <div id="working-steps"></div>
+</section>
+
+<section id="sunpath" aria-labelledby="sunpath-title">
+  <h2 id="sunpath-title">4. The sun's path on this date</h2>
+  <p class="section-note">The curve is the sun's height above the horizon through the day at this place. Each prayer begins where the curve crosses its line.</p>
+  <div class="panel chart-panel"><div id="sunpath-chart"></div><p id="sunpath-caption" class="caption"></p></div>
+</section>
+
+<section id="days" aria-labelledby="days-title">
+  <h2 id="days-title">5. Every day of the year</h2>
+  <p class="section-note">Where the two agree, one time is shown. A highlighted cell is a time where they differ: published first, calculated second, then calculated minus published in minutes.</p>
+  <div class="table-tools">
+    <label class="field"><span>Month</span><select id="month"></select></label>
+    <label class="check"><input type="checkbox" id="only-diff"> <span>Only days that differ</span></label>
+    <button class="button" id="download" type="button">Download this comparison (CSV)</button>
+  </div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Day by day comparison"><table id="days-table" class="grid"></table></div>
+  <div id="suspects"></div>
+</section>
+
+<section id="methods" aria-labelledby="methods-title">
+  <h2 id="methods-title">6. The same day under other methods</h2>
+  <p class="section-note">For comparison only. Each row uses the same place and date with a different rule, so you can see what each choice changes.</p>
+  <div class="table-tools"><label class="field"><span>Height above the visible horizon, metres</span><input type="number" id="elevation" min="0" max="4000" step="10" value="0" inputmode="numeric"></label></div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Method comparison"><table id="methods-table" class="grid"></table></div>
+  <p class="caption" id="methods-caption"></p>
+</section>
+
+<section id="rule" aria-labelledby="rule-title">
+  <h2 id="rule-title">7. The rule explained</h2>
+  <div class="prose">
+    <h3>What defines each prayer</h3>
+    <div class="table-wrap"><table class="grid plain">
+      <thead><tr><th scope="col">Prayer</th><th scope="col">Begins when</th><th scope="col">In the calculation</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Subh</th><td>True dawn (<i>fajr sadiq</i>): light spreads along the eastern horizon.</td><td>The sun is a set number of degrees below the horizon before sunrise. Methods differ on the number: 18° to 20°.</td></tr>
+        <tr><th scope="row">Sunrise</th><td>The first edge of the sun appears. Subh ends.</td><td>The sun's centre is 0.833° below the horizon: 0.567° because air bends the light, 0.267° for the sun's radius.</td></tr>
+        <tr><th scope="row">Dhuhr</th><td>The sun has passed its highest point (<i>zawal</i>).</td><td>Solar noon, plus a few minutes so the sun has clearly begun to decline.</td></tr>
+        <tr><th scope="row">Asr</th><td>An object's shadow equals its own length plus the shadow it had at noon. In the Hanafi school, twice its length plus the noon shadow.</td><td>The sun's height at which that shadow length occurs.</td></tr>
+        <tr><th scope="row">Maghrib</th><td>The sun's disc has completely set.</td><td>The sun's centre is 0.833° below the horizon, plus a few minutes.</td></tr>
+        <tr><th scope="row">Isha</th><td>Twilight has gone: the red glow in the Shafi'i school, the white glow in Abu Hanifa's view.</td><td>The sun is a set number of degrees below the horizon after sunset: 15° to 18°. Some timetables use a fixed interval after Maghrib.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>The rule the Assembly Constituency timetables follow</h3>
+    <p>Sixty-five of the timetables were produced by one consistent rule. It was recovered by fitting, then checked against all 142,740 of their published times: 99.39% agree to the minute and none differs by more than one minute.</p>
+    <div class="table-wrap"><table class="grid plain">
+      <thead><tr><th scope="col">Prayer</th><th scope="col">Astronomical instant</th><th scope="col">Minutes added</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Subh</th><td>Sun 19° below the horizon</td><td>−4</td></tr>
+        <tr><th scope="row">Sunrise</th><td>Sun at −0.833°</td><td>0</td></tr>
+        <tr><th scope="row">Dhuhr</th><td>Solar noon</td><td>+3</td></tr>
+        <tr><th scope="row">Asr</th><td>Shafi'i shadow length</td><td>+2</td></tr>
+        <tr><th scope="row">Maghrib</th><td>Sun at −0.833°</td><td>+3</td></tr>
+        <tr><th scope="row">Isha</th><td>Sun 17° below the horizon</td><td>+6</td></tr>
+      </tbody>
+    </table></div>
+    <p>Three further steps complete it:</p>
+    <ol>
+      <li>The sun's position is taken once per day, at 12:00 IST, and used for all six times.</li>
+      <li>Each time is the latest value it reaches on that calendar date in any year from 2021 to 2099, so the time has entered whichever year the table is used in.</li>
+      <li>11 seconds are added and the result is rounded to the nearest minute.</li>
+    </ol>
+
+    <h3>Why Subh is "19° less 4 minutes" and not 20°</h3>
+    <p>The method published for Samastha's timetables gives Subh at 20° and Isha at 18°. It also counts the gap between the true and visible horizons, together with the sun's radius, as one degree, "that is, 4 minutes". The timetables match that reading exactly: the last degree is a flat 4 minutes, not the 4.1 to 4.7 minutes the sun really takes at Kerala's latitude.</p>
+    <p>So Subh is the instant at 19° less 4 minutes, and Isha is the instant at 17° plus 4 minutes, with 2 more minutes of caution. At Kozhikode this is later than a true 20° by 5 seconds at the equinoxes and 43 seconds in June. Section 6 shows the true 20° beside it for any date.</p>
+
+    <h3>What is sourced and what is inferred</h3>
+    <ul>
+      <li><strong>Sourced:</strong> Subh 20°, Isha 18° on the red-glow criterion, Maghrib at the full disappearance of the disc, one degree counted as 4 minutes (Dr. Musthafa Darimi Nizami Karippur, Suprabhaatham, 18 May 2018).</li>
+      <li><strong>Inferred from the data, with no published source found:</strong> the margins on Dhuhr (+3), Asr (+2) and Maghrib (+3); the extra 2 minutes on Isha; the 11 seconds; the span of years; taking the sun's position at noon.</li>
+      <li><strong>Not applied in the timetables:</strong> height above sea level. Kalpetta's timetable follows the same sunrise and Maghrib rule as the coast.</li>
+    </ul>
+
+    <h3>What moves a prayer time</h3>
+    <ul>
+      <li><strong>Longitude:</strong> 4 minutes per degree, 2.2 seconds per kilometre east or west, the same for every prayer and every day.</li>
+      <li><strong>Latitude:</strong> depends on the season. A degree north (111 km) moves Subh and sunrise about 2 minutes one way in June and the other way in December, and hardly at all in March and September. Dhuhr does not change with latitude.</li>
+      <li><strong>Twilight angle:</strong> each degree is 4.1 to 4.7 minutes. A timetable at 20° shows Subh 8 to 9 minutes before one at 18°.</li>
+      <li><strong>Height:</strong> a viewpoint 100 m above its horizon sees sunrise about 1.5 minutes earlier and sunset 1.5 minutes later; at 780 m, about 4 minutes. Only height above the horizon you can see counts, not height above sea level.</li>
+      <li><strong>The year:</strong> the same calendar date differs by up to half a minute from year to year, because the calendar and the sun fall out of step until a leap day corrects them.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="all" aria-labelledby="all-title">
+  <h2 id="all-title">8. How well each timetable is reproduced</h2>
+  <p class="section-note">All 116 source calendars, each compared over 366 days and six times a day. Choose a row to load it above.</p>
+  <div id="all-summary" class="cards small"></div>
+  <div class="table-wrap tall" tabindex="0" role="region" aria-label="All timetables"><table id="all-table" class="grid"></table></div>
+  <p class="caption">Timetables marked "fitted profile" follow no single named rule. Their angles and margins were fitted to describe them and are not a statement of how they were made; the angle and the margin can trade against each other. Many of these are printed calendars that hold one value for several days, so a daily calculation cannot match every cell.</p>
+</section>
+
+<section id="questions" aria-labelledby="questions-title">
+  <h2 id="questions-title">9. Questions for reviewers</h2>
+  <div class="prose">
+    <ol>
+      <li>Are Dhuhr +3, Asr +2 and Maghrib +3 minutes the intended precautionary margins, and is Isha meant to carry 2 minutes beyond 18°?</li>
+      <li>Is treating the last degree as a flat 4 minutes intended for Subh and Isha, or should a true 20° and 18° be used?</li>
+      <li>Should a perpetual table take the latest time across the years, as these do, or should each year be calculated on its own?</li>
+      <li>Should height be applied in Wayanad, Idukki and similar places? The source timetables do not apply it.</li>
+      <li>Is one point per constituency acceptable, given that the east and west edges of a 30 km wide constituency differ by about one minute?</li>
+      <li>Do any of the entries flagged as possible misprints in section 5 match the printed originals?</li>
+    </ol>
+  </div>
+</section>
+
+<section id="sources" aria-labelledby="sources-title">
+  <h2 id="sources-title">Sources</h2>
+  <div class="prose">
+    <ul class="sources">
+      <li>Jean Meeus, <i>Astronomical Algorithms</i>, chapters 25 and 28: the sun's position and the equation of time.</li>
+      <li><a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html" rel="noopener noreferrer">NOAA Solar Calculator, calculation details</a>: the same series and the 0.833° sunrise convention.</li>
+      <li><a href="https://musthafadarimikaripur.blogspot.com/2018/05/blog-post_18.html" rel="noopener noreferrer">Dr. Musthafa Darimi Nizami Karippur, Suprabhaatham, 18 May 2018</a>: the published Kerala Sunni criteria.</li>
+      <li><a href="http://praytimes.org/calculation" rel="noopener noreferrer">PrayTimes calculation notes</a> and <a href="https://api.aladhan.com/v1/methods" rel="noopener noreferrer">the Aladhan method list</a>: other methods' angles.</li>
+      <li>Published times: the AzanTimes timetable for the chosen place, as served by the <a href="https://api.azantimes.in/" rel="noopener noreferrer">public API</a>.</li>
+    </ul>
+    <p>The calculation code is one file with no dependencies: <a href="./prayer-calc.js?v=415cd1c796fa">prayer-calc.js</a>. The reference point, rule and measured agreement for every timetable are in <a href="./locations.json">locations.json</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer class="page-footer">
+  <span>AzanTimes · Prayer times for Kerala</span>
+  <a href="https://zikklabs.com" target="_blank" rel="noopener noreferrer"><img class="badge badge-light" src="../brand/zikklabs-product-badge.svg?v=415cd1c796fa" alt="A product of ZikkLabs" width="188" height="28" loading="lazy"><img class="badge badge-dark" src="../brand/zikklabs-product-badge-light.svg?v=415cd1c796fa" alt="" width="188" height="28" loading="lazy" aria-hidden="true"></a>
+</footer>
+</body>
+</html>
