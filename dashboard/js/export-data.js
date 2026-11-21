@@ -1,4 +1,4 @@
-import { PRAYERS, formatDate, formatTime, getDay, getMonthRows, normalizeDate } from './prayer-data.js?v=415cd1c796fa';
+import { PRAYERS, formatDate, formatTime, getDay, getMonthRows, normalizeDate } from './prayer-data.js?v=93e0cace96d2';
 
 /** Capture an explicit export range independently of the screen's active tab. */
 export function createExportSelection({ schedule, location, date, period = 'day', use24Hour = false }) {

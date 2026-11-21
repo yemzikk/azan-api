@@ -3,12 +3,13 @@
 import {
   IST_OFFSET_MINUTES, PRAYERS, asrAltitude, astronomicalTimes, formatMinutes, horizonDip, hourAngleMinutes,
   julianDay, perpetualBreakdown, perpetualYears, prayerTimes, resolveMethod, sunPosition,
-} from './prayer-calc.js?v=415cd1c796fa';
+} from './prayer-calc.js?v=93e0cace96d2';
 
 const LABEL = { subh: 'Subh', sunrise: 'Sunrise', duhr: 'Dhuhr', asar: 'Asr', maghrib: 'Maghrib', isha: 'Isha' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const QUALITY = { exact: 'Reproduced', close: 'Close', approximate: 'Approximate', irregular: 'Not reproducible' };
+const QUALITY = { exact: 'Fits', close: 'Within a minute', approximate: 'Within two minutes', irregular: 'Does not fit' };
 const DEFAULT_LOCATION = 'Kozhikode_North_Assembly_Constituency';
+const CONTACT = 'calculation@azantimes.in';
 const MINUS = '−';
 
 const $ = (id) => document.getElementById(id);
@@ -63,12 +64,13 @@ function parseDate(value) {
 // ---------------------------------------------------------------------------------------
 // Calculation
 // ---------------------------------------------------------------------------------------
-const methodName = (location) => (typeof location.method === 'string' ? location.method : 'fitted');
+// A calendar "follows" a rule when the rule reproduces it; its reference point was then
+// recovered from it. Every other calendar is only checked at its town's map position.
+const follows = (location) => location.coordinates === 'fitted';
 function ruleLabel(location) {
-  if (location.method === 'kerala-sunni') return 'Kerala Sunni rule';
   if (location.method === 'kerala-sunni-hanafi') return 'Kerala Sunni rule, Hanafi Asr';
   if (location.method === 'karachi') return 'Karachi 18°/18°';
-  return 'Fitted profile';
+  return 'Kerala Sunni rule';
 }
 function calculate(location, date, mode, extra = {}) {
   return prayerTimes({ ...date, latitude: location.latitude, longitude: location.longitude, method: location.method, perpetual: mode === 'table', ...extra });
@@ -117,13 +119,14 @@ function compareYear(location, mode) {
     for (const prayer of PRAYERS) diff[prayer] = Number.isFinite(row[prayer]) && Number.isFinite(calculated[prayer]) ? calculated[prayer] - row[prayer] : null;
     return { date: row.date, published: row, calculated, diff };
   });
-  const stats = Object.fromEntries(PRAYERS.map((prayer) => [prayer, { cells: 0, same: 0, one: 0, more: 0, max: 0 }]));
+  const stats = Object.fromEntries(PRAYERS.map((prayer) => [prayer, { cells: 0, same: 0, one: 0, more: 0, max: 0, sum: 0 }]));
   for (const row of rows) {
     for (const prayer of PRAYERS) {
       const value = row.diff[prayer];
       if (value === null) continue;
       const entry = stats[prayer];
       entry.cells += 1;
+      entry.sum += value;
       if (value === 0) entry.same += 1;
       else if (Math.abs(value) === 1) entry.one += 1;
       else entry.more += 1;
@@ -175,23 +178,22 @@ function renderVerdict(location, date, comparison) {
       <div><dt>More than one minute</dt><dd>${total.more.toLocaleString('en-IN')}</dd></div>
       <div><dt>Largest difference</dt><dd>${total.max} min</dd></div>
     </dl>
-    <div class="table-wrap"><table class="grid"><thead><tr><th scope="col">Prayer</th><th scope="col" class="num">Days compared</th><th scope="col" class="num">Same minute</th><th scope="col" class="num">One minute apart</th><th scope="col" class="num">More</th><th scope="col" class="num">Largest</th></tr></thead><tbody>
-    ${PRAYERS.map((prayer) => `<tr><th scope="row">${LABEL[prayer]}</th><td class="num">${stats[prayer].cells}</td><td class="num">${stats[prayer].same} (${percent(stats[prayer].same, stats[prayer].cells)})</td><td class="num">${stats[prayer].one}</td><td class="num">${stats[prayer].more}</td><td class="num">${stats[prayer].max} min</td></tr>`).join('')}
+    <div class="table-wrap"><table class="grid"><thead><tr><th scope="col">Prayer</th><th scope="col" class="num">Days compared</th><th scope="col" class="num">Same minute</th><th scope="col" class="num">One minute apart</th><th scope="col" class="num">More</th><th scope="col" class="num">Largest</th><th scope="col" class="num">Average difference</th></tr></thead><tbody>
+    ${PRAYERS.map((prayer) => `<tr><th scope="row">${LABEL[prayer]}</th><td class="num">${stats[prayer].cells}</td><td class="num">${stats[prayer].same} (${percent(stats[prayer].same, stats[prayer].cells)})</td><td class="num">${stats[prayer].one}</td><td class="num">${stats[prayer].more}</td><td class="num">${stats[prayer].max} min</td><td class="num">${stats[prayer].cells ? `${signed(stats[prayer].sum / stats[prayer].cells, 1)} min` : '—'}</td></tr>`).join('')}
     </tbody></table></div>
-    <p class="caption">${days} days, six times a day. ${state.mode === 'table' ? 'Each day is compared with the table value.' : `Each day is compared with the calculation for that exact date in ${published.year}.`} The day-by-day list is in section 5.</p>`;
+    <p class="caption">${days} days, six times a day. ${state.mode === 'table' ? 'Each day is compared with the table value.' : `Each day is compared with the calculation for that exact date in ${published.year}.`} Average difference is calculated minus published. The day-by-day list is in section 5.</p>`;
 }
 
 function renderReference(location) {
   const method = resolveMethod(location.method);
-  const fitted = location.coordinates === 'fitted';
+  const fitted = follows(location);
   const noonOffset = (82.5 - location.longitude) * 4;
   const map = `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=12/${location.latitude}/${location.longitude}`;
   $('reference-place').innerHTML = `<h3 style="margin-top:0">Reference point</h3><dl class="kv">
     <dt>Timetable</dt><dd>${escapeHtml(humanize(state.id))}</dd>
     <dt>Latitude</dt><dd>${number(location.latitude, 3)}° N</dd>
     <dt>Longitude</dt><dd>${number(location.longitude, 3)}° E · <a href="${map}" target="_blank" rel="noopener noreferrer">see on a map</a></dd>
-    <dt>How it was found</dt><dd>${fitted ? 'Recovered from the timetable itself: the point at which the rule reproduces the most published times.' : `Town coordinates for ${escapeHtml(location.place)}; latitude adjusted to fit the timetable's seasonal swing.`}</dd>
-    <dt>Distance from ${escapeHtml(location.place)}</dt><dd>${location.distanceFromPlaceKm} km from the town's map position</dd>
+    <dt>Where it comes from</dt><dd>${fitted ? `Recovered from the timetable itself: the point at which the rule reproduces the most published times. It lies ${location.distanceFromPlaceKm} km from the map position of ${escapeHtml(location.place)}.` : `The map position of ${escapeHtml(location.place)}. Nothing was adjusted to fit this calendar.`}</dd>
     <dt>West of the IST meridian</dt><dd>${number(82.5 - location.longitude, 3)}°, so the sun is ${number(noonOffset, 1)} min later than at 82.5° E</dd>
     <dt>Agreement over 366 days</dt><dd><span class="pill ${location.quality}">${QUALITY[location.quality]}</span> ${location.fit.exactPercent}% same minute, ${location.fit.within1Percent}% within one minute, largest ${location.fit.maxError} min</dd>
   </dl>`;
@@ -211,10 +213,10 @@ function renderReference(location) {
     ['Table value', method.envelope === 'mean' ? `Average of ${perpetualYears(1, 1, 'mean').join(', ')}` : 'Latest instant in any year, 2021 to 2099', 'How one row serves every year.'],
   ];
   if (method.fixed) rows.push(['Fixed clock time', Object.entries(method.fixed).map(([prayer, value]) => `${LABEL[prayer]} ${clock(value)}`).join(' · '), 'This timetable prints the same time all year.']);
-  $('reference-method').innerHTML = `<h3 style="margin-top:0">Rule: ${escapeHtml(ruleLabel(location))}</h3>
+  $('reference-method').innerHTML = `<h3 style="margin-top:0">${fitted ? 'Rule' : 'Rule checked'}: ${escapeHtml(ruleLabel(location))}</h3>
     <div class="table-wrap"><table class="grid plain"><thead><tr><th scope="col">Setting</th><th scope="col">Value</th><th scope="col">Meaning</th></tr></thead><tbody>
     ${rows.map(([name, value, meaning]) => `<tr><th scope="row">${name}</th><td>${escapeHtml(value)}</td><td>${escapeHtml(meaning)}</td></tr>`).join('')}</tbody></table></div>
-    ${methodName(location) === 'fitted' ? '<p class="caption">This timetable follows no single named rule. These values were fitted to describe it; they are not a statement of how it was made. The angle and the minutes added can trade against each other.</p>' : ''}`;
+    ${fitted ? '' : `<p class="caption">This calendar is only checked against the rule; it was not used to derive it. ${location.quality === 'exact' ? 'The rule fits it as it stands.' : 'Where it does not fit, the calendar was made by a different rule, and the average differences in section 1 show by how much.'}</p>`}`;
 }
 
 function prayerFormula(prayer, row, location) {
@@ -368,17 +370,27 @@ function renderDays(comparison, date) {
     </tbody>`;
   monthSelect.value = selected;
 
-  const suspects = [];
+  // A misprint stands out from its own column: its difference from the calculation is far
+  // from that column's usual difference, whatever rule the calendar was made by.
+  const usual = {};
+  for (const prayer of PRAYERS) {
+    const values = comparison.rows.map((row) => row.diff[prayer]).filter((value) => value !== null).sort((a, b) => a - b);
+    usual[prayer] = values.length ? values[values.length >> 1] : 0;
+  }
+  const flagged = [];
   comparison.rows.forEach((row, index) => {
     for (const prayer of PRAYERS) {
-      if (row.diff[prayer] !== null && Math.abs(row.diff[prayer]) >= 5) suspects.push({ row, prayer, before: comparison.rows[index - 1]?.published[prayer], after: comparison.rows[index + 1]?.published[prayer] });
+      if (row.diff[prayer] !== null && Math.abs(row.diff[prayer] - usual[prayer]) >= 5) flagged.push({ row, prayer, before: comparison.rows[index - 1]?.published[prayer], after: comparison.rows[index + 1]?.published[prayer] });
     }
   });
-  const location = locations[state.id];
-  $('suspects').innerHTML = suspects.length && location.quality !== 'irregular'
-    ? `<div class="panel" style="margin-top:16px"><h3 style="margin-top:0">Possible misprints in the published data</h3><p class="section-note">These published times are 5 minutes or more from the calculation. Where the days on either side agree with each other but not with the entry, a typing error is likely. They need checking against the printed original.</p>
-      <div class="table-wrap"><table class="grid"><thead><tr><th scope="col">Date</th><th scope="col">Prayer</th><th scope="col" class="num">Published</th><th scope="col" class="num">Calculated</th><th scope="col" class="num">Day before</th><th scope="col" class="num">Day after</th></tr></thead><tbody>
-      ${suspects.slice(0, 60).map(({ row, prayer, before, after }) => `<tr><th scope="row">${row.date.day} ${MONTHS[row.date.month - 1].slice(0, 3)}</th><td>${LABEL[prayer]}</td><td class="num far">${clock(row.published[prayer])}</td><td class="num">${clock(row.calculated[prayer])}</td><td class="num">${clock(before)}</td><td class="num">${clock(after)}</td></tr>`).join('')}
+  // A column that is out of line on many days is not misprinted; it follows another rule
+  // (a fixed Dhuhr, say), so it is left out.
+  const perPrayer = Object.fromEntries(PRAYERS.map((prayer) => [prayer, flagged.filter((entry) => entry.prayer === prayer).length]));
+  const suspects = flagged.filter((entry) => perPrayer[entry.prayer] <= 40);
+  $('suspects').innerHTML = suspects.length
+    ? `<div class="panel" style="margin-top:16px"><h3 style="margin-top:0">Possible misprints in the published data</h3><p class="section-note">Each of these is 5 minutes or more out of line with the rest of its own column. Where the days on either side agree with each other but not with the entry, a typing error is likely. They need checking against the printed original.</p>
+      <div class="table-wrap"><table class="grid"><thead><tr><th scope="col">Date</th><th scope="col">Prayer</th><th scope="col" class="num">Published</th><th scope="col" class="num">Expected about</th><th scope="col" class="num">Day before</th><th scope="col" class="num">Day after</th></tr></thead><tbody>
+      ${suspects.slice(0, 60).map(({ row, prayer, before, after }) => `<tr><th scope="row">${row.date.day} ${MONTHS[row.date.month - 1].slice(0, 3)}</th><td>${LABEL[prayer]}</td><td class="num far">${clock(row.published[prayer])}</td><td class="num">${clock(row.calculated[prayer] - usual[prayer])}</td><td class="num">${clock(before)}</td><td class="num">${clock(after)}</td></tr>`).join('')}
       </tbody></table></div>${suspects.length > 60 ? `<p class="caption">${suspects.length - 60} more not shown; download the comparison for the full list.</p>` : ''}</div>`
     : '';
 }
@@ -420,14 +432,14 @@ function renderAll() {
     exact: 'At least 85% of times identical and 99% within one minute.',
     close: 'At least 97% of times within one minute.',
     approximate: 'At least 97% of times within two minutes.',
-    irregular: 'Hand-compiled, rounded to five minutes, or holding fixed times.',
+    irregular: 'Made by a different rule, or not by calculation.',
   };
   $('all-summary').innerHTML = ['exact', 'close', 'approximate', 'irregular'].filter((key) => groups[key]).map((key) => `<article class="card"><h3>${QUALITY[key]}</h3><dl><div><dt>Timetables</dt><dd>${groups[key].count}</dd></div></dl><p>${percent(groups[key].exact, groups[key].cells)} same minute, ${percent(groups[key].within1, groups[key].cells)} within one. ${blurb[key]}</p></article>`).join('');
-  const order = { 'kerala-sunni': 0, 'kerala-sunni-hanafi': 0, karachi: 1, fitted: 2 };
-  const ids = Object.keys(locations).sort((a, b) => order[methodName(locations[a])] - order[methodName(locations[b])]
+  const rank = (location) => (follows(location) ? (location.method === 'karachi' ? 1 : 0) : 2);
+  const ids = Object.keys(locations).sort((a, b) => rank(locations[a]) - rank(locations[b])
     || locations[b].fit.exactPercent - locations[a].fit.exactPercent || a.localeCompare(b));
-  $('all-table').innerHTML = `<thead><tr><th scope="col">Timetable</th><th scope="col">Rule</th><th scope="col" class="num">Latitude</th><th scope="col" class="num">Longitude</th><th scope="col" class="num">From town</th><th scope="col" class="num">Same minute</th><th scope="col" class="num">Within 1 min</th><th scope="col" class="num">Largest</th><th scope="col">Result</th></tr></thead><tbody>
-    ${ids.map((id) => { const location = locations[id]; return `<tr class="pick ${id === state.id ? 'current' : ''}" data-id="${escapeHtml(id)}" tabindex="0"><th scope="row">${escapeHtml(humanize(id))}</th><td>${ruleLabel(location)}</td><td class="num">${number(location.latitude, 3)}</td><td class="num">${number(location.longitude, 3)}</td><td class="num">${location.distanceFromPlaceKm} km</td><td class="num">${location.fit.exactPercent}%</td><td class="num">${location.fit.within1Percent}%</td><td class="num">${location.fit.maxError} min</td><td><span class="pill ${location.quality}">${QUALITY[location.quality]}</span></td></tr>`; }).join('')}
+  $('all-table').innerHTML = `<thead><tr><th scope="col">Timetable</th><th scope="col">Rule</th><th scope="col">Point used</th><th scope="col" class="num">Latitude</th><th scope="col" class="num">Longitude</th><th scope="col" class="num">Same minute</th><th scope="col" class="num">Within 1 min</th><th scope="col" class="num">Largest</th><th scope="col">Result</th></tr></thead><tbody>
+    ${ids.map((id) => { const location = locations[id]; return `<tr class="pick ${id === state.id ? 'current' : ''}" data-id="${escapeHtml(id)}" tabindex="0"><th scope="row">${escapeHtml(humanize(id))}</th><td>${ruleLabel(location)}</td><td>${follows(location) ? `Recovered, ${location.distanceFromPlaceKm} km from town` : 'Town, not fitted'}</td><td class="num">${number(location.latitude, 3)}</td><td class="num">${number(location.longitude, 3)}</td><td class="num">${location.fit.exactPercent}%</td><td class="num">${location.fit.within1Percent}%</td><td class="num">${location.fit.maxError} min</td><td><span class="pill ${location.quality}">${QUALITY[location.quality]}</span></td></tr>`; }).join('')}
     </tbody>`;
 }
 
@@ -475,10 +487,28 @@ async function loadPublished(id) {
   }
 }
 
+/** Point every contact link at an email that already names the view being discussed. */
+function updateContactLinks() {
+  const date = parseDate(state.date);
+  if (!state.id || !date) return;
+  const subject = `Prayer time calculation: ${humanize(state.id)}`;
+  const body = [
+    `Timetable: ${humanize(state.id)}`,
+    `Date: ${dateLabel(date)}`,
+    `Calculated as: ${state.mode === 'table' ? 'the table value (same every year)' : 'this exact date'}`,
+    `Link: ${window.location.href}`,
+    '',
+    '',
+  ].join('\n');
+  const href = `mailto:${CONTACT}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  for (const link of document.querySelectorAll('a[data-contact]')) link.href = href;
+}
+
 function syncUrl() {
   const params = new URLSearchParams({ location: state.id, date: state.date });
   if (state.mode !== 'table') params.set('mode', state.mode);
   history.replaceState(null, '', `${window.location.pathname}?${params}`);
+  updateContactLinks();
 }
 
 async function selectLocation(id, { scroll = false } = {}) {
@@ -492,13 +522,13 @@ async function selectLocation(id, { scroll = false } = {}) {
 
 function fillLocationSelect() {
   const groups = [
-    ['Assembly constituency timetables · Kerala Sunni rule', (location) => String(location.method).startsWith('kerala-sunni')],
-    ['Website timetables · Karachi 18°/18°', (location) => location.method === 'karachi'],
-    ['Other calendars · fitted profile', (location) => typeof location.method !== 'string'],
+    ['Follow the Kerala Sunni rule', (location) => follows(location) && location.method !== 'karachi'],
+    ['Follow Karachi 18°/18°', (location) => follows(location) && location.method === 'karachi'],
+    ['Other calendars · checked against the rule, nothing fitted', (location) => !follows(location)],
   ];
   $('location').innerHTML = groups.map(([label, test]) => {
     const ids = Object.keys(locations).filter((id) => test(locations[id])).sort((a, b) => humanize(a).localeCompare(humanize(b)));
-    return ids.length ? `<optgroup label="${label}">${ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(humanize(id))}${typeof locations[id].method === 'string' ? '' : ` — ${QUALITY[locations[id].quality].toLowerCase()}`}</option>`).join('')}</optgroup>` : '';
+    return ids.length ? `<optgroup label="${label}">${ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(humanize(id))}${follows(locations[id]) ? '' : ` — ${QUALITY[locations[id].quality].toLowerCase()}`}</option>`).join('')}</optgroup>` : '';
   }).join('');
   $('month').innerHTML = `<option value="all">All months</option>${MONTHS.map((name, index) => `<option value="${index + 1}">${name}</option>`).join('')}`;
 }

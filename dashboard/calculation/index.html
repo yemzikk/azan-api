@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>How AzanTimes prayer times are calculated — review page</title>
+  <title>How AzanTimes prayer times are calculated</title>
   <meta name="description" content="Every step of the prayer-time calculation for any AzanTimes timetable, compared day by day with the published times. For review by scholars and developers.">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#f8f9f5">
@@ -13,7 +13,7 @@
   <meta property="og:title" content="How AzanTimes prayer times are calculated">
   <meta property="og:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
   <meta property="og:url" content="https://azantimes.in/calculation/">
-  <meta property="og:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=415cd1c796fa">
+  <meta property="og:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=93e0cace96d2">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,34 +21,29 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How AzanTimes prayer times are calculated">
   <meta name="twitter:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
-  <meta name="twitter:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=415cd1c796fa">
+  <meta name="twitter:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=93e0cace96d2">
   <meta name="twitter:image:alt" content="AzanTimes: how prayer times are calculated. A sun-path diagram marking Subh, sunrise, Dhuhr, Asr, Maghrib and Isha.">
-  <link rel="icon" href="../favicon/favicon.ico?v=415cd1c796fa" sizes="16x16 32x32 48x48">
-  <link rel="icon" href="../favicon/favicon.svg?v=415cd1c796fa" type="image/svg+xml" sizes="any">
-  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png?v=415cd1c796fa" sizes="180x180">
-  <link rel="stylesheet" href="./calculation.css?v=415cd1c796fa">
+  <link rel="icon" href="../favicon/favicon.ico?v=93e0cace96d2" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="../favicon/favicon.svg?v=93e0cace96d2" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png?v=93e0cace96d2" sizes="180x180">
+  <link rel="stylesheet" href="./calculation.css?v=93e0cace96d2">
   <script>try{var t=JSON.parse(localStorage.getItem('azan-theme'));document.documentElement.dataset.theme=t==='dark'||(t==null&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}catch(e){}</script>
-  <script type="module" src="./calculation.js?v=415cd1c796fa"></script>
+  <script type="module" src="./calculation.js?v=93e0cace96d2"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to the calculation</a>
 <header class="masthead">
   <a class="brand" href="../" aria-label="AzanTimes home">
-    <img class="logo logo-light" src="../brand/azantimes-logo.svg?v=415cd1c796fa" alt="AzanTimes" width="170" height="44">
-    <img class="logo logo-dark" src="../brand/azantimes-logo-light.svg?v=415cd1c796fa" alt="" width="170" height="44" aria-hidden="true">
+    <img class="logo logo-light" src="../brand/azantimes-logo.svg?v=93e0cace96d2" alt="AzanTimes" width="170" height="44">
+    <img class="logo logo-dark" src="../brand/azantimes-logo-light.svg?v=93e0cace96d2" alt="" width="170" height="44" aria-hidden="true">
   </a>
-  <span class="review-tag">Review page · not linked from the app</span>
+  <a class="contact-link" data-contact href="mailto:calculation@azantimes.in?subject=Prayer%20time%20calculation">Write to us</a>
 </header>
 
 <main id="main" tabindex="-1">
 <section class="intro">
   <h1>How these prayer times are calculated</h1>
-  <p class="lede">This page recomputes each AzanTimes timetable from the position of the sun and shows every step, beside the times AzanTimes publishes. It is for scholars and developers who want to check the method and the data.</p>
-  <ul class="facts">
-    <li><strong>The published timetables are unchanged.</strong> Nothing on this page alters what the app shows.</li>
-    <li><strong>The calculation runs in your browser.</strong> Choose a timetable and a date; every number below updates.</li>
-    <li><strong>Corrections are welcome.</strong> The questions we most want checked are listed <a href="#questions">near the end</a>.</li>
-  </ul>
+  <p class="lede">Each AzanTimes timetable recomputed from the position of the sun, with every step shown beside the published times.</p>
 </section>
 
 <section class="controls" aria-label="Choose a timetable and date">
@@ -63,7 +58,7 @@
 <div id="status" class="notice" role="status" hidden></div>
 
 <nav class="toc" aria-label="On this page">
-  <a href="#verdict">Result</a><a href="#reference">Place and rule</a><a href="#working">Working</a><a href="#sunpath">Sun path</a><a href="#days">Day by day</a><a href="#methods">Other methods</a><a href="#rule">The rule explained</a><a href="#all">All timetables</a><a href="#questions">Open questions</a>
+  <a href="#verdict">Result</a><a href="#reference">Place and rule</a><a href="#working">Working</a><a href="#sunpath">Sun path</a><a href="#days">Day by day</a><a href="#methods">Other methods</a><a href="#rule">The rule explained</a><a href="#all">All timetables</a><a href="#questions">Open questions</a><a href="#sources">Sources</a><a href="#contact">Write to us</a>
 </nav>
 
 <section id="verdict" aria-labelledby="verdict-title">
@@ -174,9 +169,10 @@
 <section id="all" aria-labelledby="all-title">
   <h2 id="all-title">8. How well each timetable is reproduced</h2>
   <p class="section-note">All 116 source calendars, each compared over 366 days and six times a day. Choose a row to load it above.</p>
+  <p class="section-note">The Assembly Constituency timetables follow the rule, and the point each was calculated for was recovered from the timetable. Every other calendar is only checked: the rule is applied at the town's map position with nothing adjusted, to see whether it fits.</p>
   <div id="all-summary" class="cards small"></div>
   <div class="table-wrap tall" tabindex="0" role="region" aria-label="All timetables"><table id="all-table" class="grid"></table></div>
-  <p class="caption">Timetables marked "fitted profile" follow no single named rule. Their angles and margins were fitted to describe them and are not a statement of how they were made; the angle and the margin can trade against each other. Many of these are printed calendars that hold one value for several days, so a daily calculation cannot match every cell.</p>
+  <p class="caption">A calendar that does not fit was made by a different rule; that is not a fault in it. Most of the older printed calendars also give one value for every three or five days, which a daily calculation cannot match on every day.</p>
 </section>
 
 <section id="questions" aria-labelledby="questions-title">
@@ -191,26 +187,59 @@
       <li>Do any of the entries flagged as possible misprints in section 5 match the printed originals?</li>
     </ol>
   </div>
+  <div class="panel contact" id="contact">
+    <h3>Write to us</h3>
+    <p>If you can answer any of these, or you find an error in the method or in a published time, please write to <a data-contact href="mailto:calculation@azantimes.in?subject=Prayer%20time%20calculation">calculation@azantimes.in</a>.</p>
+    <p><a class="button" data-contact href="mailto:calculation@azantimes.in?subject=Prayer%20time%20calculation">Start an email about this timetable</a></p>
+    <p class="caption">The button opens your email program with the timetable, the date and a link to this view already filled in.</p>
+  </div>
 </section>
 
 <section id="sources" aria-labelledby="sources-title">
-  <h2 id="sources-title">Sources</h2>
+  <h2 id="sources-title">10. Sources and references</h2>
   <div class="prose">
+    <h3>Astronomy</h3>
     <ul class="sources">
-      <li>Jean Meeus, <i>Astronomical Algorithms</i>, chapters 25 and 28: the sun's position and the equation of time.</li>
-      <li><a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html" rel="noopener noreferrer">NOAA Solar Calculator, calculation details</a>: the same series and the 0.833° sunrise convention.</li>
-      <li><a href="https://musthafadarimikaripur.blogspot.com/2018/05/blog-post_18.html" rel="noopener noreferrer">Dr. Musthafa Darimi Nizami Karippur, Suprabhaatham, 18 May 2018</a>: the published Kerala Sunni criteria.</li>
-      <li><a href="http://praytimes.org/calculation" rel="noopener noreferrer">PrayTimes calculation notes</a> and <a href="https://api.aladhan.com/v1/methods" rel="noopener noreferrer">the Aladhan method list</a>: other methods' angles.</li>
-      <li>Published times: the AzanTimes timetable for the chosen place, as served by the <a href="https://api.azantimes.in/" rel="noopener noreferrer">public API</a>.</li>
+      <li>Jean Meeus, <i>Astronomical Algorithms</i> (2nd ed., 1998), chapters 25 and 28: the sun's position and the equation of time. The calculation uses these series.</li>
+      <li><a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html" target="_blank" rel="noopener noreferrer">NOAA Solar Calculator, calculation details</a>: the same series, their accuracy, and the 0.833° convention for sunrise and sunset.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Sunrise_equation" target="_blank" rel="noopener noreferrer">Sunrise equation</a>: the hour-angle formula used in step 4.</li>
     </ul>
-    <p>The calculation code is one file with no dependencies: <a href="./prayer-calc.js?v=415cd1c796fa">prayer-calc.js</a>. The reference point, rule and measured agreement for every timetable are in <a href="./locations.json">locations.json</a>.</p>
+    <h3>Calculation methods</h3>
+    <ul class="sources">
+      <li><a href="http://praytimes.org/calculation" target="_blank" rel="noopener noreferrer">PrayTimes, prayer times calculation</a>: definitions of each prayer and the common twilight angles.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Salah_times" target="_blank" rel="noopener noreferrer">Salah times</a>: the prayer definitions and the Shafi'i and Hanafi Asr rules.</li>
+      <li><a href="https://aladhan.com/calculation-methods" target="_blank" rel="noopener noreferrer">Aladhan, calculation methods</a> and <a href="https://api.aladhan.com/v1/methods" target="_blank" rel="noopener noreferrer">its method list</a>: angles for Karachi, Muslim World League, Egypt, Umm al-Qura and others.</li>
+      <li><a href="https://github.com/batoulapps/adhan-js/blob/master/METHODS.md" target="_blank" rel="noopener noreferrer">adhan-js, calculation methods</a>: the same methods with the minutes each one adds.</li>
+      <li><a href="https://moonsighting.com/how-we.html" target="_blank" rel="noopener noreferrer">Moonsighting Committee Worldwide, how prayer times are calculated</a>: seasonal twilight and the red and white glow.</li>
+      <li><a href="https://ifatwa.kedah.gov.my/wp-content/uploads/2022/08/1-PENENTUAN-AWAL-WAKTU-SOLAT-SUBUH-DI-NEGERI-KEDAH.pdf" target="_blank" rel="noopener noreferrer">Kedah Mufti Department, determining the start of Subuh</a> (Malay, PDF): Malaysia's change from 20° to 18°.</li>
+      <li><a href="https://islamicportal.co.uk/impact-of-leap-year-on-salah-timetable/" target="_blank" rel="noopener noreferrer">Islamic Portal, impact of the leap year on a salah timetable</a>: why a perpetual timetable cannot be exact.</li>
+    </ul>
+    <h3>Kerala</h3>
+    <ul class="sources">
+      <li><a href="https://musthafadarimikaripur.blogspot.com/2018/05/blog-post_18.html" target="_blank" rel="noopener noreferrer">Dr. Musthafa Darimi Nizami Karippur, <span lang="ml">വ്രതവും നിസ്കാരവും; സമയ നിർണയത്തിലെ തെറ്റും ശരിയും</span></a>, Suprabhaatham, 18 May 2018 (Malayalam): Subh at 20°, Isha at 18°, Maghrib at the full setting of the disc, and one degree counted as 4 minutes.</li>
+      <li><a href="https://www.musthafadarimikaripur.com" target="_blank" rel="noopener noreferrer">Al-Minhaj prayer timetables</a>: per-constituency charts for Kerala by the same author.</li>
+      <li><a href="https://github.com/Its-me-nishmal/KERALA-AZAN-DATA" target="_blank" rel="noopener noreferrer">Kerala Azan Data</a>: a community digitisation of those charts.</li>
+      <li><a href="https://www.islamicfinder.org/world/india/1254346/tirur-prayer-times/" target="_blank" rel="noopener noreferrer">IslamicFinder, Tirur prayer times</a>: an example of the Karachi 18°/18° default applied to a Kerala town.</li>
+    </ul>
+    <h3>Fiqh</h3>
+    <ul class="sources">
+      <li><a href="https://seekersguidance.org/answers/shafii-fiqh/can-i-pray-isha-right-after-praying-maghrib/" target="_blank" rel="noopener noreferrer">SeekersGuidance, the start of Isha in the Shafi'i school</a>: the disappearance of the red glow.</li>
+      <li><a href="https://seekersguidance.org/answers/hanafi-fiqh/is-there-a-difference-of-opinion-on-the-entrance-of-isha-time/" target="_blank" rel="noopener noreferrer">SeekersGuidance, the difference of opinion on the start of Isha</a>: the white glow in Abu Hanifa's view and the red glow in his two companions'.</li>
+    </ul>
+    <h3>Data and code</h3>
+    <ul class="sources">
+      <li>Published times: the AzanTimes timetable for the chosen place, as served by the <a href="https://api.azantimes.in/" target="_blank" rel="noopener noreferrer">AzanTimes public API</a>.</li>
+      <li>Town positions: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, © OpenStreetMap contributors.</li>
+      <li>Calculation code: <a href="./prayer-calc.js?v=93e0cace96d2">prayer-calc.js</a>, one file with no dependencies.</li>
+      <li>Point used, rule and measured agreement for every timetable: <a href="./locations.json">locations.json</a>.</li>
+    </ul>
   </div>
 </section>
 </main>
 
 <footer class="page-footer">
   <span>AzanTimes · Prayer times for Kerala</span>
-  <a href="https://zikklabs.com" target="_blank" rel="noopener noreferrer"><img class="badge badge-light" src="../brand/zikklabs-product-badge.svg?v=415cd1c796fa" alt="A product of ZikkLabs" width="188" height="28" loading="lazy"><img class="badge badge-dark" src="../brand/zikklabs-product-badge-light.svg?v=415cd1c796fa" alt="" width="188" height="28" loading="lazy" aria-hidden="true"></a>
+  <a href="https://zikklabs.com" target="_blank" rel="noopener noreferrer"><img class="badge badge-light" src="../brand/zikklabs-product-badge.svg?v=93e0cace96d2" alt="A product of ZikkLabs" width="188" height="28" loading="lazy"><img class="badge badge-dark" src="../brand/zikklabs-product-badge-light.svg?v=93e0cace96d2" alt="" width="188" height="28" loading="lazy" aria-hidden="true"></a>
 </footer>
 </body>
 </html>
