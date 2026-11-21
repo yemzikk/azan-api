@@ -2,9 +2,9 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=93e0cace96d2';
-import { PrayerNotifications } from './notifications.js?v=93e0cace96d2';
-import { createExportSelection, createExportCSV } from './export-data.js?v=93e0cace96d2';
+} from './prayer-data.js?v=3e7a8de86e29';
+import { PrayerNotifications } from './notifications.js?v=3e7a8de86e29';
+import { createExportSelection, createExportCSV } from './export-data.js?v=3e7a8de86e29';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -39,8 +39,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=93e0cace96d2`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=93e0cace96d2`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=3e7a8de86e29`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=3e7a8de86e29`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -321,10 +321,14 @@ $('enable-reminders').addEventListener('click', async () => {
   finally { updateReminderStatus(); }
 });
 $('test-notification').addEventListener('click', async () => {
-  const button = $('test-notification'); button.disabled = true; button.textContent = 'Sending…';
+  const button = $('test-notification'); button.disabled = true; button.setAttribute('aria-busy', 'true'); button.textContent = 'Sending…';
   try { const result = await notifications.sendTest(); $('reminder-status').textContent = result.message || result.error || result.status.reason; }
-  finally { button.textContent = 'Send test notification'; button.disabled = !notifications.status().supported; }
+  finally { const status = notifications.status(); button.removeAttribute('aria-busy'); button.textContent = 'Send test notification'; button.disabled = !status.supported || status.permission === 'denied'; }
 });
+const CREDITS = '<p><strong>Prayer timetables.</strong> Compiled from prayer calendars used across Kerala. Each timetable is named after the calendar it follows.</p>'
+  + '<p><strong>Typefaces.</strong> Atkinson Hyperlegible Next by the Braille Institute, and Newsreader by Production Type in the AzanTimes wordmark. Both are free under the SIL Open Font License 1.1.</p>'
+  + '<p><strong>Building something?</strong> These timetables are free to use under CC BY 4.0 through the <a href="https://api.azantimes.in/#usage" target="_blank" rel="noopener noreferrer">AzanTimes API</a>. Just credit AzanTimes with a link.</p>';
+$('credits-button').addEventListener('click', () => info('Credits', CREDITS));
 for (const id of ['dismiss-prayer-alert', 'prayer-alert-dismiss']) $(id).addEventListener('click', () => { $('prayer-alert').hidden = true; });
 $('prayer-alert-view').addEventListener('click', async () => {
   const alert = state.activeAlert;
@@ -362,8 +366,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=93e0cace96d2');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=93e0cace96d2', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=3e7a8de86e29');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=3e7a8de86e29', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -424,6 +428,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=93e0cace96d2', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=3e7a8de86e29', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();

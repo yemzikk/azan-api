@@ -1,5 +1,5 @@
 /* Review page for the prayer-time calculation. Shares the dashboard's palette and font. */
-@font-face{font-family:'Atkinson Hyperlegible Next';src:url('../fonts/atkinson-hyperlegible-next-latin.woff2?v=93e0cace96d2') format('woff2');font-style:normal;font-weight:200 800;font-display:swap}
+@font-face{font-family:'Atkinson Hyperlegible Next';src:url('../fonts/atkinson-hyperlegible-next-latin.woff2?v=3e7a8de86e29') format('woff2');font-style:normal;font-weight:200 800;font-display:swap}
 :root{color-scheme:light;--bg:#f8f9f5;--surface:#fff;--text:#273d35;--muted:#5f6f66;--line:#e0e5dd;--green:#245b47;--green-dark:#163f32;--soft:#edf3ec;--cream:#f3f1e6;--gold:#967334;--differ:#fbeed2;--differ-text:#6b4a05;--bad:#f9dcd6;--bad-text:#8a2414;--ok:#dcefe2;--ok-text:#17573a;--sans:'Atkinson Hyperlegible Next',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 [data-theme=dark]{color-scheme:dark;--bg:#131c18;--surface:#1b2620;--text:#e2e9df;--muted:#a6b4aa;--line:#2e3b32;--green:#9bc7ab;--green-dark:#ccdfd0;--soft:#26382b;--cream:#2b3025;--gold:#d7bc78;--differ:#4a3c14;--differ-text:#f3deaa;--bad:#552019;--bad-text:#ffd0c7;--ok:#1e3d2c;--ok-text:#bfe3cb}
 *{box-sizing:border-box}

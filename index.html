@@ -12,15 +12,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="msapplication-TileColor" content="#173b33">
-    <meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png?v=93e0cace96d2">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=93e0cace96d2">
+    <meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png?v=3e7a8de86e29">
+    <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=3e7a8de86e29">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AzanTimes API">
     <meta property="og:locale" content="en_IN">
     <meta property="og:title" content="AzanTimes API · Prayer times for Kerala">
     <meta property="og:description" content="Simple JSON prayer timetable data for Kerala. Explore the API and start building, with no API key required.">
     <meta property="og:url" content="https://api.azantimes.in/">
-    <meta property="og:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=93e0cace96d2">
+    <meta property="og:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=3e7a8de86e29">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -28,17 +28,17 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="AzanTimes API · Prayer times for Kerala">
     <meta name="twitter:description" content="Simple JSON prayer timetable data for Kerala. Explore the API and start building, with no API key required.">
-    <meta name="twitter:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=93e0cace96d2">
+    <meta name="twitter:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=3e7a8de86e29">
     <meta name="twitter:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
-    <link rel="icon" href="/favicon/favicon.ico?v=93e0cace96d2" sizes="16x16 32x32 48x48">
-    <link rel="icon" href="/favicon/favicon-16x16.png?v=93e0cace96d2" type="image/png" sizes="16x16">
-    <link rel="icon" href="/favicon/favicon-32x32.png?v=93e0cace96d2" type="image/png" sizes="32x32">
-    <link rel="icon" href="/favicon/favicon.svg?v=93e0cace96d2" type="image/svg+xml" sizes="any">
-    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=93e0cace96d2" sizes="180x180">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=93e0cace96d2" color="#173b33">
-    <link rel="manifest" href="/favicon/site.webmanifest?v=93e0cace96d2">
-    <link rel="stylesheet" href="/css/api.css?v=93e0cace96d2" />
-    <script src="/api.js?v=93e0cace96d2" defer></script>
+    <link rel="icon" href="/favicon/favicon.ico?v=3e7a8de86e29" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="/favicon/favicon-16x16.png?v=3e7a8de86e29" type="image/png" sizes="16x16">
+    <link rel="icon" href="/favicon/favicon-32x32.png?v=3e7a8de86e29" type="image/png" sizes="32x32">
+    <link rel="icon" href="/favicon/favicon.svg?v=3e7a8de86e29" type="image/svg+xml" sizes="any">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=3e7a8de86e29" sizes="180x180">
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=3e7a8de86e29" color="#173b33">
+    <link rel="manifest" href="/favicon/site.webmanifest?v=3e7a8de86e29">
+    <link rel="stylesheet" href="/css/api.css?v=3e7a8de86e29" />
+    <script src="/api.js?v=3e7a8de86e29" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -80,7 +80,7 @@
       <div class="docs-layout container">
         <aside class="docs-sidebar" aria-label="Documentation sections">
           <div class="sidebar-label">ON THIS PAGE</div>
-          <nav><a href="#quickstart">Getting started</a><a href="#endpoints">Endpoints</a><a href="#explorer">API explorer</a><a href="#response">Response format</a><a href="#guidance">Integration notes</a></nav>
+          <nav><a href="#quickstart">Getting started</a><a href="#endpoints">Endpoints</a><a href="#explorer">API explorer</a><a href="#response">Response format</a><a href="#guidance">Integration notes</a><a href="#usage">Usage &amp; credit</a></nav>
           <div class="sidebar-note"><span class="version-tag">v1</span><p>A small API for something that matters.</p><a href="https://azantimes.in/">Visit Azan <span aria-hidden="true">↗</span></a></div>
         </aside>
 
@@ -147,12 +147,46 @@ console.log(times.subh); // '4:58 AM' in this example</code></pre>
             <h2 id="guidance-title">A few things to build around.</h2>
             <div class="guidance-grid"><article><span class="guidance-icon" aria-hidden="true">01</span><h3>Choose the right timetable</h3><p>Some locations include different sources or schools of jurisprudence. Preserve the source name and let people select the timetable they follow.</p></article><article><span class="guidance-icon" aria-hidden="true">02</span><h3>Check dates, then cache</h3><p>Files are generated ahead of serving. Validate their dates and cache a month or year for date-based lookups instead of repeatedly fetching daily data.</p></article><article><span class="guidance-icon" aria-hidden="true">03</span><h3>Handle unavailable data</h3><p>Check the HTTP status before parsing JSON. Missing files can return a 404 or an HTML error page. Keep a helpful fallback in your interface.</p></article><article><span class="guidance-icon" aria-hidden="true">04</span><h3>Respect the local schedule</h3><p>Timetable times are local to their location. Do not reinterpret them in the device’s timezone. Confirm local mosque timings for congregation times.</p></article></div>
           </section>
+          <section class="doc-section" id="usage" aria-labelledby="usage-title">
+            <div class="section-number">06 / USAGE &amp; CREDIT</div>
+            <h2 id="usage-title">Free to use. Just credit AzanTimes.</h2>
+            <p>The timetable data is free to use under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, in your app, website, mosque display or bot, including paid ones. Show a small credit with a link wherever you display the times. It also helps more people find these timetables.</p>
+            <div class="credit-preview">
+              <div><img src="/brand/azantimes-credit.svg?v=3e7a8de86e29" width="182" height="28" alt="Prayer times by AzanTimes"></div>
+              <div class="credit-preview-dark"><img src="/brand/azantimes-credit-light.svg?v=3e7a8de86e29" width="182" height="28" alt="Prayer times by AzanTimes, version for dark backgrounds"></div>
+            </div>
+            <div class="code-panel">
+              <div class="code-panel-top"><span>HTML</span><button class="copy-button" type="button" data-copy="credit-code" aria-label="Copy credit badge HTML">Copy code</button></div>
+              <pre tabindex="0" aria-label="Credit badge HTML"><code id="credit-code">&lt;a href=&quot;https://azantimes.in/&quot;&gt;
+  &lt;img src=&quot;https://azantimes.in/brand/azantimes-credit.svg&quot;
+       alt=&quot;Prayer times by AzanTimes&quot; height=&quot;28&quot;&gt;
+&lt;/a&gt;</code></pre>
+            </div>
+            <div class="note"><span class="note-icon" aria-hidden="true">i</span><p>On a dark background, use <code>azantimes-credit-light.svg</code>. Where a badge does not fit, a line of text works too: <strong>Prayer times: AzanTimes (azantimes.in), CC BY 4.0</strong>.</p></div>
+            <div class="guidance-grid">
+              <article><span class="guidance-icon" aria-hidden="true">01</span><h3>Credit the calendar too</h3><p>Show the timetable’s source name beside the times. People look for the calendar they follow, and it credits those who prepared it.</p></article>
+              <article><span class="guidance-icon" aria-hidden="true">02</span><h3>Use the artwork as supplied</h3><p>Scale the wordmark and badge to any size. Please keep the letters and colours as they are, so people recognise them.</p></article>
+              <article><span class="guidance-icon" aria-hidden="true">03</span><h3>Keep your own name</h3><p>Your app keeps its own name and look. Present AzanTimes as the source of the times, not as the maker of your app.</p></article>
+              <article><span class="guidance-icon" aria-hidden="true">04</span><h3>Tell us what you built</h3><p>We would like to see it, and we can let you know about changes to the API. Write to <a href="mailto:developers@azantimes.in?subject=Built%20with%20AzanTimes">developers@azantimes.in</a>.</p></article>
+            </div>
+            <h3 class="brand-files-title">Brand files</h3>
+            <ul class="brand-files">
+              <li><span class="brand-file-preview"><img src="/brand/azantimes-wordmark.svg?v=3e7a8de86e29" alt="" width="94" height="17"></span><span>Wordmark</span><a href="/brand/azantimes-wordmark.svg?v=3e7a8de86e29" download>SVG</a><a href="/brand/azantimes-wordmark-light.svg?v=3e7a8de86e29" download>For dark backgrounds</a></li>
+              <li><span class="brand-file-preview"><img src="/brand/azantimes-logo.svg?v=3e7a8de86e29" alt="" width="94" height="24"></span><span>Logo</span><a href="/brand/azantimes-logo.svg?v=3e7a8de86e29" download>SVG</a><a href="/brand/azantimes-logo-light.svg?v=3e7a8de86e29" download>For dark backgrounds</a></li>
+              <li><span class="brand-file-preview"><img src="/brand/azantimes-mark.svg?v=3e7a8de86e29" alt="" width="24" height="24"></span><span>App icon</span><a href="/brand/azantimes-mark.svg?v=3e7a8de86e29" download>SVG</a></li>
+              <li><span class="brand-file-preview"><img src="/brand/azantimes-credit.svg?v=3e7a8de86e29" alt="" width="94" height="15"></span><span>Credit badge</span><a href="/brand/azantimes-credit.svg?v=3e7a8de86e29" download>SVG</a><a href="/brand/azantimes-credit-light.svg?v=3e7a8de86e29" download>For dark backgrounds</a></li>
+            </ul>
+            <div class="credits">
+              <h3>Credits</h3>
+              <p>Timetables are compiled from prayer calendars used across Kerala, and each keeps the name of the calendar it follows. The timetable data is licensed under CC BY 4.0. The AzanTimes name and logo are not; see the <a href="https://github.com/yemzikk/azan-api/blob/main/LICENSE.md">full licence</a>. The AzanTimes wordmark is set in <a href="https://github.com/productiontype/Newsreader">Newsreader</a> by Production Type. The prayer dashboard uses <a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Next</a> by the Braille Institute. Both typefaces are free under the <a href="https://openfontlicense.org">SIL Open Font License 1.1</a>.</p>
+            </div>
+          </section>
           <div class="closing-note"><span class="brand-mark small" aria-hidden="true">a<span>·</span></span><div><h3>Made for everyday moments of faith.</h3><p>Looking for prayer times? <a href="https://azantimes.in/">Open the Azan dashboard <span aria-hidden="true">↗</span></a></p></div></div>
         </div>
       </div>
     </main>
 
-    <footer class="site-footer"><div class="container footer-inner"><div><a href="https://zikklabs.com" target="_blank" rel="noopener" class="zikklabs-credit"><img src="/brand/zikklabs-product-badge.svg?v=93e0cace96d2" width="188" height="28" alt="A product of ZikkLabs" loading="lazy" /></a><p>© 2026 AzanTimes · Built for the community.</p></div><nav aria-label="Legal"><a href="https://zikklabs.com/privacy" target="_blank" rel="noopener">Privacy</a><a href="https://zikklabs.com/terms" target="_blank" rel="noopener">Terms</a><a href="https://zikklabs.com/data-deletion" target="_blank" rel="noopener">Data deletion</a></nav></div></footer>
+    <footer class="site-footer"><div class="container footer-inner"><div><a href="https://zikklabs.com" target="_blank" rel="noopener" class="zikklabs-credit"><img src="/brand/zikklabs-product-badge.svg?v=3e7a8de86e29" width="188" height="28" alt="A product of ZikkLabs" loading="lazy" /></a><p>© 2026 ZikkLabs · Built for the community.</p></div><nav aria-label="Legal"><a href="https://zikklabs.com/privacy" target="_blank" rel="noopener">Privacy</a><a href="https://zikklabs.com/terms" target="_blank" rel="noopener">Terms</a><a href="https://zikklabs.com/data-deletion" target="_blank" rel="noopener">Data deletion</a></nav></div></footer>
     <div class="sr-only" role="status" aria-live="polite" id="copy-status"></div>
   </body>
 </html>

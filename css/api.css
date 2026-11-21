@@ -152,6 +152,21 @@ h2 { font-size: 28px; letter-spacing: -.9px; font-weight: 600; }
 .footer-inner nav a { text-decoration: none; }
 .footer-inner nav a:hover, .closing-note a:hover { text-decoration: underline; }
 [hidden] { display: none !important; }
+/* Usage and credit */
+.credit-preview { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 19px; }
+.credit-preview > div { display: flex; align-items: center; padding: 18px 22px; border: 1px solid var(--line); border-radius: 7px; background: var(--white); }
+.credit-preview > .credit-preview-dark { background: #17211c; border-color: #17211c; }
+.credit-preview img { display: block; width: auto; height: 28px; }
+.guidance-grid a, .credits a { color: var(--green); }
+.brand-files-title, .credits h3 { margin-top: 38px; font-size: 13px; font-weight: 600; }
+.brand-files { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.brand-files li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.brand-file-preview { display: flex; align-items: center; width: 104px; }
+.brand-files li > span:nth-child(2) { min-width: 96px; font-weight: 600; }
+.brand-files a { color: var(--green); font-size: 12px; font-weight: 600; text-decoration: none; }
+.brand-files a:hover { text-decoration: underline; }
+.credits p { max-width: 650px; margin-top: 9px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+
 @media (max-width: 1000px) {
   .hero { gap: 35px; }
   .docs-layout { grid-template-columns: 155px minmax(0, 1fr); gap: 30px; }
