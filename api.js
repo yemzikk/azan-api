@@ -19,9 +19,17 @@
   let requestVersion = 0;
   let activePath = '';
 
+  // Version 2 ids are the version 1 names in lower case with hyphens.
+  const v2Id = (legacyId) => legacyId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  const indiaYear = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric' }).format(new Date());
+
   function requestPath() {
-    if (!locationSelect.value) return '';
-    return `/v1/timesheets/${encodeURIComponent(locationSelect.value)}/${periodSelect.value}.json`;
+    const option = locationSelect.selectedOptions[0];
+    if (!option?.value) return '';
+    const [version, period] = periodSelect.value.split(':');
+    if (version === 'v1') return `/v1/timesheets/${encodeURIComponent(option.dataset.legacy)}/${period}.json`;
+    if (period === 'location') return `/v2/locations/${option.value}.json`;
+    return `/v2/locations/${option.value}/timetables/${period === 'year' ? indiaYear() : 'perpetual'}.json`;
   }
 
   function setStatus(message, state = '') {
@@ -48,7 +56,7 @@
     requestVersion += 1;
     requestController?.abort();
     activePath = requestPath();
-    endpointCode.textContent = activePath || '/v1/timesheets/…/today.json';
+    endpointCode.textContent = activePath || `/v2/locations/…/timetables/${indiaYear()}.json`;
     copyEndpoint.disabled = !activePath;
     setBusy(false);
     clearResponse();
@@ -96,10 +104,10 @@
       if (version !== requestVersion) return;
       if (!data || typeof data !== 'object') throw new Error('This file did not contain a timetable object or array.');
       responseCode.textContent = JSON.stringify(data, null, 2);
-      const count = Array.isArray(data) ? data.length : 1;
+      const records = Array.isArray(data) ? data : Array.isArray(data.days) ? data.days : [data];
+      const count = records.length;
       const elapsed = Math.round(performance.now() - startedAt);
       setStatus(`${response.status} OK · ${count} ${count === 1 ? 'record' : 'records'} · ${elapsed} ms`, 'success');
-      const records = Array.isArray(data) ? data : [data];
       const firstDate = records[0]?.date;
       const lastDate = records[records.length - 1]?.date;
       if (firstDate) {
@@ -107,7 +115,7 @@
         responseNote.textContent = count > 1
           ? `Returned dates: ${firstDate} to ${lastDate}. Times are local to the timetable (Asia/Kolkata).`
           : `Returned date: ${firstDate}. Times are local to the timetable (Asia/Kolkata).`;
-        if (periodSelect.value === 'today' && firstDate !== indiaDate()) {
+        if (periodSelect.value === 'v1:today' && firstDate !== indiaDate()) {
           responseNote.textContent += ' This daily file is not dated today. Use a matching date from the yearly dataset before displaying current prayer times.';
         }
       }
@@ -140,19 +148,28 @@
     responseContainer.setAttribute('aria-busy', 'true');
     setStatus('Loading locations…');
     try {
-      const { data } = await fetchJSON('/v1/timesheets/index.json', controller.signal);
-      if (!Array.isArray(data) || !data.length || data.some((item) => typeof item !== 'string')) {
-        throw new Error('The locations index is unavailable. Please try again later.');
+      // Prefer the version 2 list for its names; fall back to the version 1 index.
+      let entries;
+      try {
+        const { data } = await fetchJSON('/v2/locations.json', controller.signal);
+        if (!Array.isArray(data?.locations) || !data.locations.length) throw new Error('empty');
+        entries = data.locations.map((location) => ({ id: location.id, legacy: location.legacyId, label: location.type === 'assembly-constituency' ? `${location.name} (constituency)` : location.name }));
+      } catch (error) {
+        if (error.name === 'AbortError') throw error;
+        const { data } = await fetchJSON('/v1/timesheets/index.json', controller.signal);
+        if (!Array.isArray(data) || !data.length || data.some((item) => typeof item !== 'string')) {
+          throw new Error('The locations index is unavailable. Please try again later.');
+        }
+        entries = [...new Set(data)].map((legacy) => ({ id: v2Id(legacy), legacy, label: legacy.replace(/_/g, ' ') }));
       }
-      const locations = [...new Set(data)].sort((a, b) => a.localeCompare(b));
-      locationSelect.replaceChildren(...locations.map((location) => {
-        const option = document.createElement('option');
-        option.value = location;
-        option.textContent = location.replace(/_/g, ' ');
+      entries.sort((a, b) => a.label.localeCompare(b.label));
+      locationSelect.replaceChildren(...entries.map((entry) => {
+        const option = new Option(entry.label, entry.id);
+        option.dataset.legacy = entry.legacy;
         return option;
       }));
-      locationSelect.value = locations.includes('Kuttiady_Assembly_Constituency')
-        ? 'Kuttiady_Assembly_Constituency' : locations[0];
+      locationSelect.value = entries.some((entry) => entry.id === 'kuttiady-assembly-constituency')
+        ? 'kuttiady-assembly-constituency' : entries[0].id;
       locationsLoaded = true;
       locationSelect.disabled = false;
       updateEndpoint();

@@ -10,6 +10,12 @@
 /v1/*
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  X-Robots-Tag: noindex
+
+/v2/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  X-Robots-Tag: noindex
 
 /dashboard/sw.js
   Service-Worker-Allowed: /dashboard/

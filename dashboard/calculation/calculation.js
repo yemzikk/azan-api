@@ -3,7 +3,7 @@
 import {
   IST_OFFSET_MINUTES, PRAYERS, asrAltitude, astronomicalTimes, formatMinutes, horizonDip, hourAngleMinutes,
   julianDay, perpetualBreakdown, perpetualYears, prayerTimes, resolveMethod, sunPosition,
-} from './prayer-calc.js?v=3e7a8de86e29';
+} from './prayer-calc.js?v=7772fe34ae41';
 
 const LABEL = { subh: 'Subh', sunrise: 'Sunrise', duhr: 'Dhuhr', asar: 'Asr', maghrib: 'Maghrib', isha: 'Isha' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -419,7 +419,23 @@ function renderMethods(location, date) {
   $('methods-caption').textContent = `Small numbers are minutes relative to the tinted row (this timetable's rule on ${dateLabel(date)}). Height is not part of any source timetable; enter one to see what it would change. It counts only when the horizon you can see is that far below you.`;
 }
 
+/** Fill the figures quoted in the page text from the measured agreement. */
+function renderStats() {
+  const all = Object.values(locations);
+  const rule = all.filter((location) => follows(location) && String(location.method).startsWith('kerala-sunni'));
+  const cells = rule.reduce((sum, location) => sum + location.fit.cells, 0);
+  const exact = rule.reduce((sum, location) => sum + location.fit.cells * location.fit.exactPercent / 100, 0);
+  const outside = rule.reduce((sum, location) => sum + Math.round(location.fit.cells * (100 - location.fit.within1Percent) / 100), 0);
+  const set = (name, text) => { for (const node of document.querySelectorAll(`[data-stat="${name}"]`)) node.textContent = text; };
+  set('calendar-count', String(all.length));
+  set('rule-count', String(rule.length));
+  set('rule-cells', cells.toLocaleString('en-GB'));
+  set('rule-exact', `${(100 * exact / cells).toFixed(2)}%`);
+  set('rule-within1', outside === 0 ? 'none differs' : `${outside.toLocaleString('en-IN')} differ`);
+}
+
 function renderAll() {
+  renderStats();
   const groups = {};
   for (const location of Object.values(locations)) {
     const group = groups[location.quality] ?? (groups[location.quality] = { count: 0, cells: 0, exact: 0, within1: 0 });
@@ -528,7 +544,7 @@ function fillLocationSelect() {
   ];
   $('location').innerHTML = groups.map(([label, test]) => {
     const ids = Object.keys(locations).filter((id) => test(locations[id])).sort((a, b) => humanize(a).localeCompare(humanize(b)));
-    return ids.length ? `<optgroup label="${label}">${ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(humanize(id))}${follows(locations[id]) ? '' : ` — ${QUALITY[locations[id].quality].toLowerCase()}`}</option>`).join('')}</optgroup>` : '';
+    return ids.length ? `<optgroup label="${label}">${ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(humanize(id))}${follows(locations[id]) ? '' : ` (${QUALITY[locations[id].quality].toLowerCase()})`}</option>`).join('')}</optgroup>` : '';
   }).join('');
   $('month').innerHTML = `<option value="all">All months</option>${MONTHS.map((name, index) => `<option value="${index + 1}">${name}</option>`).join('')}`;
 }

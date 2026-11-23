@@ -19,6 +19,38 @@
     ]
   },
   "locations": {
+    "Adoor_Assembly_Constituency": {
+      "latitude": 9.151,
+      "longitude": 76.737,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Adoor",
+      "distanceFromPlaceKm": 4.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.5,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Alappuzha_Assembly_Constituency": {
+      "latitude": 9.501,
+      "longitude": 76.341,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Alappuzha",
+      "distanceFromPlaceKm": 2.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Alappuzha_Town": {
       "latitude": 9.4981,
       "longitude": 76.3388,
@@ -29,9 +61,9 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 24.18,
-        "within1Percent": 55.01,
-        "within2Percent": 71.4,
+        "exactPercent": 24.23,
+        "within1Percent": 55.15,
+        "within2Percent": 71.58,
         "maxError": 11
       }
     },
@@ -61,9 +93,9 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 20.81,
-        "within1Percent": 46.17,
-        "within2Percent": 56.42,
+        "exactPercent": 21.04,
+        "within1Percent": 46.4,
+        "within2Percent": 56.56,
         "maxError": 15
       }
     },
@@ -77,10 +109,74 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 19.31,
-        "within1Percent": 43.21,
-        "within2Percent": 56.19,
+        "exactPercent": 19.54,
+        "within1Percent": 43.44,
+        "within2Percent": 56.33,
         "maxError": 15
+      }
+    },
+    "Aluva_Assembly_Constituency": {
+      "latitude": 10.102,
+      "longitude": 76.36,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Aluva",
+      "distanceFromPlaceKm": 0.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Ambalappuzha_Assembly_Constituency": {
+      "latitude": 9.381,
+      "longitude": 76.365,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ambalappuzha",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.18,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Angamaly_Assembly_Constituency": {
+      "latitude": 10.193,
+      "longitude": 76.39,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Angamaly",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.77,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Aranmula_Assembly_Constituency": {
+      "latitude": 9.325,
+      "longitude": 76.686,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Aranmula",
+      "distanceFromPlaceKm": 0.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Arookutty_Vaduthala": {
@@ -99,6 +195,54 @@
         "maxError": 4
       }
     },
+    "Aroor_Assembly_Constituency": {
+      "latitude": 9.88,
+      "longitude": 76.307,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Aroor",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.68,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Aruvikkara_Assembly_Constituency": {
+      "latitude": 8.562,
+      "longitude": 77.019,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Aruvikkara",
+      "distanceFromPlaceKm": 1.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Attingal_Assembly_Constituency": {
+      "latitude": 8.687,
+      "longitude": 76.814,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Attingal",
+      "distanceFromPlaceKm": 1.3,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 98.95,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Azhikode": {
       "latitude": 10.1837,
       "longitude": 76.1641,
@@ -109,10 +253,10 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 31.79,
-        "within1Percent": 73.54,
-        "within2Percent": 92.12,
-        "maxError": 7
+        "exactPercent": 31.88,
+        "within1Percent": 73.72,
+        "within2Percent": 92.35,
+        "maxError": 4
       }
     },
     "Azhikode_Assembly_Constituency": {
@@ -172,10 +316,10 @@
       "distanceFromPlaceKm": 0,
       "quality": "irregular",
       "fit": {
-        "cells": 2195,
-        "exactPercent": 24.69,
-        "within1Percent": 64.19,
-        "within2Percent": 83.74,
+        "cells": 2196,
+        "exactPercent": 24.04,
+        "within1Percent": 62.8,
+        "within2Percent": 82.47,
         "maxError": 11
       }
     },
@@ -189,10 +333,42 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 25.41,
-        "within1Percent": 63.93,
-        "within2Percent": 82.24,
-        "maxError": 18
+        "exactPercent": 27.69,
+        "within1Percent": 69.63,
+        "within2Percent": 89.16,
+        "maxError": 5
+      }
+    },
+    "Chadayamangalam_Assembly_Constituency": {
+      "latitude": 8.88,
+      "longitude": 76.872,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chadayamangalam",
+      "distanceFromPlaceKm": 1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.09,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Chalakudy_Assembly_Constituency": {
+      "latitude": 10.306,
+      "longitude": 76.337,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chalakudy",
+      "distanceFromPlaceKm": 0.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.5,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Chandrika_Calicut_2011": {
@@ -227,6 +403,54 @@
         "maxError": 4
       }
     },
+    "Changanassery_Assembly_Constituency": {
+      "latitude": 9.448,
+      "longitude": 76.543,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Changanassery",
+      "distanceFromPlaceKm": 10.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Chathannoor_Assembly_Constituency": {
+      "latitude": 8.861,
+      "longitude": 76.728,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chathannoor",
+      "distanceFromPlaceKm": 1.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.04,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Chavara_Assembly_Constituency": {
+      "latitude": 8.987,
+      "longitude": 76.543,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chavara",
+      "distanceFromPlaceKm": 1.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.59,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Chelakkara_Assembly_Constituency": {
       "latitude": 10.692,
       "longitude": 76.349,
@@ -254,6 +478,70 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.5,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Cherthala_Assembly_Constituency": {
+      "latitude": 9.675,
+      "longitude": 76.343,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Cherthala",
+      "distanceFromPlaceKm": 2.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.5,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Chirayinkeezhu_Assembly_Constituency": {
+      "latitude": 8.715,
+      "longitude": 76.852,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chirayinkeezhu",
+      "distanceFromPlaceKm": 2.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Chittur_Assembly_Constituency": {
+      "latitude": 10.683,
+      "longitude": 76.72,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Chittur",
+      "distanceFromPlaceKm": 12.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.18,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Devikulam_Assembly_Constituency": {
+      "latitude": 10.057,
+      "longitude": 77.123,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Devikulam",
+      "distanceFromPlaceKm": 1.9,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -318,6 +606,38 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.04,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Eravipuram_Assembly_Constituency": {
+      "latitude": 8.853,
+      "longitude": 76.624,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Eravipuram",
+      "distanceFromPlaceKm": 0.9,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Ernakulam_Assembly_Constituency": {
+      "latitude": 9.982,
+      "longitude": 76.303,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ernakulam",
+      "distanceFromPlaceKm": 3.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.18,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -419,6 +739,22 @@
         "maxError": 5
       }
     },
+    "Ettumanoor_Assembly_Constituency": {
+      "latitude": 9.67,
+      "longitude": 76.561,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ettumanoor",
+      "distanceFromPlaceKm": 1.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Ezhome-_Kannur": {
       "latitude": 11.892,
       "longitude": 75.362,
@@ -451,6 +787,22 @@
         "maxError": 1
       }
     },
+    "Haripad_Assembly_Constituency": {
+      "latitude": 9.28,
+      "longitude": 76.463,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Haripad",
+      "distanceFromPlaceKm": 0.3,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.45,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Harippad_Thamallakkal": {
       "latitude": 9.2943,
       "longitude": 76.4205,
@@ -465,6 +817,22 @@
         "within1Percent": 50.18,
         "within2Percent": 66.3,
         "maxError": 15
+      }
+    },
+    "Idukki_Assembly_Constituency": {
+      "latitude": 9.918,
+      "longitude": 77.106,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Cheruthoni",
+      "distanceFromPlaceKm": 17.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.73,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Irikkur_Assembly_Constituency": {
@@ -542,9 +910,25 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 15.39,
-        "within1Percent": 52,
-        "within2Percent": 77.19,
-        "maxError": 1021
+        "within1Percent": 52.28,
+        "within2Percent": 77.46,
+        "maxError": 8
+      }
+    },
+    "Kaduthuruthy_Assembly_Constituency": {
+      "latitude": 9.771,
+      "longitude": 76.493,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kaduthuruthy",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.73,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Kaipamangalam_Assembly_Constituency": {
@@ -558,6 +942,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.27,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kalamassery_Assembly_Constituency": {
+      "latitude": 10.057,
+      "longitude": 76.354,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kalamassery",
+      "distanceFromPlaceKm": 3.8,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.18,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -606,6 +1006,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.27,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kanjirappally_Assembly_Constituency": {
+      "latitude": 9.561,
+      "longitude": 76.791,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kanjirappally",
+      "distanceFromPlaceKm": 0.3,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.59,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -723,6 +1139,22 @@
         "maxError": 6
       }
     },
+    "Karunagappally_Assembly_Constituency": {
+      "latitude": 9.059,
+      "longitude": 76.537,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Karunagappally",
+      "distanceFromPlaceKm": 2.8,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.23,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Kasaragod_Assembly_Constituency": {
       "latitude": 12.502,
       "longitude": 74.99,
@@ -803,6 +1235,86 @@
         "maxError": 5
       }
     },
+    "Kattakkada_Assembly_Constituency": {
+      "latitude": 8.504,
+      "longitude": 77.088,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kattakkada",
+      "distanceFromPlaceKm": 12.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.77,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kayamkulam_Assembly_Constituency": {
+      "latitude": 9.174,
+      "longitude": 76.504,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kayamkulam",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.59,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kazhakootam_Assembly_Constituency": {
+      "latitude": 8.572,
+      "longitude": 76.875,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kazhakkoottam",
+      "distanceFromPlaceKm": 0.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kochi_Assembly_Constituency": {
+      "latitude": 9.924,
+      "longitude": 76.268,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kochi",
+      "distanceFromPlaceKm": 5.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kodungallur_Assembly_Constituency": {
+      "latitude": 10.228,
+      "longitude": 76.201,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kodungallur",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.18,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Kodungallur_Eriyad_Special": {
       "latitude": 10.2229,
       "longitude": 76.1585,
@@ -812,10 +1324,10 @@
       "distanceFromPlaceKm": 0,
       "quality": "irregular",
       "fit": {
-        "cells": 2195,
-        "exactPercent": 24.74,
-        "within1Percent": 68.61,
-        "within2Percent": 80.77,
+        "cells": 2196,
+        "exactPercent": 24.73,
+        "within1Percent": 69.26,
+        "within2Percent": 81.42,
         "maxError": 6
       }
     },
@@ -830,6 +1342,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kollam_Assembly_Constituency": {
+      "latitude": 8.895,
+      "longitude": 76.618,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kollam",
+      "distanceFromPlaceKm": 3.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.45,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -867,6 +1395,38 @@
         "maxError": 1
       }
     },
+    "Konni_Assembly_Constituency": {
+      "latitude": 9.226,
+      "longitude": 76.854,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Konni",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kothamangalam_Assembly_Constituency": {
+      "latitude": 10.062,
+      "longitude": 76.638,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kothamangalam",
+      "distanceFromPlaceKm": 13.3,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Kottakkal_Assembly_Constituency": {
       "latitude": 11.004,
       "longitude": 75.994,
@@ -878,6 +1438,54 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.18,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kottarakkara_Assembly_Constituency": {
+      "latitude": 9.001,
+      "longitude": 76.785,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kottarakkara",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.77,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kottayam_Assembly_Constituency": {
+      "latitude": 9.596,
+      "longitude": 76.524,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kottayam",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kovalam_Assembly_Constituency": {
+      "latitude": 8.399,
+      "longitude": 76.985,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kovalam",
+      "distanceFromPlaceKm": 1.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -931,6 +1539,22 @@
         "maxError": 1
       }
     },
+    "Kundara_Assembly_Constituency": {
+      "latitude": 8.959,
+      "longitude": 76.682,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Kundara",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.64,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Kunnamangalam_Assembly_Constituency": {
       "latitude": 11.304,
       "longitude": 75.88,
@@ -963,6 +1587,38 @@
         "maxError": 1
       }
     },
+    "Kunnathunad_Assembly_Constituency": {
+      "latitude": 10.016,
+      "longitude": 76.409,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Pattimattam",
+      "distanceFromPlaceKm": 5.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kunnathur_Assembly_Constituency": {
+      "latitude": 9.071,
+      "longitude": 76.696,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Sasthamcotta",
+      "distanceFromPlaceKm": 7.8,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.27,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Kuthuparamba_Assembly_Constituency": {
       "latitude": 11.829,
       "longitude": 75.568,
@@ -974,6 +1630,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Kuttanad_Assembly_Constituency": {
+      "latitude": 9.35,
+      "longitude": 76.408,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ramankary",
+      "distanceFromPlaceKm": 11.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.68,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1155,6 +1827,22 @@
         "maxError": 1
       }
     },
+    "Mavelikara_Assembly_Constituency": {
+      "latitude": 9.238,
+      "longitude": 76.534,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Mavelikara",
+      "distanceFromPlaceKm": 1.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Mundayad_Kannur": {
       "latitude": 11.8879,
       "longitude": 75.4073,
@@ -1169,6 +1857,22 @@
         "within1Percent": 99.86,
         "within2Percent": 100,
         "maxError": 2
+      }
+    },
+    "Muvattupuzha_Assembly_Constituency": {
+      "latitude": 9.99,
+      "longitude": 76.581,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Muvattupuzha",
+      "distanceFromPlaceKm": 0.8,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.5,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Nadapuram": {
@@ -1203,6 +1907,54 @@
         "maxError": 1
       }
     },
+    "Nattika_Assembly_Constituency": {
+      "latitude": 10.429,
+      "longitude": 76.097,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Triprayar",
+      "distanceFromPlaceKm": 1.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.45,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Nedumangad_Assembly_Constituency": {
+      "latitude": 8.604,
+      "longitude": 77.01,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Nedumangad",
+      "distanceFromPlaceKm": 10.9,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.23,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Nemom_Assembly_Constituency": {
+      "latitude": 8.456,
+      "longitude": 77.003,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Nemom",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.64,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Nenmara_Assembly_Constituency": {
       "latitude": 10.592,
       "longitude": 76.605,
@@ -1219,6 +1971,22 @@
         "maxError": 1
       }
     },
+    "Neyyattinkara_Assembly_Constituency": {
+      "latitude": 8.409,
+      "longitude": 77.088,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Neyyattinkara",
+      "distanceFromPlaceKm": 3.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Nilambur_Assembly_Constituency": {
       "latitude": 11.285,
       "longitude": 76.243,
@@ -1230,6 +1998,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Ollur_Assembly_Constituency": {
+      "latitude": 10.488,
+      "longitude": 76.24,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ollur",
+      "distanceFromPlaceKm": 1.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1295,7 +2079,7 @@
         "cells": 2196,
         "exactPercent": 9.24,
         "within1Percent": 21.04,
-        "within2Percent": 32.51,
+        "within2Percent": 32.47,
         "maxError": 40
       }
     },
@@ -1329,6 +2113,22 @@
         "within1Percent": 49.82,
         "within2Percent": 81.24,
         "maxError": 6
+      }
+    },
+    "Pala_Assembly_Constituency": {
+      "latitude": 9.714,
+      "longitude": 76.687,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Pala",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.45,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Palakkad_Assembly_Constituency": {
@@ -1405,10 +2205,58 @@
       "quality": "irregular",
       "fit": {
         "cells": 2196,
-        "exactPercent": 24.5,
-        "within1Percent": 70.17,
-        "within2Percent": 92.08,
-        "maxError": 6
+        "exactPercent": 24.59,
+        "within1Percent": 70.45,
+        "within2Percent": 92.35,
+        "maxError": 4
+      }
+    },
+    "Parassala_Assembly_Constituency": {
+      "latitude": 8.343,
+      "longitude": 77.156,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Parassala",
+      "distanceFromPlaceKm": 0.1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.59,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Paravur_Assembly_Constituency": {
+      "latitude": 10.143,
+      "longitude": 76.232,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "North Paravur",
+      "distanceFromPlaceKm": 1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.23,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Pathanapuram_Assembly_Constituency": {
+      "latitude": 9.091,
+      "longitude": 76.865,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Pathanapuram",
+      "distanceFromPlaceKm": 1,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.77,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
       }
     },
     "Pattambi_Assembly_Constituency": {
@@ -1438,6 +2286,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Peerumade_Assembly_Constituency": {
+      "latitude": 9.577,
+      "longitude": 77.018,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Peermade",
+      "distanceFromPlaceKm": 2.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1491,6 +2355,38 @@
         "maxError": 1
       }
     },
+    "Perumbavoor_Assembly_Constituency": {
+      "latitude": 10.115,
+      "longitude": 76.482,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Perumbavoor",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Piravom_Assembly_Constituency": {
+      "latitude": 9.87,
+      "longitude": 76.496,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Piravom",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.23,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Ponnani_Assembly_Constituency": {
       "latitude": 10.771,
       "longitude": 75.929,
@@ -1502,6 +2398,86 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.45,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Poonjar_Assembly_Constituency": {
+      "latitude": 9.672,
+      "longitude": 76.812,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Poonjar",
+      "distanceFromPlaceKm": 0.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Punalur_Assembly_Constituency": {
+      "latitude": 9.015,
+      "longitude": 76.93,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Punalur",
+      "distanceFromPlaceKm": 0.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Puthukkad_Assembly_Constituency": {
+      "latitude": 10.421,
+      "longitude": 76.274,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Puthukkad",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Puthuppally_Assembly_Constituency": {
+      "latitude": 9.561,
+      "longitude": 76.568,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Puthuppally",
+      "distanceFromPlaceKm": 0.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.13,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Ranni_Assembly_Constituency": {
+      "latitude": 9.392,
+      "longitude": 76.787,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Ranni",
+      "distanceFromPlaceKm": 0.8,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.13,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1651,6 +2627,22 @@
         "maxError": 1
       }
     },
+    "Tarur_Assembly_Constituency": {
+      "latitude": 10.673,
+      "longitude": 76.473,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Tarur",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.09,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Thalassery_Assembly_Constituency": {
       "latitude": 11.754,
       "longitude": 75.491,
@@ -1683,6 +2675,38 @@
         "maxError": 8
       }
     },
+    "Thavanur_Assembly_Constituency": {
+      "latitude": 10.838,
+      "longitude": 75.996,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thavanur",
+      "distanceFromPlaceKm": 3.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Thiruvalla_Assembly_Constituency": {
+      "latitude": 9.388,
+      "longitude": 76.577,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thiruvalla",
+      "distanceFromPlaceKm": 0.2,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.64,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Thiruvambady_Assembly_Constituency": {
       "latitude": 11.362,
       "longitude": 76.012,
@@ -1699,6 +2723,38 @@
         "maxError": 1
       }
     },
+    "Thiruvananthapuram_Assembly_Constituency": {
+      "latitude": 8.52,
+      "longitude": 76.939,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thiruvananthapuram",
+      "distanceFromPlaceKm": 3.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.64,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Thodupuzha_Assembly_Constituency": {
+      "latitude": 9.903,
+      "longitude": 76.719,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thodupuzha",
+      "distanceFromPlaceKm": 0.9,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Thrikaripur_Assembly_Constituency": {
       "latitude": 12.144,
       "longitude": 75.174,
@@ -1710,6 +2766,54 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.23,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Thrikkakara_Assembly_Constituency": {
+      "latitude": 10.035,
+      "longitude": 76.334,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thrikkakara",
+      "distanceFromPlaceKm": 5.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.45,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Thrippunithura_Assembly_Constituency": {
+      "latitude": 9.949,
+      "longitude": 76.35,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thrippunithura",
+      "distanceFromPlaceKm": 0.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.77,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Thrissur_Assembly_Constituency": {
+      "latitude": 10.527,
+      "longitude": 76.216,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Thrissur",
+      "distanceFromPlaceKm": 1.5,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1779,6 +2883,22 @@
         "maxError": 1
       }
     },
+    "Udumbanchola_Assembly_Constituency": {
+      "latitude": 9.897,
+      "longitude": 77.183,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Nedumkandam",
+      "distanceFromPlaceKm": 7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.27,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Upala_Hanafi": {
       "latitude": 12.6852,
       "longitude": 74.9056,
@@ -1791,8 +2911,8 @@
         "cells": 2196,
         "exactPercent": 14.75,
         "within1Percent": 41.67,
-        "within2Percent": 56.92,
-        "maxError": 58
+        "within2Percent": 56.97,
+        "maxError": 28
       }
     },
     "Vadakara_Assembly_Constituency": {
@@ -1806,6 +2926,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.32,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Vaikom_Assembly_Constituency": {
+      "latitude": 9.719,
+      "longitude": 76.395,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Vaikom",
+      "distanceFromPlaceKm": 3.4,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.23,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1
@@ -1827,6 +2963,54 @@
         "maxError": 1
       }
     },
+    "Vamanapuram_Assembly_Constituency": {
+      "latitude": 8.719,
+      "longitude": 76.902,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Venjaramoodu",
+      "distanceFromPlaceKm": 4.6,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Varkala_Assembly_Constituency": {
+      "latitude": 8.738,
+      "longitude": 76.72,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Varkala",
+      "distanceFromPlaceKm": 0.7,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.41,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Vattiyoorkavu_Assembly_Constituency": {
+      "latitude": 8.525,
+      "longitude": 76.992,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Vattiyoorkavu",
+      "distanceFromPlaceKm": 0.3,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.54,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
     "Vengara_Assembly_Constituency": {
       "latitude": 11.05,
       "longitude": 75.985,
@@ -1838,6 +3022,22 @@
       "fit": {
         "cells": 2196,
         "exactPercent": 99.36,
+        "within1Percent": 100,
+        "within2Percent": 100,
+        "maxError": 1
+      }
+    },
+    "Vypin_Assembly_Constituency": {
+      "latitude": 9.974,
+      "longitude": 76.246,
+      "method": "kerala-sunni",
+      "coordinates": "fitted",
+      "place": "Njarakkal",
+      "distanceFromPlaceKm": 9,
+      "quality": "exact",
+      "fit": {
+        "cells": 2196,
+        "exactPercent": 99.5,
         "within1Percent": 100,
         "within2Percent": 100,
         "maxError": 1

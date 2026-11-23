@@ -9,6 +9,7 @@
 /v1/*
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, HEAD, OPTIONS
+  X-Robots-Tag: noindex
 
 /sw.js
   Service-Worker-Allowed: /

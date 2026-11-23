@@ -2,9 +2,9 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=3e7a8de86e29';
-import { PrayerNotifications } from './notifications.js?v=3e7a8de86e29';
-import { createExportSelection, createExportCSV } from './export-data.js?v=3e7a8de86e29';
+} from './prayer-data.js?v=7772fe34ae41';
+import { PrayerNotifications } from './notifications.js?v=7772fe34ae41';
+import { createExportSelection, createExportCSV } from './export-data.js?v=7772fe34ae41';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -24,6 +24,8 @@ const prayerIcons = { subh: 'moon', sunrise: 'sunrise', duhr: 'sun', asar: 'afte
 const prayerCaptions = { subh: 'Dawn prayer', sunrise: 'End of Fajr time', duhr: 'Midday prayer', asar: 'Afternoon prayer', maghrib: 'Sunset prayer', isha: 'Night prayer' };
 const aliases = { kochi: 'Ernakulam_Shafi', cochin: 'Ernakulam_Shafi', ernakulam: 'Ernakulam_Shafi', kozhikode: 'MARKAZ_CALICUT_2025', calicut: 'MARKAZ_CALICUT_2025', kannur: 'Kannur_Assembly_Constituency', thalassery: 'Thalassery_Assembly_Constituency', thiruvananthapuram: 'T_V_M__shafi__standard_to_thambaanur', trivandrum: 'T_V_M__shafi__standard_to_thambaanur' };
 const toSlug = (id) => id.toLowerCase().replace(/_/g, '-');
+// Each timetable has its own page at this path (built by scripts/seo-pages.mjs).
+const pagePath = (id) => id.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 let toastTimer;
 function toast(message) {
   clearTimeout(toastTimer); $('toast').textContent = message; $('toast').hidden = false;
@@ -39,8 +41,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=3e7a8de86e29`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=3e7a8de86e29`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=7772fe34ae41`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=7772fe34ae41`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -72,13 +74,31 @@ function locationFromURL() {
   const candidate = query || (path && path !== 'index.html' ? path : '');
   if (!candidate) return null;
   const alias = aliases[candidate.toLowerCase()];
-  return state.locations.find(({ id }) => id === candidate || toSlug(id) === candidate.toLowerCase() || id === alias) ?? null;
+  const lower = candidate.toLowerCase();
+  return state.locations.find(({ id }) => id === candidate || pagePath(id) === lower || toSlug(id) === lower || id === alias) ?? null;
 }
 function updateURL(id) {
-  const url = new URL(location.href); url.searchParams.set('q', id);
-  // Canonicalize pretty paths when changing cities, so a shared URL has one location.
-  url.pathname = location.pathname.startsWith('/dashboard/') ? '/dashboard/' : '/';
+  // Every timetable has its own page, so a shared or bookmarked URL opens that timetable.
+  const url = new URL(location.href); url.searchParams.delete('q');
+  url.pathname = `${location.pathname.startsWith('/dashboard/') ? '/dashboard/' : '/'}${pagePath(id)}`;
   history.pushState({ location: id, date: state.date, period: state.period }, '', url);
+}
+function updatePageDetails(entry) {
+  // A timetable page carries a static guide for its own location; drop it for any other.
+  const guide = $('location-guide');
+  if (guide && guide.dataset.location !== entry.id) guide.remove();
+  // Retitle only on the timetable's own page. The home page keeps its own title and
+  // canonical URL even though it shows a remembered or default timetable.
+  const path = location.pathname.replace(/^\/dashboard(?=\/)/, '').replace(/^\/+|\/+$/g, '');
+  if (path !== pagePath(entry.id)) return;
+  // The page built for this timetable already carries its title, heading and canonical URL.
+  if (document.documentElement.dataset.location === entry.id) return;
+  // Same rule as scripts/seo-pages.mjs pageTitle().
+  const full = `${entry.label} Prayer Times Today | Namaz Timings | AzanTimes`;
+  document.title = full.length <= 65 ? full : `${entry.label} Prayer Times Today | AzanTimes`;
+  $('page-title').textContent = `${entry.label} prayer times`;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical) canonical.href = `https://azantimes.in/${pagePath(entry.id)}`;
 }
 async function selectLocation(id, update = true) {
   const nextLocation = state.locations.find((entry) => entry.id === id);
@@ -96,6 +116,7 @@ async function selectLocation(id, update = true) {
   $('error-panel').hidden = true;
   updateSaved();
   if (update) updateURL(id);
+  updatePageDetails(nextLocation);
   setStored('azan-location', id);
   try {
     const schedule = await loadSchedule(id, { signal: controller.signal });
@@ -366,8 +387,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=3e7a8de86e29');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=3e7a8de86e29', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=7772fe34ae41');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=7772fe34ae41', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -428,6 +449,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=3e7a8de86e29', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=7772fe34ae41', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();

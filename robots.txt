@@ -1,16 +1,4 @@
 User-agent: *
 Allow: /
 
-# XML Sitemap
-Sitemap: https://azantimes.in/sitemap.xml
 Sitemap: https://api.azantimes.in/sitemap.xml
-
-# API endpoints
-Allow: /v1/
-
-# Crawl delay for respectful crawling
-Crawl-delay: 1
-
-# Disallow admin or private areas if any
-# Disallow: /admin/
-# Disallow: /private/

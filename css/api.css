@@ -95,6 +95,9 @@ h2 { font-size: 28px; letter-spacing: -.9px; font-weight: 600; }
 .note p { line-height: 1.8; }
 .note-icon { margin-top: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 14px; height: 14px; border: 1px solid #819271; border-radius: 50%; font: 10px Georgia, serif; }
 .endpoint-list { border: 1px solid var(--line); background: #fff; border-radius: 7px; overflow: hidden; }
+.endpoint-group-title { margin-top: 34px; font-size: 14px; font-weight: 600; }
+.endpoint-group-note { margin: 6px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.75; max-width: 650px; }
+.doc-section > p a, .endpoint p a { color: var(--green); }
 .endpoint { padding: 18px 19px; }
 .endpoint + .endpoint { border-top: 1px solid #e7ebdf; }
 .endpoint-path { display: flex; align-items: baseline; gap: 10px; min-width: 0; }

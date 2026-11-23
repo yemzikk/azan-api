@@ -4,7 +4,7 @@ This repository holds the published AzanTimes website and prayer-times API (api.
 
 ## Prayer timetable data: CC BY 4.0
 
-The timetable data in `v1/`, `dashboard/v1/` and `districts.json` is licensed by ZikkLabs under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+The timetable data in `v1/`, `v2/`, `dashboard/v1/` and `districts.json` is licensed by ZikkLabs under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
 You may copy, share and adapt the data for any purpose, including in paid apps, as long as you credit AzanTimes. A credit like this is enough:
 

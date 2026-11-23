@@ -13,7 +13,7 @@
   <meta property="og:title" content="How AzanTimes prayer times are calculated">
   <meta property="og:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
   <meta property="og:url" content="https://azantimes.in/calculation/">
-  <meta property="og:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=3e7a8de86e29">
+  <meta property="og:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=7772fe34ae41">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -21,21 +21,21 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How AzanTimes prayer times are calculated">
   <meta name="twitter:description" content="The full working behind every prayer time, compared day by day with the published Kerala timetables. Open for review.">
-  <meta name="twitter:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=3e7a8de86e29">
+  <meta name="twitter:image" content="https://azantimes.in/images/azantimes-calculation-og.jpg?v=7772fe34ae41">
   <meta name="twitter:image:alt" content="AzanTimes: how prayer times are calculated. A sun-path diagram marking Subh, sunrise, Dhuhr, Asr, Maghrib and Isha.">
-  <link rel="icon" href="../favicon/favicon.ico?v=3e7a8de86e29" sizes="16x16 32x32 48x48">
-  <link rel="icon" href="../favicon/favicon.svg?v=3e7a8de86e29" type="image/svg+xml" sizes="any">
-  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png?v=3e7a8de86e29" sizes="180x180">
-  <link rel="stylesheet" href="./calculation.css?v=3e7a8de86e29">
+  <link rel="icon" href="../favicon/favicon.ico?v=7772fe34ae41" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="../favicon/favicon.svg?v=7772fe34ae41" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="../favicon/apple-touch-icon.png?v=7772fe34ae41" sizes="180x180">
+  <link rel="stylesheet" href="./calculation.css?v=7772fe34ae41">
   <script>try{var t=JSON.parse(localStorage.getItem('azan-theme'));document.documentElement.dataset.theme=t==='dark'||(t==null&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}catch(e){}</script>
-  <script type="module" src="./calculation.js?v=3e7a8de86e29"></script>
+  <script type="module" src="./calculation.js?v=7772fe34ae41"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to the calculation</a>
 <header class="masthead">
   <a class="brand" href="../" aria-label="AzanTimes home">
-    <img class="logo logo-light" src="../brand/azantimes-logo.svg?v=3e7a8de86e29" alt="AzanTimes" width="170" height="44">
-    <img class="logo logo-dark" src="../brand/azantimes-logo-light.svg?v=3e7a8de86e29" alt="" width="170" height="44" aria-hidden="true">
+    <img class="logo logo-light" src="../brand/azantimes-logo.svg?v=7772fe34ae41" alt="AzanTimes" width="170" height="44">
+    <img class="logo logo-dark" src="../brand/azantimes-logo-light.svg?v=7772fe34ae41" alt="" width="170" height="44" aria-hidden="true">
   </a>
   <a class="contact-link" data-contact href="mailto:calculation@azantimes.in?subject=Prayer%20time%20calculation">Write to us</a>
 </header>
@@ -125,7 +125,7 @@
     </table></div>
 
     <h3>The rule the Assembly Constituency timetables follow</h3>
-    <p>Sixty-five of the timetables were produced by one consistent rule. It was recovered by fitting, then checked against all 142,740 of their published times: 99.39% agree to the minute and none differs by more than one minute.</p>
+    <p><span data-stat="rule-count">140</span> of the timetables, one for each Assembly constituency in Kerala, were produced by one consistent rule. It was recovered by fitting, then checked against all <span data-stat="rule-cells">307,440</span> of their published times: <span data-stat="rule-exact">99.4%</span> agree to the minute and <span data-stat="rule-within1">none differs</span> by more than one minute.</p>
     <div class="table-wrap"><table class="grid plain">
       <thead><tr><th scope="col">Prayer</th><th scope="col">Astronomical instant</th><th scope="col">Minutes added</th></tr></thead>
       <tbody>
@@ -168,7 +168,7 @@
 
 <section id="all" aria-labelledby="all-title">
   <h2 id="all-title">8. How well each timetable is reproduced</h2>
-  <p class="section-note">All 116 source calendars, each compared over 366 days and six times a day. Choose a row to load it above.</p>
+  <p class="section-note">All <span data-stat="calendar-count">191</span> source calendars, each compared over 366 days and six times a day. Choose a row to load it above.</p>
   <p class="section-note">The Assembly Constituency timetables follow the rule, and the point each was calculated for was recovered from the timetable. Every other calendar is only checked: the rule is applied at the town's map position with nothing adjusted, to see whether it fits.</p>
   <div id="all-summary" class="cards small"></div>
   <div class="table-wrap tall" tabindex="0" role="region" aria-label="All timetables"><table id="all-table" class="grid"></table></div>
@@ -230,7 +230,7 @@
     <ul class="sources">
       <li>Published times: the AzanTimes timetable for the chosen place, as served by the <a href="https://api.azantimes.in/" target="_blank" rel="noopener noreferrer">AzanTimes public API</a>.</li>
       <li>Town positions: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, © OpenStreetMap contributors.</li>
-      <li>Calculation code: <a href="./prayer-calc.js?v=3e7a8de86e29">prayer-calc.js</a>, one file with no dependencies.</li>
+      <li>Calculation code: <a href="./prayer-calc.js?v=7772fe34ae41">prayer-calc.js</a>, one file with no dependencies.</li>
       <li>Point used, rule and measured agreement for every timetable: <a href="./locations.json">locations.json</a>.</li>
     </ul>
   </div>
@@ -239,7 +239,7 @@
 
 <footer class="page-footer">
   <span>AzanTimes · Prayer times for Kerala</span>
-  <a href="https://zikklabs.com" target="_blank" rel="noopener noreferrer"><img class="badge badge-light" src="../brand/zikklabs-product-badge.svg?v=3e7a8de86e29" alt="A product of ZikkLabs" width="188" height="28" loading="lazy"><img class="badge badge-dark" src="../brand/zikklabs-product-badge-light.svg?v=3e7a8de86e29" alt="" width="188" height="28" loading="lazy" aria-hidden="true"></a>
+  <a href="https://zikklabs.com" target="_blank" rel="noopener noreferrer"><img class="badge badge-light" src="../brand/zikklabs-product-badge.svg?v=7772fe34ae41" alt="A product of ZikkLabs" width="188" height="28" loading="lazy"><img class="badge badge-dark" src="../brand/zikklabs-product-badge-light.svg?v=7772fe34ae41" alt="" width="188" height="28" loading="lazy" aria-hidden="true"></a>
 </footer>
 </body>
 </html>
