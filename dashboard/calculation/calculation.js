@@ -3,8 +3,8 @@
 import {
   IST_OFFSET_MINUTES, PRAYERS, asrAltitude, astronomicalTimes, formatMinutes, horizonDip, hourAngleMinutes,
   julianDay, perpetualBreakdown, perpetualYears, prayerTimes, resolveMethod, sunPosition,
-} from './prayer-calc.js?v=5a3a8a452b5c';
-import { enhanceAll } from '../js/brand-controls.js?v=5a3a8a452b5c';
+} from './prayer-calc.js?v=11b6db15b6e9';
+import { enhanceAll } from '../js/brand-controls.js?v=11b6db15b6e9';
 
 const LABEL = { subh: 'Subh', sunrise: 'Sunrise', duhr: 'Dhuhr', asar: 'Asr', maghrib: 'Maghrib', isha: 'Isha' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

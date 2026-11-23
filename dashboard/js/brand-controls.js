@@ -5,7 +5,7 @@
  * control on top. Selecting dispatches the usual `input` and `change` events, and
  * values set from code are reflected immediately.
  *
- *   import { enhanceAll } from './brand-controls.js?v=5a3a8a452b5c';
+ *   import { enhanceAll } from './brand-controls.js?v=11b6db15b6e9';
  *   enhanceAll();            // every <select> and date/month input on the page
  *
  * Dependency-free. Popups open in the browser's top layer (Popover API) so dialogs never

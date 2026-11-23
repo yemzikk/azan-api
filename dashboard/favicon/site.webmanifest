@@ -8,19 +8,19 @@
   "scope": "../",
   "icons": [
     {
-      "src": "android-chrome-192x192.png?v=5a3a8a452b5c",
+      "src": "android-chrome-192x192.png?v=11b6db15b6e9",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "android-chrome-512x512.png?v=5a3a8a452b5c",
+      "src": "android-chrome-512x512.png?v=11b6db15b6e9",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "maskable-icon-512x512.png?v=5a3a8a452b5c",
+      "src": "maskable-icon-512x512.png?v=11b6db15b6e9",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

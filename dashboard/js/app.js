@@ -2,10 +2,11 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=5a3a8a452b5c';
-import { PrayerNotifications } from './notifications.js?v=5a3a8a452b5c';
-import { createExportSelection, createExportCSV } from './export-data.js?v=5a3a8a452b5c';
-import { enhanceAll } from './brand-controls.js?v=5a3a8a452b5c';
+} from './prayer-data.js?v=11b6db15b6e9';
+import { PrayerNotifications } from './notifications.js?v=11b6db15b6e9';
+import { createExportSelection, createExportCSV } from './export-data.js?v=11b6db15b6e9';
+import { enhanceAll } from './brand-controls.js?v=11b6db15b6e9';
+import { searchFields, searchLocations } from './location-search.js?v=11b6db15b6e9';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -42,8 +43,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=5a3a8a452b5c`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=5a3a8a452b5c`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=11b6db15b6e9`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=11b6db15b6e9`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -58,9 +59,9 @@ function showLocations(savedOnly = false) {
   renderLocations(); $('location-dialog').showModal(); $('location-search').focus();
 }
 function renderLocations() {
-  const query = $('location-search').value.toLowerCase().trim();
+  const query = $('location-search').value;
   const district = $('district-filter').value;
-  const filtered = state.locations.filter((location) => (!state.savedOnly || state.favorites.has(location.id)) && (!district || location.district === district) && (!query || location.searchText.includes(query)));
+  const filtered = searchLocations(state.locations.filter((location) => (!state.savedOnly || state.favorites.has(location.id)) && (!district || location.district === district)), query);
   for (const [id, active] of [['filter-all', !state.savedOnly], ['filter-saved', state.savedOnly]]) {
     $(id).classList.toggle('active', active); $(id).setAttribute('aria-pressed', String(active));
   }
@@ -233,15 +234,23 @@ function tick() {
     void notifications.check({ schedule: state.schedule, location: state.location, now: now.getTime(), use24Hour: state.use24Hour }).catch(() => { updateReminderStatus(); });
   }
 }
-async function shareSchedule() {
-  const rows = selectedRows(); if (!rows.length) { toast('Choose a date with a published timetable first.'); return; }
-  // Share the timetable's own page; add the date and view only when they are not today's daily view.
+// The timetable's own page; the date and view are added only when they are not today's daily view.
+function pageLink() {
   const base = location.hostname.endsWith('azantimes.in') ? 'https://azantimes.in/' : new URL(location.pathname.startsWith('/dashboard/') ? '/dashboard/' : '/', location.origin).href;
+  if (!state.location) return new URL(base);
   const url = new URL(pagePath(state.location.id), base);
   if (state.date !== state.today) url.searchParams.set('date', state.date);
   if (state.period !== 'day') url.searchParams.set('view', state.period);
+  return url;
+}
+async function shareSchedule() {
+  const rows = selectedRows(); if (!rows.length) { toast('Choose a date with a published timetable first.'); return; }
+  const url = pageLink();
   const day = rows[0];
-  const text = `${state.location.label} · ${state.period === 'day' ? formatDate(day.date) : state.date.slice(0, state.period === 'month' ? 7 : 4)}\n${state.period === 'day' ? PRAYERS.map(({ key, label }) => `${label}: ${displayTime(day[key])}`).join('\n') + '\n' : ''}All times in IST.\n${url.href}`;
+  const when = state.period === 'day' ? formatDate(day.date) : state.period === 'month'
+    ? new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric', timeZone: TIME_ZONE }).format(new Date(`${state.date.slice(0, 7)}-01T12:00:00+05:30`))
+    : `${state.date.slice(0, 4)} timetable`;
+  const text = `${state.location.label} · ${when}\n${state.period === 'day' ? PRAYERS.map(({ key, label }) => `${label}: ${displayTime(day[key])}`).join('\n') + '\n' : ''}All times in IST.\n${url.href}`;
   try {
     if (navigator.share) await navigator.share({ title: 'AzanTimes · Prayer times', text });
     else { await navigator.clipboard.writeText(text); toast('Prayer schedule and link copied.'); }
@@ -353,8 +362,65 @@ $('test-notification').addEventListener('click', async () => {
 });
 const CREDITS = '<p><strong>Prayer timetables.</strong> Compiled from prayer calendars used across Kerala. Each timetable is named after the calendar it follows.</p>'
   + '<p><strong>Typefaces.</strong> Atkinson Hyperlegible Next by the Braille Institute, and Newsreader by Production Type in the AzanTimes wordmark. Both are free under the SIL Open Font License 1.1.</p>'
-  + '<p><strong>Building something?</strong> These timetables are free to use under CC BY 4.0 through the <a href="https://api.azantimes.in/#usage" target="_blank" rel="noopener noreferrer">AzanTimes API</a>. Just credit AzanTimes with a link.</p>';
+  + '<p><strong>Building something?</strong> These timetables are free to use through the <a href="https://api.azantimes.in/#usage" target="_blank" rel="noopener noreferrer">AzanTimes API</a>. Credit is not required, but a link to AzanTimes helps correct times reach more people.</p>'
+  + '<p><strong>Spotted a mistake?</strong> If a name, source or credit line needs to change, <a href="mailto:corrections@azantimes.in" data-open-report="name">report it here</a>.</p>';
 $('credits-button').addEventListener('click', () => info('Credits', CREDITS));
+
+// Report a problem: a short form that opens an email with the timetable details filled in.
+const REPORT_EMAIL = 'corrections@azantimes.in';
+const REPORT_KINDS = { time: 'A prayer time', name: 'A name, source or credit', other: 'Something else' };
+const REPORT_NOTE = $('report-status').innerHTML;
+const reportKind = () => document.querySelector('input[name="report-kind"]:checked')?.value ?? 'time';
+function reportContext() {
+  const kind = reportKind();
+  const lines = [`Problem: ${REPORT_KINDS[kind]}`];
+  if (state.location) {
+    lines.push(`Timetable: ${state.location.label} (${state.location.id})`);
+    if (kind === 'time') {
+      lines.push(state.period === 'year' ? `Year: ${state.date.slice(0, 4)}`
+        : state.period === 'month' ? `Month: ${new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric', timeZone: TIME_ZONE }).format(new Date(`${state.date.slice(0, 7)}-01T12:00:00+05:30`))}`
+        : `Date: ${formatDate(state.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`);
+    }
+    const day = kind === 'time' && state.period === 'day' && state.schedule ? getDay(state.schedule, state.date) : null;
+    if (day) lines.push(`Times shown: ${PRAYERS.map(({ key, label }) => `${label} ${displayTime(day[key])}`).join(', ')}`);
+  }
+  lines.push(`Page: ${pageLink().href}`);
+  return lines.join('\n');
+}
+function reportEmail() {
+  const kind = reportKind();
+  const place = state.location ? `: ${state.location.label}` : '';
+  const subject = `${kind === 'time' ? 'Prayer time correction' : kind === 'name' ? 'Name or credit correction' : 'AzanTimes feedback'}${place}`;
+  const note = $('report-note').value.trim();
+  return { subject, body: `${reportContext()}\n\nDetails:\n${note || '(none given)'}\n` };
+}
+function openReport(kind) {
+  const choice = document.querySelector(`input[name="report-kind"][value="${REPORT_KINDS[kind] ? kind : 'time'}"]`);
+  if (kind || !$('report-dialog').dataset.used) choice.checked = true;
+  $('report-context').textContent = reportContext();
+  $('report-status').innerHTML = REPORT_NOTE;
+  for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close();
+  $('report-dialog').showModal();
+}
+document.addEventListener('click', (event) => {
+  const trigger = event.target.closest?.('[data-open-report]');
+  if (!trigger) return;
+  event.preventDefault(); openReport(trigger.dataset.openReport);
+});
+$('report-form').addEventListener('change', () => { $('report-dialog').dataset.used = 'true'; $('report-context').textContent = reportContext(); });
+$('report-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const { subject, body } = reportEmail();
+  location.href = `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  $('report-status').textContent = `Your email app should open now. If it does not, choose Copy details and send them to ${REPORT_EMAIL}.`;
+});
+$('report-copy').addEventListener('click', async () => {
+  const { subject, body } = reportEmail();
+  try {
+    await navigator.clipboard.writeText(`To: ${REPORT_EMAIL}\nSubject: ${subject}\n\n${body}`);
+    $('report-status').textContent = `Copied. Paste the details into an email to ${REPORT_EMAIL}.`;
+  } catch { $('report-status').textContent = `Copying is not available here. Please email ${REPORT_EMAIL} with the details above.`; }
+});
 for (const id of ['dismiss-prayer-alert', 'prayer-alert-dismiss']) $(id).addEventListener('click', () => { $('prayer-alert').hidden = true; });
 $('prayer-alert-view').addEventListener('click', async () => {
   const alert = state.activeAlert;
@@ -392,8 +458,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=5a3a8a452b5c');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=5a3a8a452b5c', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=11b6db15b6e9');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=11b6db15b6e9', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -423,7 +489,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) tick
 
 async function init() {
   try {
-    state.locations = await loadLocations();
+    state.locations = (await loadLocations()).map((location) => ({ ...location, search: searchFields(location) }));
     state.favorites = new Set([...state.favorites].filter((id) => state.locations.some((entry) => entry.id === id)));
     const districts = [...new Set(state.locations.map(({ district }) => district))].sort();
     $('district-filter').innerHTML = '<option value="">All districts</option>' + districts.map((district) => `<option>${escapeHTML(district)}</option>`).join('');
@@ -456,6 +522,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=5a3a8a452b5c', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=11b6db15b6e9', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();
