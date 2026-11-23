@@ -5,21 +5,21 @@
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/inter-latin.woff2?v=6c154cf95166') format('woff2');
+  src: url('/fonts/inter-latin.woff2?v=09b5577dd031') format('woff2');
 }
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url('/fonts/jetbrains-mono-latin.woff2?v=6c154cf95166') format('woff2');
+  src: url('/fonts/jetbrains-mono-latin.woff2?v=09b5577dd031') format('woff2');
 }
 @font-face {
   font-family: 'Atkinson Hyperlegible Next';
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/atkinson-hyperlegible-next-latin.woff2?v=6c154cf95166') format('woff2');
+  src: url('/fonts/atkinson-hyperlegible-next-latin.woff2?v=09b5577dd031') format('woff2');
 }
 
 :root {
@@ -297,6 +297,14 @@ ul.list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0 0; pad
   .hdr-end { margin-left: 0; }
   .pg { max-width: none; }
 }
+/* Moving between pages: the header and sidebar stay in place while the content fades,
+   in browsers with cross-document view transitions. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.site-header { view-transition-name: docs-header; }
+.side-in { view-transition-name: docs-sidebar; }
+::view-transition-group(root) { animation-duration: .2s; }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; }
 }

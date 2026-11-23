@@ -2,7 +2,7 @@
 // buttons, the language tabs on Quick start and the Try it console on each endpoint page.
 // Try it requests this site's own /v2/ files and builds every element with textContent,
 // so nothing in a response is ever read as HTML.
-import { enhanceAll } from '/dashboard/js/brand-controls.js?v=6c154cf95166';
+import { enhanceAll } from '/dashboard/js/brand-controls.js?v=09b5577dd031';
 
 const API_BASE = 'https://api.azantimes.in';
 const TIME_ZONE = 'Asia/Kolkata';
@@ -296,6 +296,24 @@ function setupTry(section) {
   for (const button of views) button.addEventListener('click', () => setView(button.dataset.view));
   setView('json');
   send();
+}
+
+// ---------------------------------------------------------------------------------------
+// Sidebar position, kept from page to page (restored by an inline script in each page)
+// ---------------------------------------------------------------------------------------
+const sidebar = document.querySelector('.side-in');
+if (sidebar) {
+  let timer;
+  const save = () => {
+    try { sessionStorage.setItem('azan-docs-sidebar', String(Math.round(sidebar.scrollTop))); } catch { /* Storage blocked: start at the top. */ }
+  };
+  sidebar.addEventListener('scroll', () => {
+    clearTimeout(timer);
+    timer = setTimeout(save, 100);
+  }, { passive: true });
+  // Save before following a link, so the next page opens with the same position.
+  sidebar.addEventListener('click', save);
+  addEventListener('pagehide', save);
 }
 
 enhanceAll();
