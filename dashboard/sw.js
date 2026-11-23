@@ -1,37 +1,37 @@
 /* Azan static PWA. Updates come from the network; cached files are an offline fallback. */
-const VERSION = 'azan-v5-f8885265248d';
+const VERSION = 'azan-v5-ccb4573ce18a';
 const SHELL_CACHE = `${VERSION}-shell`;
 const DATA_CACHE = `${VERSION}-data`;
 const APP_ROOT = new URL('./', self.registration.scope);
 const appUrl = (path) => new URL(path, APP_ROOT).href;
 const SHELL_FILES = [
   'index.html',
-  'css/dashboard.css?v=f8885265248d',
-  'js/app.js?v=f8885265248d',
-  'js/prayer-data.js?v=f8885265248d',
-  'js/notifications.js?v=f8885265248d',
-  'js/export-image.js?v=f8885265248d',
-  'js/export-data.js?v=f8885265248d',
-  'js/brand-controls.js?v=f8885265248d',
-  'js/location-search.js?v=f8885265248d',
-  'css/brand-controls.css?v=f8885265248d',
-  'brand/azantimes-mark.svg?v=f8885265248d',
-  'brand/azantimes-logo.svg?v=f8885265248d',
-  'brand/azantimes-logo-light.svg?v=f8885265248d',
-  'brand/zikklabs-product-badge.svg?v=f8885265248d',
-  'brand/zikklabs-product-badge-light.svg?v=f8885265248d',
-  'fonts/atkinson-hyperlegible-next-latin.woff2?v=f8885265248d',
-  'favicon/site.webmanifest?v=f8885265248d',
-  'favicon/favicon.svg?v=f8885265248d',
-  'favicon/favicon.ico?v=f8885265248d',
-  'favicon/favicon-16x16.png?v=f8885265248d',
-  'favicon/favicon-32x32.png?v=f8885265248d',
-  'favicon/apple-touch-icon.png?v=f8885265248d',
-  'favicon/maskable-icon-512x512.png?v=f8885265248d',
-  'favicon/mstile-150x150.png?v=f8885265248d',
-  'favicon/safari-pinned-tab.svg?v=f8885265248d',
-  'favicon/android-chrome-192x192.png?v=f8885265248d',
-  'favicon/android-chrome-512x512.png?v=f8885265248d',
+  'css/dashboard.css?v=ccb4573ce18a',
+  'js/app.js?v=ccb4573ce18a',
+  'js/prayer-data.js?v=ccb4573ce18a',
+  'js/notifications.js?v=ccb4573ce18a',
+  'js/export-image.js?v=ccb4573ce18a',
+  'js/export-data.js?v=ccb4573ce18a',
+  'js/brand-controls.js?v=ccb4573ce18a',
+  'js/location-search.js?v=ccb4573ce18a',
+  'css/brand-controls.css?v=ccb4573ce18a',
+  'brand/azantimes-mark.svg?v=ccb4573ce18a',
+  'brand/azantimes-logo-compact.svg?v=ccb4573ce18a',
+  'brand/azantimes-logo-compact-light.svg?v=ccb4573ce18a',
+  'brand/zikklabs-product-badge.svg?v=ccb4573ce18a',
+  'brand/zikklabs-product-badge-light.svg?v=ccb4573ce18a',
+  'fonts/atkinson-hyperlegible-next-latin.woff2?v=ccb4573ce18a',
+  'favicon/site.webmanifest?v=ccb4573ce18a',
+  'favicon/favicon.svg?v=ccb4573ce18a',
+  'favicon/favicon.ico?v=ccb4573ce18a',
+  'favicon/favicon-16x16.png?v=ccb4573ce18a',
+  'favicon/favicon-32x32.png?v=ccb4573ce18a',
+  'favicon/apple-touch-icon.png?v=ccb4573ce18a',
+  'favicon/maskable-icon-512x512.png?v=ccb4573ce18a',
+  'favicon/mstile-150x150.png?v=ccb4573ce18a',
+  'favicon/safari-pinned-tab.svg?v=ccb4573ce18a',
+  'favicon/android-chrome-192x192.png?v=ccb4573ce18a',
+  'favicon/android-chrome-512x512.png?v=ccb4573ce18a',
 ];
 const OWN_CACHE = /^(?:azan-|prayer-times-(?:kerala|api|offline)-)/;
 
@@ -139,7 +139,7 @@ self.addEventListener('message', (event) => {
     if (type === 'TEST_NOTIFICATION') {
       await self.registration.showNotification('Azan reminder', {
         body: 'Reminders work while the Azan page is open. Keep this tab open for prayer alerts.',
-        icon: appUrl('favicon/android-chrome-192x192.png?v=f8885265248d'),
+        icon: appUrl('favicon/android-chrome-192x192.png?v=ccb4573ce18a'),
         tag: 'azan-test',
         data: { url: APP_ROOT.href },
       });
