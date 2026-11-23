@@ -3,7 +3,8 @@
 import {
   IST_OFFSET_MINUTES, PRAYERS, asrAltitude, astronomicalTimes, formatMinutes, horizonDip, hourAngleMinutes,
   julianDay, perpetualBreakdown, perpetualYears, prayerTimes, resolveMethod, sunPosition,
-} from './prayer-calc.js?v=7772fe34ae41';
+} from './prayer-calc.js?v=5a3a8a452b5c';
+import { enhanceAll } from '../js/brand-controls.js?v=5a3a8a452b5c';
 
 const LABEL = { subh: 'Subh', sunrise: 'Sunrise', duhr: 'Dhuhr', asar: 'Asr', maghrib: 'Maghrib', isha: 'Isha' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -568,6 +569,7 @@ function downloadCsv() {
 }
 
 async function start() {
+  enhanceAll();
   try {
     const response = await fetch('./locations.json');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);

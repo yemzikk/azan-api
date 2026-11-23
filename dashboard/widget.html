@@ -95,12 +95,12 @@
       const timeout = setTimeout(() => { timedOut = true; requestController.abort(); }, 15000);
       try {
         if (!locationId) throw new Error('Add a timetable identifier to this widget’s URL, for example ?q=Ernakulam_Shafi.');
-        helpers ??= await import('./js/prayer-data.js?v=7772fe34ae41');
+        helpers ??= await import('./js/prayer-data.js?v=5a3a8a452b5c');
         if (currentVersion !== version) return;
         const label = helpers.humanizeLocation(locationId);
         $('location-name').textContent = label;
-        const dashboard = new URL('https://azantimes.in/');
-        dashboard.searchParams.set('q', locationId);
+        // The timetable's own page on azantimes.in.
+        const dashboard = new URL(locationId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''), 'https://azantimes.in/');
         $('dashboard-link').href = dashboard.href;
         schedule = await helpers.loadSchedule(locationId, { signal: requestController.signal });
         if (requestController.signal.aborted || currentVersion !== version) return;

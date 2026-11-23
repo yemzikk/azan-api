@@ -2,9 +2,10 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=7772fe34ae41';
-import { PrayerNotifications } from './notifications.js?v=7772fe34ae41';
-import { createExportSelection, createExportCSV } from './export-data.js?v=7772fe34ae41';
+} from './prayer-data.js?v=5a3a8a452b5c';
+import { PrayerNotifications } from './notifications.js?v=5a3a8a452b5c';
+import { createExportSelection, createExportCSV } from './export-data.js?v=5a3a8a452b5c';
+import { enhanceAll } from './brand-controls.js?v=5a3a8a452b5c';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -41,8 +42,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=7772fe34ae41`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=7772fe34ae41`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=5a3a8a452b5c`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=5a3a8a452b5c`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -234,7 +235,11 @@ function tick() {
 }
 async function shareSchedule() {
   const rows = selectedRows(); if (!rows.length) { toast('Choose a date with a published timetable first.'); return; }
-  const url = new URL(location.href); url.searchParams.set('q', state.location.id); url.searchParams.set('date', state.date); url.searchParams.set('view', state.period);
+  // Share the timetable's own page; add the date and view only when they are not today's daily view.
+  const base = location.hostname.endsWith('azantimes.in') ? 'https://azantimes.in/' : new URL(location.pathname.startsWith('/dashboard/') ? '/dashboard/' : '/', location.origin).href;
+  const url = new URL(pagePath(state.location.id), base);
+  if (state.date !== state.today) url.searchParams.set('date', state.date);
+  if (state.period !== 'day') url.searchParams.set('view', state.period);
   const day = rows[0];
   const text = `${state.location.label} · ${state.period === 'day' ? formatDate(day.date) : state.date.slice(0, state.period === 'month' ? 7 : 4)}\n${state.period === 'day' ? PRAYERS.map(({ key, label }) => `${label}: ${displayTime(day[key])}`).join('\n') + '\n' : ''}All times in IST.\n${url.href}`;
   try {
@@ -387,8 +392,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=7772fe34ae41');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=7772fe34ae41', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=5a3a8a452b5c');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=5a3a8a452b5c', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -440,6 +445,8 @@ async function init() {
     $('next-name').textContent = 'Unavailable';
   }
 }
+// Branded dropdowns and date pickers in place of the browser's own.
+enhanceAll();
 setTheme(document.documentElement.dataset.theme); updateReminderStatus(); updateDateInput(); tick();
 setInterval(tick, 1000);
 if ('serviceWorker' in navigator && window.isSecureContext) {
@@ -449,6 +456,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=7772fe34ae41', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=5a3a8a452b5c', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();

@@ -1,0 +1,175 @@
+/* Branded dropdowns and date pickers (js/brand-controls.js). Colours come from the page:
+   the dashboard and review page use --surface/--text/--green, the API docs --white/--ink. */
+.bc-control {
+  --bc-surface: var(--surface, var(--white, #fff));
+  --bc-page: var(--bg, var(--paper, #f8f9f5));
+  --bc-text: var(--text, var(--ink, #273d35));
+  --bc-muted: var(--muted, #6b7a71);
+  --bc-line: var(--line, #e2e7df);
+  --bc-accent: var(--green, #245b47);
+  --bc-accent-strong: var(--green-dark, #163f32);
+  --bc-soft: var(--soft, var(--green-soft, #edf3ec));
+  position: relative;
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  vertical-align: middle;
+}
+.bc-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  pointer-events: none !important;
+}
+.bc-icon { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.bc-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 7px 10px 7px 12px;
+  border: 1px solid var(--bc-line);
+  border-radius: 8px;
+  background: var(--bc-surface);
+  color: var(--bc-text);
+  font: inherit;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.bc-button:hover:not(:disabled) { border-color: color-mix(in srgb, var(--bc-accent) 45%, var(--bc-line)); }
+.bc-button:focus-visible { outline: 2px solid var(--bc-accent); outline-offset: 2px; }
+.bc-open > .bc-button { border-color: var(--bc-accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--bc-accent) 14%, transparent); }
+.bc-button:disabled { cursor: wait; opacity: .6; }
+.bc-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bc-chevron { width: 15px; height: 15px; color: var(--bc-muted); transition: transform .15s ease; }
+.bc-open .bc-chevron { transform: rotate(180deg); }
+.bc-date-icon { color: var(--bc-muted); }
+
+/* The popup: in the top layer, positioned by script, or a bottom sheet on phones. */
+.bc-popover {
+  --bc-surface: var(--surface, var(--white, #fff));
+  --bc-text: var(--text, var(--ink, #273d35));
+  --bc-muted: var(--muted, #6b7a71);
+  --bc-line: var(--line, #e2e7df);
+  --bc-accent: var(--green, #245b47);
+  --bc-soft: var(--soft, var(--green-soft, #edf3ec));
+  position: fixed;
+  inset: auto;
+  z-index: 2147483000;
+  margin: 0;
+  padding: 6px;
+  box-sizing: border-box;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--bc-line);
+  border-radius: 12px;
+  background: var(--bc-surface);
+  color: var(--bc-text);
+  font: inherit;
+  font-size: 15px;
+  box-shadow: 0 18px 50px rgba(14, 36, 28, .16), 0 2px 6px rgba(14, 36, 28, .06);
+}
+.bc-popover:not(:popover-open):not([hidden]) { display: none; }
+.bc-popover[hidden] { display: none; }
+.bc-popover.bc-sheet {
+  top: auto !important;
+  left: 8px !important;
+  right: 8px;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  width: auto !important;
+  max-height: 72dvh;
+  border-radius: 18px;
+  padding: 8px 8px 10px;
+}
+.bc-popover.bc-sheet::before { content: ''; display: block; width: 38px; height: 4px; margin: 2px auto 8px; border-radius: 4px; background: var(--bc-line); }
+@media (prefers-reduced-motion: no-preference) {
+  .bc-popover:popover-open, .bc-popover:not([hidden]) { animation: bc-in .14s ease-out; }
+  .bc-popover.bc-sheet:popover-open { animation: bc-sheet-in .2s ease-out; }
+}
+@keyframes bc-in { from { opacity: 0; transform: translateY(-4px); } }
+@keyframes bc-sheet-in { from { transform: translateY(24px); opacity: .6; } }
+
+/* Dropdown list */
+.bc-search { position: sticky; top: -6px; z-index: 1; display: flex; align-items: center; gap: 8px; margin: -6px -6px 6px; padding: 10px 12px; border-bottom: 1px solid var(--bc-line); background: var(--bc-surface); color: var(--bc-muted); }
+.bc-sheet .bc-search { top: -8px; margin: 0 -2px 6px; border: 1px solid var(--bc-line); border-radius: 10px; }
+.bc-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--bc-text); font: inherit; font-size: 16px; }
+.bc-search input::-webkit-search-cancel-button { cursor: pointer; }
+.bc-list { outline: 0; }
+.bc-group + .bc-group, .bc-option + .bc-group { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--bc-line); }
+.bc-group-label { padding: 6px 10px 4px; color: var(--bc-muted); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.bc-option { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: 8px; cursor: pointer; line-height: 1.35; }
+.bc-option-text { flex: 1; min-width: 0; }
+.bc-option .bc-check { visibility: hidden; color: var(--bc-accent); }
+.bc-option[aria-selected="true"] { color: var(--bc-accent); font-weight: 600; }
+.bc-option[aria-selected="true"] .bc-check { visibility: visible; }
+.bc-option.bc-active { background: var(--bc-soft); }
+.bc-option[aria-disabled="true"] { opacity: .45; cursor: default; }
+.bc-empty { padding: 14px 10px; color: var(--bc-muted); }
+
+/* Date picker */
+.bc-date-popup { padding: 12px; }
+.bc-cal-head { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-bottom: 8px; }
+.bc-cal-title { flex: 1; min-height: 40px; border: 0; border-radius: 8px; background: transparent; color: var(--bc-text); font: inherit; font-weight: 650; cursor: pointer; }
+.bc-cal-title:hover:not(:disabled), .bc-cal-nav:hover { background: var(--bc-soft); }
+.bc-cal-title:disabled { cursor: default; opacity: 1; }
+.bc-cal-nav { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 0; border-radius: 8px; background: transparent; color: var(--bc-text); cursor: pointer; }
+.bc-cal-grid { display: grid; gap: 2px; }
+.bc-cal-row { display: grid; gap: 2px; }
+.bc-cal-day .bc-cal-row { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.bc-cal-month .bc-cal-row, .bc-cal-year .bc-cal-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.bc-cal-weekdays div { padding: 4px 0 6px; color: var(--bc-muted); font-size: 12px; font-weight: 600; text-align: center; }
+.bc-cal-cell { width: 100%; min-height: 40px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--bc-text); font: inherit; font-variant-numeric: tabular-nums; cursor: pointer; }
+.bc-cal-month .bc-cal-cell, .bc-cal-year .bc-cal-cell { min-height: 52px; }
+.bc-cal-cell:hover:not(:disabled) { background: var(--bc-soft); }
+.bc-cal-cell:focus-visible, .bc-cal-nav:focus-visible, .bc-cal-title:focus-visible, .bc-cal-today:focus-visible { outline: 2px solid var(--bc-accent); outline-offset: 1px; }
+.bc-cal-cell.bc-today { border-color: var(--bc-accent); font-weight: 650; }
+.bc-cal-cell.bc-selected { background: var(--bc-accent); border-color: var(--bc-accent); color: var(--bc-surface); font-weight: 650; }
+.bc-cal-cell:disabled { opacity: .3; cursor: default; }
+.bc-cal-foot { display: flex; justify-content: flex-end; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--bc-line); }
+.bc-cal-today { min-height: 40px; padding: 6px 14px; border: 1px solid var(--bc-line); border-radius: 8px; background: var(--bc-surface); color: var(--bc-accent); font: inherit; font-weight: 600; cursor: pointer; }
+.bc-cal-today:hover:not(:disabled) { background: var(--bc-soft); }
+
+/* Dashboard placements */
+.setting-row .bc-select { flex-shrink: 0; margin-left: auto; min-width: 150px; }
+.setting-row .bc-button { min-height: 44px; font-size: 15px; }
+.location-filters .bc-select { margin-left: auto; flex: 0 1 180px; }
+.location-filters .bc-button { min-height: 40px; font-size: 14px; color: var(--bc-text); }
+.export-range .bc-control { width: 100%; }
+.export-range .bc-button { min-height: 46px; background: var(--bc-page); font-size: 16px; }
+.date-input-wrap .bc-date { flex: 1; }
+.date-input-wrap .bc-date-button { min-height: 30px; padding: 2px 2px 2px 0; border: 0; background: transparent; font-size: 14px; font-variant-numeric: tabular-nums; }
+.date-input-wrap .bc-date-button .bc-date-icon { display: none; }
+.date-input-wrap .bc-open > .bc-date-button, .date-input-wrap .bc-date.bc-open .bc-date-button { box-shadow: none; }
+@media (max-width: 700px) { .location-filters .bc-select { flex: 1; min-width: 120px; } }
+
+/* API docs placements */
+.field .bc-control { width: 100%; }
+.explorer-form .bc-button { min-height: 39px; border-color: #d3dcc9; border-radius: 6px; font-size: 13px; }
+
+/* Review page placements */
+.controls .field .bc-button { min-height: 46px; background: var(--bc-page); font-size: 17px; }
+.table-tools .field .bc-button { min-height: 46px; background: var(--bc-page); font-size: 17px; min-width: 170px; }
+
+/* The clear button inside search boxes, in the brand colour instead of the browser's. */
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-left: 6px;
+  cursor: pointer;
+  background-color: var(--muted, var(--bc-muted, #6b7a71));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m7 7 10 10M17 7 7 17'/%3E%3C/svg%3E") center / 16px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='m7 7 10 10M17 7 7 17'/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+input[type="search"]::-webkit-search-cancel-button:hover { background-color: var(--green, var(--bc-accent, #245b47)); }

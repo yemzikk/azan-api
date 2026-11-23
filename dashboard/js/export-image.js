@@ -1,4 +1,4 @@
-import { PRAYERS, normalizeDate, formatDate, formatTime } from './prayer-data.js?v=7772fe34ae41';
+import { PRAYERS, normalizeDate, formatDate, formatTime } from './prayer-data.js?v=5a3a8a452b5c';
 
 const COLORS = Object.freeze({
   paper: '#f8f9f5', white: '#ffffff', green: '#214e3b', ink: '#264235',
@@ -212,7 +212,7 @@ export async function exportPrayerImage({ location, rows, period = 'day', use24H
   await document.fonts?.ready;
   const [logo, attribution] = await Promise.all([
     optionalLogo(logoUrl),
-    optionalLogo(new URL('../brand/zikklabs-product-badge.svg?v=7772fe34ae41', import.meta.url).href),
+    optionalLogo(new URL('../brand/zikklabs-product-badge.svg?v=5a3a8a452b5c', import.meta.url).href),
   ]);
   const args = { location, rows: normalizedRows, use24Hour, logo, attribution, width, height };
   if (period === 'day') drawDaily(ctx, args); else drawMonthly(ctx, args);
