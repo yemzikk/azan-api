@@ -17,3 +17,25 @@ Official source and license:
 https://github.com/google/fonts/tree/main/ofl/atkinsonhyperlegiblenext
 https://github.com/googlefonts/atkinson-hyperlegible-next
 https://www.brailleinstitute.org/freefont/
+
+Inter: upright variable Latin webfont (API documentation)
+Downloaded from Google Fonts, 2026-11-23.
+Weight axis: 400–700. License: SIL Open Font License 1.1; see OFL-Inter.txt.
+Official font service stylesheet:
+https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap
+Unmodified Latin WOFF2 supplied by Google Fonts:
+https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw.woff2
+Official source and license:
+https://github.com/google/fonts/tree/main/ofl/inter
+https://github.com/rsms/inter
+
+JetBrains Mono: upright variable Latin webfont (API documentation code)
+Downloaded from Google Fonts, 2026-11-23.
+Weight axis: 400–600. License: SIL Open Font License 1.1; see OFL-JetBrainsMono.txt.
+Official font service stylesheet:
+https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..600&display=swap
+Unmodified Latin WOFF2 supplied by Google Fonts:
+https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2
+Official source and license:
+https://github.com/google/fonts/tree/main/ofl/jetbrainsmono
+https://github.com/JetBrains/JetBrainsMono

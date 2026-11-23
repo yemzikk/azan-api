@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Response format | AzanTimes API</title>
+<meta name="description" content="Every field in an AzanTimes timetable file: location, time zone, credit line and the daily Subh, Dhuhr, Asr, Maghrib and Isha times.">
+<link rel="canonical" href="https://api.azantimes.in/guides/response-format">
+<meta name="application-name" content="AzanTimes API">
+<meta name="apple-mobile-web-app-title" content="AzanTimes API">
+<meta name="msapplication-TileColor" content="#173b33">
+<meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png?v=6c154cf95166">
+<meta name="msapplication-config" content="/favicon/browserconfig.xml?v=6c154cf95166">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AzanTimes API">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="Response format | AzanTimes API">
+<meta property="og:description" content="Every field in an AzanTimes timetable file: location, time zone, credit line and the daily Subh, Dhuhr, Asr, Maghrib and Isha times.">
+<meta property="og:url" content="https://api.azantimes.in/guides/response-format">
+<meta property="og:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=6c154cf95166">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Response format | AzanTimes API">
+<meta name="twitter:description" content="Every field in an AzanTimes timetable file: location, time zone, credit line and the daily Subh, Dhuhr, Asr, Maghrib and Isha times.">
+<meta name="twitter:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=6c154cf95166">
+<meta name="twitter:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
+<link rel="icon" href="/favicon/favicon.ico?v=6c154cf95166" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon/favicon-32x32.png?v=6c154cf95166" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon/favicon.svg?v=6c154cf95166" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=6c154cf95166" sizes="180x180">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=6c154cf95166" color="#173b33">
+<link rel="manifest" href="/favicon/site.webmanifest?v=6c154cf95166">
+<link rel="preload" href="/fonts/inter-latin.woff2?v=6c154cf95166" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/docs.css?v=6c154cf95166">
+<link rel="stylesheet" href="/dashboard/css/brand-controls.css?v=6c154cf95166">
+<script type="module" src="/docs.js?v=6c154cf95166"></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+<div class="hdr">
+<a class="brand" href="/" aria-label="AzanTimes developers, home"><img src="/brand/azantimes-logo.svg?v=6c154cf95166" alt="AzanTimes" width="123" height="32"><span class="brand-div" aria-hidden="true"></span><span class="brand-name">Developers</span></a>
+<nav class="hdr-nav" aria-label="Main"><a class="tl" href="/">Documentation</a><a class="tl" href="/reference/">API reference</a><a class="tl" href="/guides/response-format" aria-current="page">Guides</a></nav>
+<div class="hdr-end">
+<a class="tl hide-sm" href="https://github.com/yemzikk/azan-api">GitHub</a>
+<a class="btn btn-s hide-sm" href="/v2/openapi.json">OpenAPI spec</a>
+<a class="btn btn-p" href="https://azantimes.in/">Prayer dashboard <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+</div>
+</div>
+</header>
+<div class="shell">
+<aside class="side" aria-label="Documentation"><div class="side-in">
+<div class="version"><span>API version</span><strong><span class="dot" aria-hidden="true"></span>v2, current</strong></div>
+<nav aria-label="Documentation sections">
+<div class="sg">Getting started</div>
+<a class="sl" href="/">Introduction</a>
+<a class="sl" href="/quick-start">Quick start</a>
+<div class="sg">API reference</div>
+<a class="sl" href="/reference/">Overview</a>
+<a class="sl" href="/reference/list-timetables"><span class="mb">GET</span>List timetables</a>
+<a class="sl" href="/reference/get-timetable"><span class="mb">GET</span>Get a timetable</a>
+<a class="sl" href="/reference/get-year"><span class="mb">GET</span>Get a year</a>
+<a class="sl" href="/reference/get-perpetual"><span class="mb">GET</span>Get the perpetual table</a>
+<a class="sl" href="/reference/get-api-information"><span class="mb">GET</span>Get API information</a>
+<div class="sg">Guides</div>
+<a class="sl" href="/guides/response-format" aria-current="page">Response format</a>
+<a class="sl" href="/guides/best-practices">Best practices</a>
+<div class="sg">Resources</div>
+<a class="sl" href="/version-1">Version 1</a>
+<a class="sl" href="/usage-and-credit">Usage and credit</a>
+<a class="sl" href="/v2/openapi.json">OpenAPI 3.1 spec</a>
+</nav>
+</div></aside>
+<main class="main" id="content"><div class="wrap">
+<details class="mnav"><summary>Documentation menu <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><nav aria-label="Documentation sections, menu">
+<div class="sg">Getting started</div>
+<a class="sl" href="/">Introduction</a>
+<a class="sl" href="/quick-start">Quick start</a>
+<div class="sg">API reference</div>
+<a class="sl" href="/reference/">Overview</a>
+<a class="sl" href="/reference/list-timetables"><span class="mb">GET</span>List timetables</a>
+<a class="sl" href="/reference/get-timetable"><span class="mb">GET</span>Get a timetable</a>
+<a class="sl" href="/reference/get-year"><span class="mb">GET</span>Get a year</a>
+<a class="sl" href="/reference/get-perpetual"><span class="mb">GET</span>Get the perpetual table</a>
+<a class="sl" href="/reference/get-api-information"><span class="mb">GET</span>Get API information</a>
+<div class="sg">Guides</div>
+<a class="sl" href="/guides/response-format" aria-current="page">Response format</a>
+<a class="sl" href="/guides/best-practices">Best practices</a>
+<div class="sg">Resources</div>
+<a class="sl" href="/version-1">Version 1</a>
+<a class="sl" href="/usage-and-credit">Usage and credit</a>
+<a class="sl" href="/v2/openapi.json">OpenAPI 3.1 spec</a>
+</nav></details>
+<nav class="crumb" aria-label="Breadcrumb">Guides<span class="sep" aria-hidden="true">/</span><span aria-current="page">Response format</span></nav>
+<h1 class="h1">Response format</h1>
+<p class="lead">Each timetable file starts with the location, the time zone and a suggested credit line, followed by <code class="c">days</code>. Times mark the start of each prayer in 24-hour form, local to Kerala.</p>
+<h2 class="h2 mt-l">File fields</h2>
+<div class="tw mt-s">
+<table class="tbl">
+<thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th></tr></thead>
+<tbody>
+<tr><th scope="row" class="mono">location</th><td class="mono">object</td><td>id, name, type, district, school and source</td></tr>
+<tr><th scope="row" class="mono">timeZone</th><td class="mono">string</td><td>Always <code class="c">Asia/Kolkata</code></td></tr>
+<tr><th scope="row" class="mono">utcOffset</th><td class="mono">string</td><td>Always <code class="c">+05:30</code></td></tr>
+<tr><th scope="row" class="mono">attribution</th><td class="mono">string</td><td>A suggested credit line</td></tr>
+<tr><th scope="row" class="mono">year</th><td class="mono">integer</td><td>The calendar year. Year files only.</td></tr>
+<tr><th scope="row" class="mono">links</th><td class="mono">object</td><td>self, location, and the previous and next year</td></tr>
+<tr><th scope="row" class="mono">days</th><td class="mono">array</td><td>One entry per day, described below</td></tr>
+</tbody>
+</table>
+</div>
+<h2 class="h2 mt-l">Day fields</h2>
+<div class="tw mt-s">
+<table class="tbl">
+<thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Description</th><th scope="col">Example</th></tr></thead>
+<tbody>
+<tr><th scope="row" class="mono">date</th><td class="mono">string</td><td>ISO 8601 date. Perpetual files use <code class="c">month</code> and <code class="c">day</code> instead.</td><td class="mono">2026-11-23</td></tr>
+<tr><th scope="row" class="mono">fajr</th><td class="mono">string</td><td>Subh (Fajr)</td><td class="mono">05:05</td></tr>
+<tr><th scope="row" class="mono">sunrise</th><td class="mono">string</td><td>Sunrise, when Subh time ends</td><td class="mono">06:28</td></tr>
+<tr><th scope="row" class="mono">dhuhr</th><td class="mono">string</td><td>Dhuhr, also called Zuhr or Luhr</td><td class="mono">12:17</td></tr>
+<tr><th scope="row" class="mono">asr</th><td class="mono">string</td><td>Asr. Hanafi timetables give a later time.</td><td class="mono">15:34</td></tr>
+<tr><th scope="row" class="mono">maghrib</th><td class="mono">string</td><td>Maghrib</td><td class="mono">18:03</td></tr>
+<tr><th scope="row" class="mono">isha</th><td class="mono">string</td><td>Isha</td><td class="mono">19:16</td></tr>
+</tbody>
+</table>
+</div>
+<p class="muted small mt-s">Examples are from the Kuttiady timetable for 23 November 2026.</p>
+<div class="note mt"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><div><strong>Shafi’i and Hanafi timetables.</strong> Most timetables follow the Shafi’i school; 14 follow the Hanafi school and give a later Asr. On 23 November 2026, the Albusthan Thiruvananthapuram timetables give Asr at <strong>15:34</strong> (Shafi’i) and <strong>16:26</strong> (Hanafi). Read <code class="c">school</code> on each location and show it, so people can pick the one their masjid follows.</div></div>
+<nav class="pager" aria-label="Previous and next pages">
+<a class="pg" href="/reference/get-api-information"><span>Previous</span>Get API information</a>
+<a class="pg pg-next" href="/guides/best-practices"><span>Next</span>Best practices</a>
+</nav>
+</div></main>
+</div>
+<footer class="site-footer">
+<div class="ftr">
+<div class="ftr-top">
+<div class="ftr-brand"><img src="/brand/azantimes-logo-light.svg?v=6c154cf95166" alt="AzanTimes" width="123" height="32"><p>Prayer timetables for Kerala, for apps, websites and masjid displays.</p></div>
+<nav class="fl" aria-labelledby="ftr-dev"><h2 id="ftr-dev">Developers</h2><a href="/quick-start">Quick start</a><a href="/reference/">API reference</a><a href="/v2/openapi.json">OpenAPI spec</a><a href="https://github.com/yemzikk/azan-api">GitHub</a></nav>
+<nav class="fl" aria-labelledby="ftr-site"><h2 id="ftr-site">AzanTimes</h2><a href="https://azantimes.in/">Prayer dashboard</a><a href="/usage-and-credit">Usage and credit</a><a href="https://github.com/yemzikk/azan-api/blob/main/LICENSE.md">Licence</a><a href="mailto:developers@azantimes.in">Contact</a></nav>
+<nav class="fl" aria-labelledby="ftr-legal"><h2 id="ftr-legal">Legal</h2><a href="https://zikklabs.com/privacy" rel="noopener">Privacy</a><a href="https://zikklabs.com/terms" rel="noopener">Terms</a><a href="https://zikklabs.com/data-deletion" rel="noopener">Data deletion</a></nav>
+</div>
+<div class="ftr-bottom">
+<div><a href="https://zikklabs.com" rel="noopener"><img src="/brand/zikklabs-product-badge-light.svg?v=6c154cf95166" alt="A product of ZikkLabs" width="161" height="24" loading="lazy"></a><span>© 2026 ZikkLabs · Built for the community.</span></div>
+<p>The timetable data is in the public domain under CC0 1.0. The AzanTimes name and logo are not part of that dedication. The wordmark is set in Newsreader by Production Type; this site uses Inter and JetBrains Mono. All three are under the SIL Open Font License 1.1.</p>
+</div>
+</div>
+</footer>
+<div class="sr-only" role="status" aria-live="polite" id="copy-status"></div>
+</body>
+</html>

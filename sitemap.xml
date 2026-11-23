@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://api.azantimes.in/</loc><lastmod>2026-11-23</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://api.azantimes.in/</loc><priority>1.0</priority></url>
+  <url><loc>https://api.azantimes.in/quick-start</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/list-timetables</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/get-timetable</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/get-year</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/get-perpetual</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/reference/get-api-information</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/guides/response-format</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/guides/best-practices</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/version-1</loc><priority>0.7</priority></url>
+  <url><loc>https://api.azantimes.in/usage-and-credit</loc><priority>0.7</priority></url>
 </urlset>

@@ -95,7 +95,7 @@
       const timeout = setTimeout(() => { timedOut = true; requestController.abort(); }, 15000);
       try {
         if (!locationId) throw new Error('Add a timetable identifier to this widget’s URL, for example ?q=Ernakulam_Shafi.');
-        helpers ??= await import('./js/prayer-data.js?v=d840407d4c66');
+        helpers ??= await import('./js/prayer-data.js?v=6c154cf95166');
         if (currentVersion !== version) return;
         const label = helpers.humanizeLocation(locationId);
         $('location-name').textContent = label;

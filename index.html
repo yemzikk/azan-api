@@ -1,214 +1,160 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f8f8f2" />
-    <title>AzanTimes API · Prayer times for Kerala</title>
-    <meta name="description" content="Build with Kerala prayer timetable data. Explore locations, test JSON endpoints, and integrate the free Azan prayer times API. No API key required." />
-    <link rel="canonical" href="https://api.azantimes.in/" />
-    <meta name="application-name" content="AzanTimes API">
-    <meta name="apple-mobile-web-app-title" content="AzanTimes API">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="msapplication-TileColor" content="#173b33">
-    <meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png?v=d840407d4c66">
-    <meta name="msapplication-config" content="/favicon/browserconfig.xml?v=d840407d4c66">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="AzanTimes API">
-    <meta property="og:locale" content="en_IN">
-    <meta property="og:title" content="AzanTimes API · Prayer times for Kerala">
-    <meta property="og:description" content="Simple JSON prayer timetable data for Kerala. Explore the API and start building, with no API key required.">
-    <meta property="og:url" content="https://api.azantimes.in/">
-    <meta property="og:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=d840407d4c66">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AzanTimes API · Prayer times for Kerala">
-    <meta name="twitter:description" content="Simple JSON prayer timetable data for Kerala. Explore the API and start building, with no API key required.">
-    <meta name="twitter:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=d840407d4c66">
-    <meta name="twitter:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
-    <link rel="icon" href="/favicon/favicon.ico?v=d840407d4c66" sizes="16x16 32x32 48x48">
-    <link rel="icon" href="/favicon/favicon-16x16.png?v=d840407d4c66" type="image/png" sizes="16x16">
-    <link rel="icon" href="/favicon/favicon-32x32.png?v=d840407d4c66" type="image/png" sizes="32x32">
-    <link rel="icon" href="/favicon/favicon.svg?v=d840407d4c66" type="image/svg+xml" sizes="any">
-    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=d840407d4c66" sizes="180x180">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=d840407d4c66" color="#173b33">
-    <link rel="manifest" href="/favicon/site.webmanifest?v=d840407d4c66">
-    <link rel="stylesheet" href="/css/api.css?v=d840407d4c66" />
-    <link rel="stylesheet" href="/dashboard/css/brand-controls.css?v=d840407d4c66" />
-    <script src="/api.js?v=d840407d4c66" defer></script>
-    <script type="module">import { enhanceAll } from '/dashboard/js/brand-controls.js?v=d840407d4c66'; enhanceAll();</script>
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="/" aria-label="Azan API home"><span class="brand-mark" aria-hidden="true">a<span>·</span></span><span>azan<span class="brand-divider">/</span><span class="brand-product">developers</span></span></a>
-        <nav class="header-nav" aria-label="Main navigation">
-          <a href="#endpoints">Documentation</a>
-          <a href="#explorer">API explorer</a>
-          <a class="dashboard-link" href="https://azantimes.in/">Prayer dashboard <span aria-hidden="true">↗</span></a>
-        </nav>
-      </div>
-    </header>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>AzanTimes API | Prayer times for Kerala</title>
+<meta name="description" content="Free JSON API for Kerala prayer times: timetables for all 140 Assembly constituencies and 51 regional calendars. No API key needed.">
+<link rel="canonical" href="https://api.azantimes.in/">
+<meta name="application-name" content="AzanTimes API">
+<meta name="apple-mobile-web-app-title" content="AzanTimes API">
+<meta name="msapplication-TileColor" content="#173b33">
+<meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png?v=6c154cf95166">
+<meta name="msapplication-config" content="/favicon/browserconfig.xml?v=6c154cf95166">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AzanTimes API">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="AzanTimes API | Prayer times for Kerala">
+<meta property="og:description" content="Free JSON API for Kerala prayer times: timetables for all 140 Assembly constituencies and 51 regional calendars. No API key needed.">
+<meta property="og:url" content="https://api.azantimes.in/">
+<meta property="og:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=6c154cf95166">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AzanTimes API | Prayer times for Kerala">
+<meta name="twitter:description" content="Free JSON API for Kerala prayer times: timetables for all 140 Assembly constituencies and 51 regional calendars. No API key needed.">
+<meta name="twitter:image" content="https://api.azantimes.in/images/azantimes-og.jpg?v=6c154cf95166">
+<meta name="twitter:image:alt" content="AzanTimes arch and crescent logo beside a Kerala mosque illustration.">
+<link rel="icon" href="/favicon/favicon.ico?v=6c154cf95166" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon/favicon-32x32.png?v=6c154cf95166" type="image/png" sizes="32x32">
+<link rel="icon" href="/favicon/favicon.svg?v=6c154cf95166" type="image/svg+xml" sizes="any">
+<link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png?v=6c154cf95166" sizes="180x180">
+<link rel="mask-icon" href="/favicon/safari-pinned-tab.svg?v=6c154cf95166" color="#173b33">
+<link rel="manifest" href="/favicon/site.webmanifest?v=6c154cf95166">
+<link rel="preload" href="/fonts/inter-latin.woff2?v=6c154cf95166" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/docs.css?v=6c154cf95166">
+<link rel="stylesheet" href="/dashboard/css/brand-controls.css?v=6c154cf95166">
+<script type="module" src="/docs.js?v=6c154cf95166"></script>
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+<div class="hdr">
+<a class="brand" href="/" aria-label="AzanTimes developers, home"><img src="/brand/azantimes-logo.svg?v=6c154cf95166" alt="AzanTimes" width="123" height="32"><span class="brand-div" aria-hidden="true"></span><span class="brand-name">Developers</span></a>
+<nav class="hdr-nav" aria-label="Main"><a class="tl" href="/" aria-current="page">Documentation</a><a class="tl" href="/reference/">API reference</a><a class="tl" href="/guides/response-format">Guides</a></nav>
+<div class="hdr-end">
+<a class="tl hide-sm" href="https://github.com/yemzikk/azan-api">GitHub</a>
+<a class="btn btn-s hide-sm" href="/v2/openapi.json">OpenAPI spec</a>
+<a class="btn btn-p" href="https://azantimes.in/">Prayer dashboard <svg class="ic" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+</div>
+</div>
+</header>
+<div class="shell">
+<aside class="side" aria-label="Documentation"><div class="side-in">
+<div class="version"><span>API version</span><strong><span class="dot" aria-hidden="true"></span>v2, current</strong></div>
+<nav aria-label="Documentation sections">
+<div class="sg">Getting started</div>
+<a class="sl" href="/" aria-current="page">Introduction</a>
+<a class="sl" href="/quick-start">Quick start</a>
+<div class="sg">API reference</div>
+<a class="sl" href="/reference/">Overview</a>
+<a class="sl" href="/reference/list-timetables"><span class="mb">GET</span>List timetables</a>
+<a class="sl" href="/reference/get-timetable"><span class="mb">GET</span>Get a timetable</a>
+<a class="sl" href="/reference/get-year"><span class="mb">GET</span>Get a year</a>
+<a class="sl" href="/reference/get-perpetual"><span class="mb">GET</span>Get the perpetual table</a>
+<a class="sl" href="/reference/get-api-information"><span class="mb">GET</span>Get API information</a>
+<div class="sg">Guides</div>
+<a class="sl" href="/guides/response-format">Response format</a>
+<a class="sl" href="/guides/best-practices">Best practices</a>
+<div class="sg">Resources</div>
+<a class="sl" href="/version-1">Version 1</a>
+<a class="sl" href="/usage-and-credit">Usage and credit</a>
+<a class="sl" href="/v2/openapi.json">OpenAPI 3.1 spec</a>
+</nav>
+</div></aside>
+<main class="main" id="content"><div class="wrap">
+<details class="mnav"><summary>Documentation menu <svg class="ic" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary><nav aria-label="Documentation sections, menu">
+<div class="sg">Getting started</div>
+<a class="sl" href="/" aria-current="page">Introduction</a>
+<a class="sl" href="/quick-start">Quick start</a>
+<div class="sg">API reference</div>
+<a class="sl" href="/reference/">Overview</a>
+<a class="sl" href="/reference/list-timetables"><span class="mb">GET</span>List timetables</a>
+<a class="sl" href="/reference/get-timetable"><span class="mb">GET</span>Get a timetable</a>
+<a class="sl" href="/reference/get-year"><span class="mb">GET</span>Get a year</a>
+<a class="sl" href="/reference/get-perpetual"><span class="mb">GET</span>Get the perpetual table</a>
+<a class="sl" href="/reference/get-api-information"><span class="mb">GET</span>Get API information</a>
+<div class="sg">Guides</div>
+<a class="sl" href="/guides/response-format">Response format</a>
+<a class="sl" href="/guides/best-practices">Best practices</a>
+<div class="sg">Resources</div>
+<a class="sl" href="/version-1">Version 1</a>
+<a class="sl" href="/usage-and-credit">Usage and credit</a>
+<a class="sl" href="/v2/openapi.json">OpenAPI 3.1 spec</a>
+</nav></details>
+<nav class="crumb" aria-label="Breadcrumb">Getting started<span class="sep" aria-hidden="true">/</span><span aria-current="page">Introduction</span></nav>
+<h1 class="h1">AzanTimes API</h1>
+<p class="lead lead-lg">A read-only JSON API for Kerala prayer timetables. It covers all 140 Assembly constituencies and 51 regional calendars that masjids follow, for every year from 2020 to 2031. No API key or sign-up is needed.</p>
+<div class="row mt"><a class="btn btn-p" href="/quick-start">Get started <svg class="ic" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn-s" href="/reference/">API reference</a></div>
+<div class="grid mt-l" style="--min:210px">
+<div class="tile"><div class="tile-k">Base URL</div><div class="tile-copy"><code>https://api.azantimes.in</code><button type="button" class="cpl" data-copy-text="https://api.azantimes.in" aria-label="Copy base URL"><span>Copy</span></button></div></div>
+<div class="tile"><div class="tile-k">Format</div><div class="tile-v">JSON over HTTPS, GET only</div></div>
+<div class="tile"><div class="tile-k">Authentication</div><div class="tile-v">None required</div></div>
+<div class="tile"><div class="tile-k">Data licence</div><div class="tile-v">CC0 1.0, public domain</div></div>
+</div>
+<dl class="stats">
+<div><dt>Timetables</dt><dd>191</dd></div>
+<div><dt>Assembly constituencies</dt><dd>140</dd></div>
+<div><dt>Regional calendars</dt><dd>51</dd></div>
+<div><dt>Districts</dt><dd>14</dd></div>
+<div><dt>Years</dt><dd>2020 to 2031</dd></div>
+</dl>
+<section class="sec" aria-labelledby="authentication">
+<h2 class="h2" id="authentication">Authentication</h2>
+<p class="lead">None. Every endpoint is public and read-only, with no API key, token or sign-up. Responses carry these headers:</p>
+<div class="tw mt">
+<table class="tbl">
+<thead><tr><th scope="col">Header</th><th scope="col">What it means for you</th></tr></thead>
+<tbody>
+<tr><th scope="row" class="mono">Access-Control-Allow-Origin: *</th><td>Call the API directly from a web page on any site.</td></tr>
+<tr><th scope="row" class="mono">Access-Control-Allow-Methods: GET, HEAD, OPTIONS</th><td>Requests are read-only.</td></tr>
+<tr><th scope="row" class="mono">Content-Type: application/json</th><td>Check it before parsing. A missing file can return an HTML page.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="sec" aria-labelledby="explore">
+<h2 class="h2" id="explore">Explore the documentation</h2>
+<div class="grid mt" style="--min:220px">
+<a class="ql" href="/quick-start"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg><span class="h3">Quick start</span><span>Show today’s prayer times in a few lines of code.</span></a>
+<a class="ql" href="/reference/"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg><span class="h3">API reference</span><span>Five endpoints, each with its own Try it panel.</span></a>
+<a class="ql" href="/guides/response-format"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10"/></svg><span class="h3">Response format</span><span>Every field in a timetable file.</span></a>
+<a class="ql" href="/guides/best-practices"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span class="h3">Best practices</span><span>Choosing a timetable, caching and errors.</span></a>
+</div>
+</section>
+<nav class="pager" aria-label="Previous and next pages">
 
-    <main id="main">
-      <section class="hero container" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <span class="eyebrow"><span class="status-dot" aria-hidden="true"></span> THE AZAN PRAYER TIMES API</span>
-          <h1 id="hero-title">Meaningful apps.<br /><span>One simple API.</span></h1>
-          <p>Bring Kerala’s prayer timetables into your next project. All 140 Assembly constituencies and the regional calendars masjids follow, as plain JSON with no API key.</p>
-          <div class="hero-actions"><a class="button button-primary" href="#explorer">Explore the API <span aria-hidden="true">↗</span></a><a class="text-link" href="#quickstart">Start building <span aria-hidden="true">→</span></a></div>
-          <ul class="hero-facts" aria-label="API features"><li>No authentication</li><li>JSON responses</li><li>Free to use</li></ul>
-        </div>
-        <div class="hero-code" aria-label="Example API response">
-          <div class="code-title"><span><span class="file-dot" aria-hidden="true"></span> 2026.json</span><span class="code-caption">One day from a year file</span></div>
-          <pre tabindex="0" aria-label="Example prayer time JSON"><code><span class="syntax-punctuation">{</span>
-  <span class="syntax-key">"date"</span>:    <span class="syntax-string">"2026-10-01"</span>,
-  <span class="syntax-key">"fajr"</span>:    <span class="syntax-string">"04:58"</span>,
-  <span class="syntax-key">"sunrise"</span>: <span class="syntax-string">"06:16"</span>,
-  <span class="syntax-key">"dhuhr"</span>:   <span class="syntax-string">"12:20"</span>,
-  <span class="syntax-key">"asr"</span>:     <span class="syntax-string">"15:38"</span>,
-  <span class="syntax-key">"maghrib"</span>: <span class="syntax-string">"18:21"</span>,
-  <span class="syntax-key">"isha"</span>:    <span class="syntax-string">"19:30"</span>
-<span class="syntax-punctuation">}</span></code></pre>
-          <div class="hero-code-footer"><span class="method">GET</span><code>/v2/locations/{id}/timetables/{year}.json</code></div>
-        </div>
-      </section>
-
-      <div class="docs-layout container">
-        <aside class="docs-sidebar" aria-label="Documentation sections">
-          <div class="sidebar-label">ON THIS PAGE</div>
-          <nav><a href="#quickstart">Getting started</a><a href="#endpoints">Endpoints</a><a href="#explorer">API explorer</a><a href="#response">Response format</a><a href="#guidance">Integration notes</a><a href="#usage">Usage &amp; credit</a></nav>
-          <div class="sidebar-note"><span class="version-tag">v2</span><p>A small API for something that matters.</p><a href="https://azantimes.in/">Visit Azan <span aria-hidden="true">↗</span></a></div>
-        </aside>
-
-        <div class="docs-content">
-          <section class="doc-section" id="quickstart" aria-labelledby="quickstart-title">
-            <div class="section-number">01 / GETTING STARTED</div>
-            <h2 id="quickstart-title">From request to prayer times.</h2>
-            <p>Pick a timetable from the locations list, then request its year. Each year file holds every day, so one request covers a whole year of prayer times.</p>
-            <div class="base-url"><span>BASE URL</span><code>https://api.azantimes.in</code></div>
-            <div class="code-panel">
-              <div class="code-panel-top"><span>JavaScript</span><button class="copy-button" type="button" data-copy="quickstart-code" aria-label="Copy JavaScript example">Copy code</button></div>
-              <pre tabindex="0" aria-label="JavaScript integration example"><code id="quickstart-code">const base = 'https://api.azantimes.in';
-const id = 'kuttiady-assembly-constituency';
-
-// Today's date in Kerala, for example '2026-11-23'.
-const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
-
-const response = await fetch(`${base}/v2/locations/${id}/timetables/${today.slice(0, 4)}.json`);
-if (!response.ok) throw new Error(`HTTP ${response.status}`);
-const { days, attribution } = await response.json();
-const times = days.find((day) =&gt; day.date === today);
-console.log(times.fajr, times.maghrib); // '05:03' '18:03'</code></pre>
-            </div>
-            <div class="note"><span class="note-icon" aria-hidden="true">i</span><p>Version 2 files are the same every day they are served, so you can cache a year and look up each day locally. The <code>attribution</code> field holds a suggested credit line.</p></div>
-          </section>
-
-          <section class="doc-section" id="endpoints" aria-labelledby="endpoints-title">
-            <div class="section-number">02 / ENDPOINTS</div>
-            <h2 id="endpoints-title">Version 2. Stable files, any year.</h2>
-            <p>All requests use <code>GET</code> and return JSON. Identifiers are lower case with hyphens, for example <code>kollam-assembly-constituency</code>. The full contract is in <a href="/v2/openapi.json">openapi.json</a> (OpenAPI 3.1).</p>
-            <div class="endpoint-list">
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v2/locations.json</code></div><div class="endpoint-description"><h3>All timetables</h3><p>Every timetable with its district, school (Shafi’i or Hanafi), source and coordinates. Use the coordinates to suggest the nearest timetable.</p><span class="return-type">object</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v2/locations/{id}/timetables/{year}.json</code></div><div class="endpoint-description"><h3>One year</h3><p>Every day of a calendar year, from 2020 to five years ahead. Dates are ISO 8601 and times are 24-hour.</p><span class="return-type">object</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v2/locations/{id}/timetables/perpetual.json</code></div><div class="endpoint-description"><h3>Every year</h3><p>The 366-day table itself, including 29 February. Use it for any year; skip 29 February outside leap years.</p><span class="return-type">object</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v2/locations/{id}.json</code></div><div class="endpoint-description"><h3>One timetable</h3><p>The same details as the list, for a single timetable, with the years available.</p><span class="return-type">object</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v2/index.json</code></div><div class="endpoint-description"><h3>About the API</h3><p>Prayer keys, available years, links and a <code>dataVersion</code> that changes whenever any timetable is corrected or added.</p><span class="return-type">object</span></div></article>
-            </div>
-            <h3 class="endpoint-group-title">Version 1, still supported</h3>
-            <p class="endpoint-group-note">Existing integrations keep working unchanged. Version 1 receives the same corrections and new timetables as version 2.</p>
-            <div class="endpoint-list">
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v1/timesheets/index.json</code></div><div class="endpoint-description"><h3>Available timetables</h3><p>An array of timetable identifiers, for example <code>Kollam_Assembly_Constituency</code>.</p><span class="return-type">string[]</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v1/timesheets/{location}/today.json</code></div><div class="endpoint-description"><h3>Daily timetable</h3><p>A single record for the day the data was generated.</p><span class="return-type">object</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v1/timesheets/{location}/month.json</code></div><div class="endpoint-description"><h3>Monthly timetable</h3><p>The month selected when the data was generated.</p><span class="return-type">object[]</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v1/timesheets/{location}/year.json</code></div><div class="endpoint-description"><h3>Yearly timetable</h3><p>The year selected when the data was generated.</p><span class="return-type">object[]</span></div></article>
-              <article class="endpoint"><div class="endpoint-path"><span class="method">GET</span><code>/v1/timesheets/{location}/all.json</code></div><div class="endpoint-description"><h3>Complete dataset</h3><p>All published records for the selected timetable.</p><span class="return-type">object[]</span></div></article>
-            </div>
-          </section>
-
-          <section class="doc-section" id="explorer" aria-labelledby="explorer-title">
-            <div class="section-number">03 / TRY IT YOURSELF</div>
-            <div class="section-heading"><div><h2 id="explorer-title">Meet your next integration.</h2><p>Make a real request. See exactly what comes back.</p></div><span class="live-label"><span class="status-dot" aria-hidden="true"></span> LIVE EXPLORER</span></div>
-            <div class="explorer">
-              <form id="explorer-form" class="explorer-form">
-                <div class="field"><label for="location">Location / timetable</label><select id="location" name="location" required disabled><option value="">Loading timetables…</option></select></div>
-                <div class="field"><label for="period">Period</label><select id="period" name="period"><optgroup label="Version 2"><option value="v2:year">This year · {year}.json</option><option value="v2:perpetual">Every year · perpetual.json</option><option value="v2:location">Location · {id}.json</option></optgroup><optgroup label="Version 1"><option value="v1:today">Daily · today.json</option><option value="v1:month">Month · month.json</option><option value="v1:year">Year · year.json</option><option value="v1:all">All records · all.json</option></optgroup></select></div>
-                <button class="button button-primary run-button" type="submit" id="run-request" disabled>Send request <span aria-hidden="true">→</span></button>
-              </form>
-              <div class="request-bar"><span class="method">GET</span><code id="request-url">/v2/locations/…/timetables/2026.json</code><button class="copy-button" type="button" id="copy-endpoint" disabled>Copy URL</button></div>
-              <div class="response-toolbar"><span>Response <span class="response-format">JSON</span></span><span id="response-status" class="response-status" role="status" aria-live="polite">Loading locations…</span></div>
-              <div class="response-body" id="response-container" aria-busy="true"><pre tabindex="0" aria-label="API JSON response"><code id="response-json">Your response will appear here.</code></pre></div>
-              <p id="response-note" class="response-note" hidden></p>
-              <div id="explorer-error" class="explorer-error" role="alert" hidden><p id="error-message"></p><button type="button" id="retry-request" class="text-link">Try again <span aria-hidden="true">↻</span></button></div>
-            </div>
-            <noscript><p class="note">Enable JavaScript to use the explorer. You can also <a href="/v2/locations.json">open the locations list</a> directly.</p></noscript>
-          </section>
-
-          <section class="doc-section" id="response" aria-labelledby="response-title">
-            <div class="section-number">04 / RESPONSE FORMAT</div>
-            <h2 id="response-title">A familiar shape, every time.</h2>
-            <p>Each timetable file starts with the location, the time zone and an attribution line, followed by <code>days</code>. Times are local to Kerala (<code>Asia/Kolkata</code>, UTC+05:30) and mark the start of each prayer.</p>
-            <div class="table-scroll"><table class="schema-table"><caption class="sr-only">Version 2 day fields</caption><thead><tr><th scope="col">Field</th><th scope="col">Description</th><th scope="col">Example</th></tr></thead><tbody><tr><th scope="row"><code>date</code></th><td>Day, ISO 8601 (YYYY-MM-DD)</td><td><code>2026-10-01</code></td></tr><tr><th scope="row"><code>fajr</code></th><td>Fajr, also called Subh</td><td><code>04:58</code></td></tr><tr><th scope="row"><code>sunrise</code></th><td>Sunrise, when Fajr ends</td><td><code>06:16</code></td></tr><tr><th scope="row"><code>dhuhr</code></th><td>Dhuhr</td><td><code>12:20</code></td></tr><tr><th scope="row"><code>asr</code></th><td>Asr. Hanafi timetables give a later time</td><td><code>15:38</code></td></tr><tr><th scope="row"><code>maghrib</code></th><td>Maghrib</td><td><code>18:21</code></td></tr><tr><th scope="row"><code>isha</code></th><td>Isha</td><td><code>19:30</code></td></tr></tbody></table></div>
-            <h3 class="endpoint-group-title">Moving from version 1</h3>
-            <div class="table-scroll"><table class="schema-table"><caption class="sr-only">Version 1 to version 2 field mapping</caption><thead><tr><th scope="col">Version 1</th><th scope="col">Version 2</th><th scope="col">Change</th></tr></thead><tbody>
-              <tr><th scope="row"><code>Kollam_Assembly_Constituency</code></th><td><code>kollam-assembly-constituency</code></td><td>Each location lists its version 1 name as <code>legacyId</code></td></tr>
-              <tr><th scope="row"><code>date</code> 01-10-2026</th><td><code>date</code> 2026-10-01</td><td>ISO 8601 date</td></tr>
-              <tr><th scope="row"><code>subh</code>, <code>duhr</code>, <code>asar</code></th><td><code>fajr</code>, <code>dhuhr</code>, <code>asr</code></td><td>Common English keys</td></tr>
-              <tr><th scope="row">4:58 AM</th><td>04:58</td><td>24-hour time</td></tr>
-              <tr><th scope="row"><code>year.json</code></th><td><code>2026.json</code></td><td>Named years that never change meaning</td></tr>
-            </tbody></table></div>
-          </section>
-
-          <section class="doc-section" id="guidance" aria-labelledby="guidance-title">
-            <div class="section-number">05 / INTEGRATION NOTES</div>
-            <h2 id="guidance-title">A few things to build around.</h2>
-            <div class="guidance-grid"><article><span class="guidance-icon" aria-hidden="true">01</span><h3>Choose the right timetable</h3><p>Some places have more than one calendar, and some follow the Hanafi school. Suggest the nearest timetable from its coordinates, keep the source name, and let people choose the one their masjid follows.</p></article><article><span class="guidance-icon" aria-hidden="true">02</span><h3>Cache a year, refresh on change</h3><p>A version 2 year file does not change from day to day. Cache it, look up each date locally, and refetch when <code>dataVersion</code> in <code>index.json</code> changes.</p></article><article><span class="guidance-icon" aria-hidden="true">03</span><h3>Handle unavailable data</h3><p>Check the HTTP status before parsing JSON. Missing files can return a 404 or an HTML error page. Keep a helpful fallback in your interface.</p></article><article><span class="guidance-icon" aria-hidden="true">04</span><h3>Respect the local schedule</h3><p>Timetable times are local to their location. Do not reinterpret them in the device’s timezone. Confirm local mosque timings for congregation times.</p></article></div>
-          </section>
-          <section class="doc-section" id="usage" aria-labelledby="usage-title">
-            <div class="section-number">06 / USAGE &amp; CREDIT</div>
-            <h2 id="usage-title">Free to use. Credit is welcome.</h2>
-            <p>The timetable data is in the public domain under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0</a>. Use it in your app, website, masjid display or bot, including paid ones. Credit is not required. If you can show a small credit with a link, it helps people check the times against the calendar they follow, and it helps correct times reach more people.</p>
-            <div class="credit-preview">
-              <div><img src="/brand/azantimes-credit.svg?v=d840407d4c66" width="182" height="28" alt="Prayer times by AzanTimes"></div>
-              <div class="credit-preview-dark"><img src="/brand/azantimes-credit-light.svg?v=d840407d4c66" width="182" height="28" alt="Prayer times by AzanTimes, version for dark backgrounds"></div>
-            </div>
-            <div class="code-panel">
-              <div class="code-panel-top"><span>HTML</span><button class="copy-button" type="button" data-copy="credit-code" aria-label="Copy credit badge HTML">Copy code</button></div>
-              <pre tabindex="0" aria-label="Credit badge HTML"><code id="credit-code">&lt;a href=&quot;https://azantimes.in/&quot;&gt;
-  &lt;img src=&quot;https://azantimes.in/brand/azantimes-credit.svg&quot;
-       alt=&quot;Prayer times by AzanTimes&quot; height=&quot;28&quot;&gt;
-&lt;/a&gt;</code></pre>
-            </div>
-            <div class="note"><span class="note-icon" aria-hidden="true">i</span><p>On a dark background, use <code>azantimes-credit-light.svg</code>. Where a badge does not fit, a line of text works too: <strong>Prayer times: AzanTimes (azantimes.in)</strong>.</p></div>
-            <div class="guidance-grid">
-              <article><span class="guidance-icon" aria-hidden="true">01</span><h3>Credit the calendar too</h3><p>Show the timetable’s source name beside the times. People look for the calendar they follow, and it credits those who prepared it.</p></article>
-              <article><span class="guidance-icon" aria-hidden="true">02</span><h3>Use the artwork as supplied</h3><p>Scale the wordmark and badge to any size. Please keep the letters and colours as they are, so people recognise them.</p></article>
-              <article><span class="guidance-icon" aria-hidden="true">03</span><h3>Keep your own name</h3><p>Your app keeps its own name and look. Present AzanTimes as the source of the times, not as the maker of your app.</p></article>
-              <article><span class="guidance-icon" aria-hidden="true">04</span><h3>Tell us what you built</h3><p>We would like to see it, and we can let you know about changes to the API. Write to <a href="mailto:developers@azantimes.in?subject=Built%20with%20AzanTimes">developers@azantimes.in</a>.</p></article>
-            </div>
-            <h3 class="brand-files-title">Brand files</h3>
-            <ul class="brand-files">
-              <li><span class="brand-file-preview"><img src="/brand/azantimes-wordmark.svg?v=d840407d4c66" alt="" width="94" height="17"></span><span>Wordmark</span><a href="/brand/azantimes-wordmark.svg?v=d840407d4c66" download>SVG</a><a href="/brand/azantimes-wordmark-light.svg?v=d840407d4c66" download>For dark backgrounds</a></li>
-              <li><span class="brand-file-preview"><img src="/brand/azantimes-logo.svg?v=d840407d4c66" alt="" width="94" height="24"></span><span>Logo</span><a href="/brand/azantimes-logo.svg?v=d840407d4c66" download>SVG</a><a href="/brand/azantimes-logo-light.svg?v=d840407d4c66" download>For dark backgrounds</a></li>
-              <li><span class="brand-file-preview"><img src="/brand/azantimes-mark.svg?v=d840407d4c66" alt="" width="24" height="24"></span><span>App icon</span><a href="/brand/azantimes-mark.svg?v=d840407d4c66" download>SVG</a></li>
-              <li><span class="brand-file-preview"><img src="/brand/azantimes-credit.svg?v=d840407d4c66" alt="" width="94" height="15"></span><span>Credit badge</span><a href="/brand/azantimes-credit.svg?v=d840407d4c66" download>SVG</a><a href="/brand/azantimes-credit-light.svg?v=d840407d4c66" download>For dark backgrounds</a></li>
-            </ul>
-            <div class="credits">
-              <h3>Credits</h3>
-              <p>Timetables are compiled from prayer calendars used across Kerala, and each keeps the name of the calendar it follows. The timetable data is in the public domain under CC0 1.0. The AzanTimes name and logo are not; see the <a href="https://github.com/yemzikk/azan-api/blob/main/LICENSE.md">full licence</a>. The AzanTimes wordmark is set in <a href="https://github.com/productiontype/Newsreader">Newsreader</a> by Production Type. The prayer dashboard uses <a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible Next</a> by the Braille Institute. Both typefaces are free under the <a href="https://openfontlicense.org">SIL Open Font License 1.1</a>.</p>
-            </div>
-          </section>
-          <div class="closing-note"><span class="brand-mark small" aria-hidden="true">a<span>·</span></span><div><h3>Made for everyday moments of faith.</h3><p>Looking for prayer times? <a href="https://azantimes.in/">Open the Azan dashboard <span aria-hidden="true">↗</span></a></p></div></div>
-        </div>
-      </div>
-    </main>
-
-    <footer class="site-footer"><div class="container footer-inner"><div><a href="https://zikklabs.com" target="_blank" rel="noopener" class="zikklabs-credit"><img src="/brand/zikklabs-product-badge.svg?v=d840407d4c66" width="188" height="28" alt="A product of ZikkLabs" loading="lazy" /></a><p>© 2026 ZikkLabs · Built for the community.</p></div><nav aria-label="Legal"><a href="https://zikklabs.com/privacy" target="_blank" rel="noopener">Privacy</a><a href="https://zikklabs.com/terms" target="_blank" rel="noopener">Terms</a><a href="https://zikklabs.com/data-deletion" target="_blank" rel="noopener">Data deletion</a></nav></div></footer>
-    <div class="sr-only" role="status" aria-live="polite" id="copy-status"></div>
-  </body>
+<a class="pg pg-next" href="/quick-start"><span>Next</span>Quick start</a>
+</nav>
+</div></main>
+</div>
+<footer class="site-footer">
+<div class="ftr">
+<div class="ftr-top">
+<div class="ftr-brand"><img src="/brand/azantimes-logo-light.svg?v=6c154cf95166" alt="AzanTimes" width="123" height="32"><p>Prayer timetables for Kerala, for apps, websites and masjid displays.</p></div>
+<nav class="fl" aria-labelledby="ftr-dev"><h2 id="ftr-dev">Developers</h2><a href="/quick-start">Quick start</a><a href="/reference/">API reference</a><a href="/v2/openapi.json">OpenAPI spec</a><a href="https://github.com/yemzikk/azan-api">GitHub</a></nav>
+<nav class="fl" aria-labelledby="ftr-site"><h2 id="ftr-site">AzanTimes</h2><a href="https://azantimes.in/">Prayer dashboard</a><a href="/usage-and-credit">Usage and credit</a><a href="https://github.com/yemzikk/azan-api/blob/main/LICENSE.md">Licence</a><a href="mailto:developers@azantimes.in">Contact</a></nav>
+<nav class="fl" aria-labelledby="ftr-legal"><h2 id="ftr-legal">Legal</h2><a href="https://zikklabs.com/privacy" rel="noopener">Privacy</a><a href="https://zikklabs.com/terms" rel="noopener">Terms</a><a href="https://zikklabs.com/data-deletion" rel="noopener">Data deletion</a></nav>
+</div>
+<div class="ftr-bottom">
+<div><a href="https://zikklabs.com" rel="noopener"><img src="/brand/zikklabs-product-badge-light.svg?v=6c154cf95166" alt="A product of ZikkLabs" width="161" height="24" loading="lazy"></a><span>© 2026 ZikkLabs · Built for the community.</span></div>
+<p>The timetable data is in the public domain under CC0 1.0. The AzanTimes name and logo are not part of that dedication. The wordmark is set in Newsreader by Production Type; this site uses Inter and JetBrains Mono. All three are under the SIL Open Font License 1.1.</p>
+</div>
+</div>
+</footer>
+<div class="sr-only" role="status" aria-live="polite" id="copy-status"></div>
+</body>
 </html>
