@@ -1,12 +1,12 @@
 import {
-  TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
+  TIME_ZONE, PRAYERS, DISTRICTS, districtPath, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=09b5577dd031';
-import { PrayerNotifications } from './notifications.js?v=09b5577dd031';
-import { createExportSelection, createExportCSV } from './export-data.js?v=09b5577dd031';
-import { enhanceAll } from './brand-controls.js?v=09b5577dd031';
-import { searchFields, searchLocations } from './location-search.js?v=09b5577dd031';
+} from './prayer-data.js?v=f8885265248d';
+import { PrayerNotifications } from './notifications.js?v=f8885265248d';
+import { createExportSelection, createExportCSV } from './export-data.js?v=f8885265248d';
+import { enhanceAll } from './brand-controls.js?v=f8885265248d';
+import { searchFields, searchLocations } from './location-search.js?v=f8885265248d';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -43,8 +43,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=09b5577dd031`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=09b5577dd031`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=f8885265248d`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=f8885265248d`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -95,6 +95,11 @@ function updatePageDetails(entry) {
   // A timetable page carries a static guide for its own location; drop it for any other.
   const guide = $('location-guide');
   if (guide && guide.dataset.location !== entry.id) guide.remove();
+  const built = document.documentElement.dataset.location;
+  if (built && built !== entry.id && $('page-intro')) $('page-intro').textContent = 'Local times for your daily prayers across Kerala.';
+  // Kerala, then the district's page, then this timetable.
+  const district = DISTRICTS.includes(entry.district) ? `<a href="./${districtPath(entry.district)}">${escapeHTML(entry.district)}</a>${icon('chevron')}` : '';
+  if ($('breadcrumb')) $('breadcrumb').innerHTML = `<a href="./locations">Kerala</a>${icon('chevron')}${district}<span aria-current="page">${escapeHTML(entry.label)}</span>`;
   // Retitle only on the timetable's own page. The home page keeps its own title and
   // canonical URL even though it shows a remembered or default timetable.
   const path = location.pathname.replace(/^\/dashboard(?=\/)/, '').replace(/^\/+|\/+$/g, '');
@@ -475,8 +480,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=09b5577dd031');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=09b5577dd031', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=f8885265248d');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=f8885265248d', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -539,6 +544,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=09b5577dd031', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=f8885265248d', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();

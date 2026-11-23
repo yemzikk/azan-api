@@ -11,6 +11,10 @@ export const PRAYERS = Object.freeze([
   { key: 'isha', label: 'Isha', shortLabel: 'Isha', kind: 'prayer' },
 ].map(Object.freeze));
 
+/** Kerala's districts from south to north. Each has its own page at /{name}-district. */
+export const DISTRICTS = Object.freeze(['Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam', 'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod']);
+export const districtPath = (district) => `${district.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-district`;
+
 const dateFormatter = new Intl.DateTimeFormat('en-CA', {
   timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit',
 });

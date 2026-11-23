@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
   <meta name="theme-color" content="#f8f9f5">
   <title>AzanTimes · Prayer times widget</title>
   <style>
@@ -95,7 +96,7 @@
       const timeout = setTimeout(() => { timedOut = true; requestController.abort(); }, 15000);
       try {
         if (!locationId) throw new Error('Add a timetable identifier to this widget’s URL, for example ?q=Ernakulam_Shafi.');
-        helpers ??= await import('./js/prayer-data.js?v=09b5577dd031');
+        helpers ??= await import('./js/prayer-data.js?v=f8885265248d');
         if (currentVersion !== version) return;
         const label = helpers.humanizeLocation(locationId);
         $('location-name').textContent = label;

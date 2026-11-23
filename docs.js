@@ -2,7 +2,7 @@
 // buttons, the language tabs on Quick start and the Try it console on each endpoint page.
 // Try it requests this site's own /v2/ files and builds every element with textContent,
 // so nothing in a response is ever read as HTML.
-import { enhanceAll } from '/dashboard/js/brand-controls.js?v=09b5577dd031';
+import { enhanceAll } from '/dashboard/js/brand-controls.js?v=f8885265248d';
 
 const API_BASE = 'https://api.azantimes.in';
 const TIME_ZONE = 'Asia/Kolkata';
