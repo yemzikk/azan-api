@@ -2,11 +2,11 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=11b6db15b6e9';
-import { PrayerNotifications } from './notifications.js?v=11b6db15b6e9';
-import { createExportSelection, createExportCSV } from './export-data.js?v=11b6db15b6e9';
-import { enhanceAll } from './brand-controls.js?v=11b6db15b6e9';
-import { searchFields, searchLocations } from './location-search.js?v=11b6db15b6e9';
+} from './prayer-data.js?v=fbdabc792c9c';
+import { PrayerNotifications } from './notifications.js?v=fbdabc792c9c';
+import { createExportSelection, createExportCSV } from './export-data.js?v=fbdabc792c9c';
+import { enhanceAll } from './brand-controls.js?v=fbdabc792c9c';
+import { searchFields, searchLocations } from './location-search.js?v=fbdabc792c9c';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -15,7 +15,7 @@ const saved = getStored('azan-favorites', []);
 const state = {
   locations: [], location: null, schedule: null, period: 'day', date: getDateKey(),
   today: getDateKey(), favorites: new Set(Array.isArray(saved) ? saved.filter((id) => typeof id === 'string') : []),
-  savedOnly: false, use24Hour: getStored('azan-time-format') === '24',
+  savedOnly: false, nearby: null, use24Hour: getStored('azan-time-format') === '24',
   controller: null, nextKey: null, installPrompt: null, exportContext: null, activeAlert: null,
 };
 const notifications = new PrayerNotifications({
@@ -43,8 +43,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=11b6db15b6e9`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=11b6db15b6e9`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=fbdabc792c9c`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=fbdabc792c9c`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -54,19 +54,25 @@ function updateSaved() {
   $('saved-count').textContent = state.favorites.size;
   $('filter-saved-count').textContent = state.favorites.size;
 }
-function showLocations(savedOnly = false) {
-  state.savedOnly = savedOnly; $('location-search').value = ''; $('district-filter').value = '';
+function showLocations(savedOnly = false, nearby = null) {
+  state.savedOnly = savedOnly; state.nearby = nearby; $('location-search').value = ''; $('district-filter').value = '';
   renderLocations(); $('location-dialog').showModal(); $('location-search').focus();
 }
 function renderLocations() {
   const query = $('location-search').value;
   const district = $('district-filter').value;
-  const filtered = searchLocations(state.locations.filter((location) => (!state.savedOnly || state.favorites.has(location.id)) && (!district || location.district === district)), query);
+  let filtered = searchLocations(state.locations.filter((location) => (!state.savedOnly || state.favorites.has(location.id)) && (!district || location.district === district)), query);
+  // After "Use my location", the nearest timetables are listed until the visitor searches.
+  const nearby = !query.trim() && state.nearby;
+  if (nearby) filtered = filtered.filter(({ id }) => nearby.has(id)).sort((a, b) => nearby.get(a.id) - nearby.get(b.id));
+  const distance = (id) => (nearby ? `${nearby.get(id) < 1 ? 'Under 1' : Math.round(nearby.get(id))} km away` : '');
   for (const [id, active] of [['filter-all', !state.savedOnly], ['filter-saved', state.savedOnly]]) {
     $(id).classList.toggle('active', active); $(id).setAttribute('aria-pressed', String(active));
   }
-  $('location-results').innerHTML = filtered.length ? filtered.map((location) => `<button class="location-result ${state.location?.id === location.id ? 'selected' : ''}" data-location="${escapeHTML(location.id)}">${icon('location')}<span><strong>${escapeHTML(location.label)}</strong><small>${escapeHTML([location.district, location.detail].filter(Boolean).join(' · '))}</small></span>${state.location?.id === location.id ? icon('check', 'selected-check') : state.favorites.has(location.id) ? icon('bookmark') : ''}</button>`).join('') : `<p class="empty-locations">${state.savedOnly ? 'No saved locations match. Save a location using the bookmark beside its name.' : 'No locations match. Try a town name or choose another district.'}</p>`;
-  $('location-result-count').textContent = `${filtered.length} timetable${filtered.length === 1 ? '' : 's'} available`;
+  $('location-results').innerHTML = filtered.length ? filtered.map((location) => `<button class="location-result ${state.location?.id === location.id ? 'selected' : ''}" data-location="${escapeHTML(location.id)}">${icon('location')}<span><strong>${escapeHTML(location.label)}</strong><small>${escapeHTML([distance(location.id), location.district, location.detail].filter(Boolean).join(' · '))}</small></span>${state.location?.id === location.id ? icon('check', 'selected-check') : state.favorites.has(location.id) ? icon('bookmark') : ''}</button>`).join('') : `<p class="empty-locations">${state.savedOnly ? 'No saved locations match. Save a location using the bookmark beside its name.' : 'No locations match. Try a town name or choose another district.'}</p>`;
+  $('location-result-count').textContent = nearby && filtered.length
+    ? 'The nearest timetables to you. Choose the one your masjid follows.'
+    : `${filtered.length} timetable${filtered.length === 1 ? '' : 's'} available`;
 }
 function locationFromURL() {
   const params = new URLSearchParams(location.search);
@@ -302,25 +308,36 @@ function exportSchedule() {
     $('export-status').textContent = `CSV download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message; }
 }
-// City coordinates are intentionally a small, explicit list: the visitor confirms the source.
+// Every timetable has a position (the point its times were checked against, or its town),
+// in positions.json, written by the build. The nearest are listed; the visitor still chooses.
+let timetablePoints;
+async function loadTimetablePoints() {
+  if (!timetablePoints) {
+    const response = await fetch(new URL('./positions.json', location.href));
+    if (!response.ok) throw new Error(`Positions returned ${response.status}`);
+    const positions = await response.json();
+    timetablePoints = new Map(Object.entries(positions ?? {})
+      .filter(([, point]) => Array.isArray(point) && point.every(Number.isFinite)));
+  }
+  return timetablePoints;
+}
+const NEARBY_COUNT = 8;
+const NEARBY_LIMIT_KM = 70;
 async function detectLocation() {
   if (!navigator.geolocation) { toast('Location is unavailable in this browser. Search for your town instead.'); showLocations(); return; }
   $('detect-location').disabled = true;
   navigator.geolocation.getCurrentPosition(async ({ coords }) => {
-    const cities = [
-      ['Ernakulam_Shafi', 9.9816, 76.2999], ['MARKAZ_CALICUT_2025', 11.2588, 75.7804], ['Kannur_Assembly_Constituency', 11.8745, 75.3704],
-      ['Thalassery_Assembly_Constituency', 11.748, 75.489], ['T_V_M__shafi__standard_to_thambaanur', 8.487, 76.952],
-      ['Kasaragod_Assembly_Constituency', 12.4996, 74.9869], ['Malappuram_Assembly_Constituency', 11.073, 76.074],
-      ['Palakkad_Assembly_Constituency', 10.787, 76.654], ['Alappuzha_Town', 9.498, 76.338], ['Kalpetta_Assembly_Constituency', 11.608, 76.083],
-    ].filter(([id]) => state.locations.some((entry) => entry.id === id));
-    const rad = (angle) => angle * Math.PI / 180;
-    const distance = ([, lat, lon]) => { const a = Math.sin(rad(lat - coords.latitude) / 2) ** 2 + Math.cos(rad(coords.latitude)) * Math.cos(rad(lat)) * Math.sin(rad(lon - coords.longitude) / 2) ** 2; return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(Math.max(0, 1 - a))); };
-    cities.sort((a, b) => distance(a) - distance(b));
-    $('detect-location').disabled = false;
-    if (!cities.length || distance(cities[0]) > 70) { showLocations(); toast('No supported city is close enough. Please choose your local timetable.'); return; }
-    // Reviewable selection; do not silently replace a community-specific timetable.
-    showLocations(); $('location-search').value = state.locations.find(({ id }) => id === cities[0][0]).label.split(' ')[0]; renderLocations();
-    $('location-result-count').textContent = `Nearest supported city: ${state.locations.find(({ id }) => id === cities[0][0]).label} (about ${Math.round(distance(cities[0]))} km). Choose your community’s timetable.`;
+    try {
+      const points = await loadTimetablePoints();
+      const rad = (angle) => angle * Math.PI / 180;
+      const km = ([lat, lon]) => { const a = Math.sin(rad(lat - coords.latitude) / 2) ** 2 + Math.cos(rad(coords.latitude)) * Math.cos(rad(lat)) * Math.sin(rad(lon - coords.longitude) / 2) ** 2; return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); };
+      const nearest = state.locations.filter(({ id }) => points.has(id))
+        .map(({ id }) => [id, km(points.get(id))]).sort((a, b) => a[1] - b[1]);
+      if (!nearest.length || nearest[0][1] > NEARBY_LIMIT_KM) { showLocations(); toast('No timetable is close to your location yet. Please choose the one your masjid follows.'); return; }
+      showLocations(false, new Map(nearest.slice(0, NEARBY_COUNT).filter(([, distance]) => distance <= NEARBY_LIMIT_KM)));
+    } catch {
+      showLocations(); toast('Nearby timetables could not be loaded. Please search for your town.');
+    } finally { $('detect-location').disabled = false; }
   }, (error) => { $('detect-location').disabled = false; toast(error.code === 1 ? 'Location permission was declined. You can search for your town.' : 'Couldn’t find your location. Please search for your town.'); }, { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
 }
 async function installApp() {
@@ -458,8 +475,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=11b6db15b6e9');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=11b6db15b6e9', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=fbdabc792c9c');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=fbdabc792c9c', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -522,6 +539,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=11b6db15b6e9', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=fbdabc792c9c', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();
