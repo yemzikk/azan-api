@@ -5,7 +5,7 @@
  * control on top. Selecting dispatches the usual `input` and `change` events, and
  * values set from code are reflected immediately.
  *
- *   import { enhanceAll } from './brand-controls.js?v=fbdabc792c9c';
+ *   import { enhanceAll } from './brand-controls.js?v=d840407d4c66';
  *   enhanceAll();            // every <select> and date/month input on the page
  *
  * Dependency-free. Popups open in the browser's top layer (Popover API) so dialogs never
@@ -82,7 +82,10 @@ function place(control) {
   popup.style.width = `${width}px`;
   popup.style.left = `${left}px`;
   popup.style.maxHeight = '';
-  const natural = Math.min(popup.scrollHeight, control.maxHeight ?? 380);
+  // scrollHeight leaves out the border, and the popup's height includes it: without the
+  // border the content is two pixels short and a scroll bar appears for nothing.
+  const border = popup.offsetHeight - popup.clientHeight;
+  const natural = Math.min(popup.scrollHeight + border, control.maxHeight ?? 380);
   const below = innerHeight - rect.bottom - margin - 6;
   const above = rect.top - margin - 6;
   if (below >= natural || below >= above) {

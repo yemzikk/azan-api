@@ -2,11 +2,11 @@ import {
   TIME_ZONE, PRAYERS, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=fbdabc792c9c';
-import { PrayerNotifications } from './notifications.js?v=fbdabc792c9c';
-import { createExportSelection, createExportCSV } from './export-data.js?v=fbdabc792c9c';
-import { enhanceAll } from './brand-controls.js?v=fbdabc792c9c';
-import { searchFields, searchLocations } from './location-search.js?v=fbdabc792c9c';
+} from './prayer-data.js?v=d840407d4c66';
+import { PrayerNotifications } from './notifications.js?v=d840407d4c66';
+import { createExportSelection, createExportCSV } from './export-data.js?v=d840407d4c66';
+import { enhanceAll } from './brand-controls.js?v=d840407d4c66';
+import { searchFields, searchLocations } from './location-search.js?v=d840407d4c66';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -43,8 +43,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=fbdabc792c9c`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=fbdabc792c9c`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=d840407d4c66`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo${theme === 'dark' ? '-light' : ''}.svg?v=d840407d4c66`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -71,7 +71,7 @@ function renderLocations() {
   }
   $('location-results').innerHTML = filtered.length ? filtered.map((location) => `<button class="location-result ${state.location?.id === location.id ? 'selected' : ''}" data-location="${escapeHTML(location.id)}">${icon('location')}<span><strong>${escapeHTML(location.label)}</strong><small>${escapeHTML([distance(location.id), location.district, location.detail].filter(Boolean).join(' · '))}</small></span>${state.location?.id === location.id ? icon('check', 'selected-check') : state.favorites.has(location.id) ? icon('bookmark') : ''}</button>`).join('') : `<p class="empty-locations">${state.savedOnly ? 'No saved locations match. Save a location using the bookmark beside its name.' : 'No locations match. Try a town name or choose another district.'}</p>`;
   $('location-result-count').textContent = nearby && filtered.length
-    ? 'The nearest timetables to you. Choose the one your masjid follows.'
+    ? 'The nearest timetables to you, which may be in a neighbouring constituency. Choose the nearest, or the one your masjid follows.'
     : `${filtered.length} timetable${filtered.length === 1 ? '' : 's'} available`;
 }
 function locationFromURL() {
@@ -475,8 +475,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=fbdabc792c9c');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=fbdabc792c9c', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=d840407d4c66');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=d840407d4c66', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -488,7 +488,7 @@ $('schedule-content').addEventListener('click', (event) => {
 });
 $('detect-location').addEventListener('click', () => void detectLocation()); $('install-app').addEventListener('click', () => void installApp());
 $('retry-load').addEventListener('click', () => state.locations.length ? void selectLocation(state.location?.id ?? 'Ernakulam_Shafi', false) : void init());
-$('about-times').addEventListener('click', () => info('About your prayer times', '<p>AzanTimes presents <strong>published local prayer timetables</strong>. Sources can have different conventions, so select the timetable followed by your local community. Source names and their original publication years are retained in the location chooser.</p><p>Times show the <strong>start of each prayer</strong>, rather than mosque congregation (jama’ah) times. Sunrise marks the end of Fajr time and is not counted as a prayer in the countdown.</p><p>Every time and countdown uses <strong>Indian Standard Time (Asia/Kolkata)</strong>, even when you travel. Hijri dates are estimated using the Umm al-Qura calendar; local moon sightings can differ.</p><p>Unavailable dates and missing times are shown explicitly. A timetable from another date or year is never substituted.</p>'));
+$('about-times').addEventListener('click', () => info('About your prayer times', '<p>AzanTimes presents <strong>published local prayer timetables</strong>. Sources can have different conventions, so select the timetable followed by your local community. Source names and their original publication years are retained in the location chooser.</p><p><strong>Choosing a constituency timetable.</strong> Each one is calculated for one point in the constituency, not for the whole area. If you live near its edge, a neighbouring constituency\'s point can be closer, and its times will suit you better. Times change by about one minute for every 27 km east or west. Use my location lists the nearest timetables; see <a href="./locations#choosing">how to choose a timetable</a> for more.</p><p>Times show the <strong>start of each prayer</strong>, rather than mosque congregation (jama’ah) times. Sunrise marks the end of Fajr time and is not counted as a prayer in the countdown.</p><p>Every time and countdown uses <strong>Indian Standard Time (Asia/Kolkata)</strong>, even when you travel. Hijri dates are estimated using the Umm al-Qura calendar; local moon sightings can differ.</p><p>Unavailable dates and missing times are shown explicitly. A timetable from another date or year is never substituted.</p>'));
 window.addEventListener('beforeinstallprompt', (event) => { event.preventDefault(); state.installPrompt = event; });
 window.addEventListener('appinstalled', () => { state.installPrompt = null; toast('AzanTimes is ready on your home screen.'); });
 window.addEventListener('online', updateConnection); window.addEventListener('offline', updateConnection);
@@ -539,6 +539,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=fbdabc792c9c', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=d840407d4c66', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();
