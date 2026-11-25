@@ -5,21 +5,21 @@
   font-style: normal;
   font-weight: 400 700;
   font-display: swap;
-  src: url('/fonts/inter-latin.woff2?v=ccb4573ce18a') format('woff2');
+  src: url('/fonts/inter-latin.woff2?v=ea18b2495fc4') format('woff2');
 }
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url('/fonts/jetbrains-mono-latin.woff2?v=ccb4573ce18a') format('woff2');
+  src: url('/fonts/jetbrains-mono-latin.woff2?v=ea18b2495fc4') format('woff2');
 }
 @font-face {
   font-family: 'Atkinson Hyperlegible Next';
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
-  src: url('/fonts/atkinson-hyperlegible-next-latin.woff2?v=ccb4573ce18a') format('woff2');
+  src: url('/fonts/atkinson-hyperlegible-next-latin.woff2?v=ea18b2495fc4') format('woff2');
 }
 
 :root {

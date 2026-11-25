@@ -10,6 +10,10 @@
 /dashboard/whatsapp  https://chat.whatsapp.com/Gh4oCXcdIbAEfvfd55Op53  302
 /dashboard/telegram  https://t.me/azantimes_in  302
 
+# The documentation was once a single page.
+/docs  /  301
+/docs.html  /  301
+
 # Generated location routes (npm run build)
 /dashboard/adoor-assembly-constituency/  /dashboard/adoor-assembly-constituency  301
 /dashboard/alappuzha-assembly-constituency/  /dashboard/alappuzha-assembly-constituency  301
@@ -503,3 +507,14 @@
 /dashboard/prayer-times/thalassery*  /dashboard/thalassery-assembly-constituency  301
 /dashboard/prayer-times/thiruvananthapuram*  /dashboard/t-v-m-shafi-standard-to-thambaanur  301
 /dashboard/prayer-times/trivandrum*  /dashboard/t-v-m-shafi-standard-to-thambaanur  301
+/prayer-times  https://azantimes.in/locations  301
+/prayer-times/  https://azantimes.in/locations  301
+/prayer-times/calicut*  https://azantimes.in/markaz-calicut-2025  301
+/prayer-times/cochin*  https://azantimes.in/ernakulam-shafi  301
+/prayer-times/ernakulam*  https://azantimes.in/ernakulam-shafi  301
+/prayer-times/kannur*  https://azantimes.in/kannur-assembly-constituency  301
+/prayer-times/kochi*  https://azantimes.in/ernakulam-shafi  301
+/prayer-times/kozhikode*  https://azantimes.in/markaz-calicut-2025  301
+/prayer-times/thalassery*  https://azantimes.in/thalassery-assembly-constituency  301
+/prayer-times/thiruvananthapuram*  https://azantimes.in/t-v-m-shafi-standard-to-thambaanur  301
+/prayer-times/trivandrum*  https://azantimes.in/t-v-m-shafi-standard-to-thambaanur  301

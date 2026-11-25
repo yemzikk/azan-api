@@ -1,12 +1,12 @@
 import {
-  TIME_ZONE, PRAYERS, DISTRICTS, districtPath, getDateKey, addDays, formatDate, formatTime,
+  TIME_ZONE, PRAYERS, DISTRICTS, districtPath, pageTitle, getDateKey, addDays, formatDate, formatTime,
   getDay, getNextPrayer, getPrayerStates, getMonthRows,
   loadLocations, loadSchedule, getStored, setStored, normalizeDate,
-} from './prayer-data.js?v=ccb4573ce18a';
-import { PrayerNotifications } from './notifications.js?v=ccb4573ce18a';
-import { createExportSelection, createExportCSV } from './export-data.js?v=ccb4573ce18a';
-import { enhanceAll } from './brand-controls.js?v=ccb4573ce18a';
-import { searchFields, searchLocations } from './location-search.js?v=ccb4573ce18a';
+} from './prayer-data.js?v=ea18b2495fc4';
+import { PrayerNotifications } from './notifications.js?v=ea18b2495fc4';
+import { createExportSelection, createExportCSV } from './export-data.js?v=ea18b2495fc4';
+import { enhanceAll } from './brand-controls.js?v=ea18b2495fc4';
+import { searchFields, searchLocations } from './location-search.js?v=ea18b2495fc4';
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -43,8 +43,8 @@ function setTheme(theme) {
   document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#131c18' : '#f8f9f5';
   $('theme-select').value = theme; $('theme-toggle').setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
   $('theme-toggle').innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
-  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=ccb4573ce18a`;
-  document.querySelector('.brand-logo').src = `./brand/azantimes-logo-compact${theme === 'dark' ? '-light' : ''}.svg?v=ccb4573ce18a`;
+  document.querySelector('.product-badge').src = `./brand/zikklabs-product-badge${theme === 'dark' ? '-light' : ''}.svg?v=ea18b2495fc4`;
+  document.querySelector('.brand-logo').src = `./brand/azantimes-logo-compact${theme === 'dark' ? '-light' : ''}.svg?v=ea18b2495fc4`;
   setStored('azan-theme', theme);
 }
 function updateSaved() {
@@ -106,9 +106,7 @@ function updatePageDetails(entry) {
   if (path !== pagePath(entry.id)) return;
   // The page built for this timetable already carries its title, heading and canonical URL.
   if (document.documentElement.dataset.location === entry.id) return;
-  // Same rule as scripts/seo-pages.mjs pageTitle().
-  const full = `${entry.label} Prayer Times Today | Namaz Timings | AzanTimes`;
-  document.title = full.length <= 65 ? full : `${entry.label} Prayer Times Today | AzanTimes`;
+  document.title = pageTitle(entry.label);
   $('page-title').textContent = `${entry.label} prayer times`;
   const canonical = document.querySelector('link[rel="canonical"]');
   if (canonical) canonical.href = `https://azantimes.in/${pagePath(entry.id)}`;
@@ -480,8 +478,8 @@ $('export-image').addEventListener('click', async () => {
   try {
     const selection = exportSelection();
     button.disabled = true; $('export-status').textContent = `Preparing image · ${selection.summary}`;
-    const { exportPrayerImage } = await import('./export-image.js?v=ccb4573ce18a');
-    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=ccb4573ce18a', import.meta.url).href });
+    const { exportPrayerImage } = await import('./export-image.js?v=ea18b2495fc4');
+    const { blob, filename } = await exportPrayerImage({ ...selection, logoUrl: new URL('../brand/azantimes-mark.svg?v=ea18b2495fc4', import.meta.url).href });
     downloadBlob(blob, filename);
     $('export-status').textContent = `PNG download started · ${selection.summary}`;
   } catch (error) { $('export-status').textContent = error.message || 'The image could not be saved. Try CSV instead.'; }
@@ -544,6 +542,6 @@ if ('serviceWorker' in navigator && window.isSecureContext) {
     void loadLocations().catch(() => {});
     if (state.location) void loadSchedule(state.location.id).catch(() => {});
   });
-  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=ccb4573ce18a', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register(new URL('../sw.js?v=ea18b2495fc4', import.meta.url), { updateViaCache: 'none' }).catch(() => { /* Timetables still work without offline support. */ }); });
 }
 void init();

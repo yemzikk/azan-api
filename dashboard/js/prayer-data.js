@@ -15,6 +15,15 @@ export const PRAYERS = Object.freeze([
 export const DISTRICTS = Object.freeze(['Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam', 'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode', 'Wayanad', 'Kannur', 'Kasaragod']);
 export const districtPath = (district) => `${district.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-district`;
 
+/**
+ * Search title for a timetable or district page, used by the app and the page build. Long
+ * names drop words from the end, so search results do not cut the title off.
+ */
+export function pageTitle(name) {
+  const titles = [`${name} Prayer Times Today | Namaz Timings | AzanTimes`, `${name} Prayer Times Today | AzanTimes`, `${name} Prayer Times | AzanTimes`];
+  return titles.find((title) => title.length <= 65) ?? `${name} Prayer Times`;
+}
+
 const dateFormatter = new Intl.DateTimeFormat('en-CA', {
   timeZone: TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit',
 });

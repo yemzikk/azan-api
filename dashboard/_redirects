@@ -9,6 +9,11 @@
 /manifest.json  /favicon/site.webmanifest  301
 /site.webmanifest  /favicon/site.webmanifest  301
 
+# Links that copy the dashboard address from api.azantimes.in/dashboard/ open the same page here.
+/dashboard  /  301
+/dashboard/  /  301
+/dashboard/*  /:splat  301
+
 # Generated location routes (npm run build)
 /adoor-assembly-constituency/  /adoor-assembly-constituency  301
 /alappuzha-assembly-constituency/  /alappuzha-assembly-constituency  301
